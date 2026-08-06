@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>SkillMatch JS - Simulador de Compatibilidade com Vagas Front-End</title>
+ <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+ <!-- HEADER -->
+ <header class="header">
+ <div class="container">
+ <div class="header-content">
+ <div class="logo">
+ <h1>SkillMatch JS</h1>
+ <p class="tagline">Simulador de Compatibilidade com Vagas Front-End</p>
+ </div>
+ <div class="header-info">
+ <p>Encontre a vaga perfeita para você!</p>
+ </div>
+ </div>
+ </div>
+ </header>
+
+ <!-- MAIN CONTENT -->
+ <main class="main-content">
+ <div class="container">
+
+ <!-- SEÇÃO 1: PERFIL DO CANDIDATO -->
+ <section class="section" id="candidateSection">
+ <div class="section-header">
+ <h2>Seu Perfil</h2>
+ <p>Informe suas habilidades e experiência</p>
+ </div>
+
+ <div class="candidate-form">
+ <!-- NOME -->
+ <div class="form-group">
+ <label for="candidateName">Nome:</label>
+ <input
+ type="text"
+ id="candidateName"
+ placeholder="Digite seu nome"
+ value="Maria de Lourdes Celeski"
+ class="form-input"
+ >
+ </div>
+
+ <!-- ÁREA DE INTERESSE - SELECT -->
+ <div class="form-group">
+ <label for="areaOfInterest">Área de Interesse:</label>
+ <select id="areaOfInterest" class="form-select">
+ <option value="">Selecione uma área</option>
+ <option value="Front-End" selected>Front-End</option>
+ <option value="Backend">Backend</option>
+ <option value="FullStack">FullStack</option>
+ </select>
+ </div>
+
+ <!-- ANOS DE EXPERIÊNCIA - SLIDER + NUMBER -->
+ <div class="form-group">
+ <label for="experience">Anos de Experiência:</label>
+ <div class="experience-container">
+ <input
+ type="range"
+ id="experienceSlider"
+ min="0"
+ max="30"
+ value="0"
+ class="form-range"
+ >
+ <input
+ type="number"
+ id="experience"
+ min="0"
+ max="30"
+ value="0"
+ class="form-number"
+ >
+ <span id="experienceDisplay" class="experience-display">0 anos</span>
+ </div>
+ </div>
+
+ <!-- SKILLS - CHECKBOXES -->
+ <div class="form-group form-group-full">
+ <label>Habilidades (Selecione as que você possui)</label>
+ <div class="skills-grid">
+ <!-- Frontend Skills -->
+ <div class="skills-category">
+ <h4>Frontend</h4>
+ <div class="skill-checkboxes">
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="HTML"> HTML
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="CSS"> CSS
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="JavaScript" checked> JavaScript
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="React"> React
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Vue.js"> Vue.js
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Angular"> Angular
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="TypeScript"> TypeScript
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Tailwind CSS"> Tailwind CSS
+ </label>
+ </div>
+ </div>
+
+ <!-- Backend Skills -->
+ <div class="skills-category">
+ <h4>Backend</h4>
+ <div class="skill-checkboxes">
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Node.js"> Node.js
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Python"> Python
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="PHP"> PHP
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Java"> Java
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="C#"> C#
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Ruby"> Ruby
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Go"> Go
+ </label>
+ </div>
+ </div>
+
+ <!-- Database & Tools -->
+ <div class="skills-category">
+ <h4>Banco de Dados</h4>
+ <div class="skill-checkboxes">
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="PostgreSQL"> PostgreSQL
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="MongoDB"> MongoDB
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="MySQL"> MySQL
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Git" checked> Git
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Docker"> Docker
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="REST API"> REST API
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="GraphQL"> GraphQL
+ </label>
+ </div>
+ </div>
+
+ <!-- DevOps & Cloud -->
+ <div class="skills-category">
+ <h4>DevOps & Cloud</h4>
+ <div class="skill-checkboxes">
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="AWS"> AWS
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Azure"> Azure
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="GCP"> GCP
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="CI/CD"> CI/CD
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Kubernetes"> Kubernetes
+ </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Linux"> Linux
+ </label>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- BOTÃO -->
+ <button class="btn btn-primary" onclick="analyzeCandidate()">
+ Analisar Compatibilidade
+ </button>
+ </div>
+
+ <!-- RESUMO DO CANDIDATO -->
+ <div class="candidate-summary" id="candidateSummary" style="display: none;">
+ <h3>✅ Resumo do Perfil</h3>
+ <div class="summary-content">
+ <p><strong>👤 Nome:</strong> <span id="summaryName" class="summary-value">-</span></p>
+ <p><strong>🎯 Área:</strong> <span id="summaryArea" class="summary-value">-</span></p>
+ <p><strong>📅 Experiência:</strong> <span id="summaryExp" class="summary-value">0</span> <span class="summary-unit">ano(s)</span></p>
+ <p><strong>🛠️ Habilidades:</strong> <span id="summarySkills" class="summary-value">-</span></p>
+ </div>
+
+ <!-- MEDIDOR DE PRONTIDÃO -->
+ <div class="readiness-meter" id="readinessMeter" style="display: none;">
+ <div class="readiness-header">
+ <span class="readiness-label">🚀 Prontidão para o Mercado</span>
+ <span class="readiness-badge" id="readinessBadge">—</span>
+ </div>
+ <div class="readiness-bar-track">
+ <div class="readiness-bar-fill" id="readinessBarFill"></div>
+ </div>
+ <div class="readiness-details">
+ <span class="readiness-score" id="readinessScore">—</span>
+ <span class="readiness-message" id="readinessMessage">—</span>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- SEÇÃO 2: RESULTADOS DE COMPATIBILIDADE -->
+ <section class="section" id="resultsSection" style="display: none;">
+ <div class="section-header">
+ <h2>Compatibilidade com Vagas</h2>
+ <p>Veja como você se encaixa em cada vaga</p>
+ </div>
+
+ <div class="results-container">
+ <div id="jobResultsGrid" class="jobs-grid">
+ <!-- Resultados serão inseridos aqui dinamicamente -->
+ </div>
+ </div>
+ </section>
+
+ <!-- SEÇÃO 3: MELHOR OPORTUNIDADE -->
+ <section class="section" id="bestOpportunitySection" style="display: none;">
+ <div class="section-header">
+ <h2>Sua Melhor Oportunidade</h2>
+ <p>A vaga mais compatível com seu perfil</p>
+ </div>
+
+ <div id="bestOpportunityCard" class="opportunity-card">
+ <!-- Melhor oportunidade será inserida aqui -->
+ </div>
+ </section>
+
+ <!-- SEÇÃO 4: RECOMENDAÇÕES DE ESTUDO -->
+ <section class="section" id="recommendationsSection" style="display: none;">
+ <div class="section-header">
+ <h2>Recomendações de Estudo</h2>
+ <p>Habilidades prioritárias para aprender</p>
+ </div>
+
+ <div class="recommendations-content">
+ <div id="recommendationsList" class="recommendations-list">
+ <!-- Recomendações serão inseridas aqui -->
+ </div>
+ </div>
+ </section>
+
+ <!-- SEÇÃO 5: ESTATÍSTICAS -->
+ <section class="section" id="statisticsSection" style="display: none;">
+ <div class="section-header">
+ <h2>Estatísticas</h2>
+ <p>Resumo da análise</p>
+ </div>
+
+ <div class="statistics-grid">
+ <div class="stat-card">
+ <h3>Total de Vagas</h3>
+ <p class="stat-value" id="totalJobs">0</p>
+ </div>
+ <div class="stat-card">
+ <h3>Compatibilidade Máxima</h3>
+ <p class="stat-value" id="maxCompatibility">0%</p>
+ </div>
+ <div class="stat-card">
+ <h3>Compatibilidade Média</h3>
+ <p class="stat-value" id="avgCompatibility">0%</p>
+ </div>
+ <div class="stat-card">
+ <h3>Skills para Aprender</h3>
+ <p class="stat-value" id="skillsToLearn">0</p>
+ </div>
+ </div>
+ </section>
+
+ <!-- SEÇÃO 6: RANKING DE CANDIDATOS -->
+ <section class="section" id="rankingSection">
+ <div class="section-header">
+ <div class="ranking-header-row">
+ <div>
+ <h2>🏆 Ranking de Candidatos</h2>
+ <p>Lista de todos os candidatos analisados, ordenados por compatibilidade média</p>
+ </div>
+ <button class="btn btn-danger-sm" onclick="clearCandidateRanking()" title="Limpar lista">
+ 🗑️ Limpar Lista
+ </button>
+ </div>
+ </div>
+
+ <div id="rankingEmpty" class="ranking-empty">
+ <p>👥 Nenhum candidato analisado ainda.</p>
+ <p>Preencha o formulário acima e clique em <strong>Analisar Compatibilidade</strong> para adicionar o primeiro candidato.</p>
+ </div>
+
+ <div id="rankingTableWrapper" style="display: none;">
+ <table class="ranking-table">
+ <thead>
+ <tr>
+ <th>#</th>
+ <th>Candidato</th>
+ <th>Área</th>
+ <th>Experiência</th>
+ <th>Habilidades</th>
+ <th>Compatibilidade Média</th>
+ <th>Melhor Vaga</th>
+ <th>Nível</th>
+ <th></th>
+ </tr>
+ </thead>
+ <tbody id="rankingTableBody">
+ <!-- Linhas populadas pelo JS -->
+ </tbody>
+ </table>
+ </div>
+ </section>
+
+ </div>
+ </main>
+
+ <!-- FOOTER -->
+ <footer class="footer">
+ <div class="container">
+ <p>&copy; 2026 SkillMatch JS - Simulador de Compatibilidade com Vagas Front-End</p>
+ <p>Desenvolvido por Maria de Lourdes Celeski</p>
+ </div>
+ </footer>
+
+ <!-- SCRIPTS - Carregar na ordem correta -->
+ <script src="../backend/models/Candidate.js"></script>
+ <script src="../backend/models/Job.js"></script>
+ <script src="../backend/models/SkillMatcher.js"></script>
+ <script src="../backend/services/dataLoader.js"></script>
+ <script src="../backend/services/recommendationEngine.js"></script>
+ <script src="../data/mockJobs.js"></script>
+ <script src="app.js"></script>
+</body>
+</html>
