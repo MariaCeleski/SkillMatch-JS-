@@ -1,5 +1,4 @@
-TERM environment variable not set.
-╔════════════════════════════════════════════════════════════════╗
+[3J[H[2J╔════════════════════════════════════════════════════════════════╗
 ║                  EXECUTANDO TODOS OS TESTES                    ║
 ║                                                                ║
 ║  Analisando o arquivo reportGenerator.js                      ║
@@ -161,7 +160,7 @@ Priorize o estudo dessas habilidades (em ordem de importância):
 5. Testing (Jest, React Testing Library)
 
 ======================================================================
-Relatório gerado em: 07/08/2026, 10:24:17
+Relatório gerado em: 07/08/2026, 10:45:55
 ======================================================================
 
 ✅ Função printFullReport() executada com sucesso!
