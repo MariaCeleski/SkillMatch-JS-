@@ -1,0 +1,31 @@
+TERM environment variable not set.
+╔════════════════════════════════════════════════════════════════╗
+║                  EXECUTANDO TODOS OS TESTES                    ║
+║                                                                ║
+║  Analisando o arquivo reportGenerator.js                      ║
+║  Um arquivo de teste por função                               ║
+╚════════════════════════════════════════════════════════════════╝
+
+📁 Pasta atual: /Users/mariadelourdesceleski/copilot-worktrees/SkillMatch-JS-/mariaceleski-urban-eureka
+
+✅ Node.js encontrado: v20.20.2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 [1/5] Executando: 1-createSeparator.js
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/Users/mariadelourdesceleski/copilot-worktrees/SkillMatch-JS-/mariaceleski-urban-eureka/1-createSeparator.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.2
+❌ [1/5] createSeparator.js - ERRO
