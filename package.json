@@ -1,0 +1,12 @@
+{
+  "name": "skillmatch-js",
+  "version": "1.0.0",
+  "description": "SkillMatch JS - Simulador de Compatibilidade",
+  "main": "frontend/main.js",
+  "scripts": {
+    "start": "open frontend/index.html || xdg-open frontend/index.html || (echo 'Abra frontend/index.html no navegador')",
+    "test": "bash frontend/console/console_log_teste/runAll.sh"
+  },
+  "author": "Maria de Lourdes Celeski",
+  "license": "MIT"
+}
