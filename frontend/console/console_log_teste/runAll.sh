@@ -6,6 +6,10 @@
 # Uso: bash runAll.sh
 # ============================================================
 
+# Garantir que comandos sejam executados a partir do diretório do script
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DIR"
+
 clear
 
 echo "╔════════════════════════════════════════════════════════════════╗"

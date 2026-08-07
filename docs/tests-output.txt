@@ -6,7 +6,7 @@ TERM environment variable not set.
 ║  Um arquivo de teste por função                               ║
 ╚════════════════════════════════════════════════════════════════╝
 
-📁 Pasta atual: /Users/mariadelourdesceleski/copilot-worktrees/SkillMatch-JS-/mariaceleski-urban-eureka
+📁 Pasta atual: /Users/mariadelourdesceleski/copilot-worktrees/SkillMatch-JS-/mariaceleski-urban-eureka/frontend/console/console_log_teste
 
 ✅ Node.js encontrado: v20.20.2
 
@@ -14,18 +14,313 @@ TERM environment variable not set.
 🔄 [1/5] Executando: 1-createSeparator.js
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-node:internal/modules/cjs/loader:1210
-  throw err;
-  ^
 
-Error: Cannot find module '/Users/mariadelourdesceleski/copilot-worktrees/SkillMatch-JS-/mariaceleski-urban-eureka/1-createSeparator.js'
-    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
-    at Module._load (node:internal/modules/cjs/loader:1038:27)
-    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
-    at node:internal/main/run_main_module:28:49 {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: []
-}
 
-Node.js v20.20.2
-❌ [1/5] createSeparator.js - ERRO
+╔═════════════════════════════════════════════════════════════╗
+║ FUNÇÃO: createSeparator()                                   ║
+║ Demonstra: Loop (for), Concatenação de Strings              ║
+╚═════════════════════════════════════════════════════════════╝
+
+--- Teste 1: Separador padrão (60 caracteres com =) ---
+============================================================
+
+--- Teste 2: Separador com 40 caracteres ---
+========================================
+
+--- Teste 3: Separador com caractere - (tracejado) ---
+------------------------------------------------------------
+
+--- Teste 4: Separador com caractere * (asteriscos) ---
+**************************************************
+
+--- Teste 5: Separador com caractere # (hashtags) ---
+#############################################
+
+--- Teste 6: Separador curto com 10 caracteres ---
+~~~~~~~~~~
+
+--- Teste 7: Usando em um contexto de relatório ---
+======================================================================
+ RELATÓRIO DE TESTE
+======================================================================
+Dados do candidato aqui...
+----------------------------------------------------------------------
+
+✅ Função createSeparator() testada com sucesso!
+
+✅ [1/5] createSeparator.js - SUCESSO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 [2/5] Executando: 2-formatPercentage.js
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+╔═════════════════════════════════════════════════════════════╗
+║ FUNÇÃO: formatPercentage()                                  ║
+║ Demonstra: toFixed(), Template literals, Formatação         ║
+╚═════════════════════════════════════════════════════════════╝
+
+--- Teste 1: Valor exato (85) ---
+Input: 85
+Output: 85.00%
+
+--- Teste 2: Valor com decimais (75.555) ---
+Input: 75.555
+Output: 75.56%
+
+--- Teste 3: Valor zero ---
+Input: 0
+Output: 0.00%
+
+--- Teste 4: Valor 100 (máximo) ---
+Input: 100
+Output: 100.00%
+
+--- Teste 5: Valor com muitos decimais (33.33333) ---
+Input: 33.33333
+Output: 33.33%
+
+--- Teste 6: Valor pequeno (0.5) ---
+Input: 0.5
+Output: 0.50%
+
+--- Teste 7: Valor negativo (-25) ---
+Input: -25
+Output: -25.00%
+
+--- Teste 8: Múltiplos valores (compatibilidades) ---
+Array: [85.5, 92.1, 45.678, 100, 0.1]
+Formatados:
+  1. 85.50%
+  2. 92.10%
+  3. 45.68%
+  4. 100.00%
+  5. 0.10%
+
+✅ Função formatPercentage() testada com sucesso!
+
+✅ [2/5] formatPercentage.js - SUCESSO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 [3/5] Executando: 3-printFullReport.js
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+╔═════════════════════════════════════════════════════════════╗
+║ FUNÇÃO: printFullReport()                                   ║
+║ Demonstra: forEach, for, find, if, join()                  ║
+╚═════════════════════════════════════════════════════════════╝
+
+
+======================================================================
+ SkillMatch JS - Simulador de Compatibilidade com Vagas Front-End
+======================================================================
+
+ PERFIL DO CANDIDATO
+----------------------------------------------------------------------
+Nome: Maria Silva
+Área de Interesse: Desenvolvimento Front-End
+Anos de Experiência: 3
+Habilidades: HTML, CSS, JavaScript, React, Git
+
+ ANÁLISE DE COMPATIBILIDADE POR VAGA
+----------------------------------------------------------------------
+
+1. TechCorp - Junior React Developer
+ Compatibilidade: 95.00% (Excelente)
+ Skills Requeridas: JavaScript, React, CSS, Git
+ Todas as skills requeridas!
+ ⭐ MELHOR OPORTUNIDADE
+
+2. WebSolutions - Front-End Developer
+ Compatibilidade: 72.00% (Bom)
+ Skills Requeridas: HTML, CSS, JavaScript, Vue.js, TypeScript
+ Skills Faltantes: Vue.js, TypeScript
+
+3. StartupXYZ - Full Stack Developer
+ Compatibilidade: 58.00% (Mediano)
+ Skills Requeridas: JavaScript, Node.js, MongoDB, React
+ Skills Faltantes: Node.js, MongoDB
+
+ MELHOR OPORTUNIDADE
+----------------------------------------------------------------------
+Empresa: TechCorp
+Cargo: Junior React Developer
+Compatibilidade: 95.00%
+
+ RECOMENDAÇÕES DE ESTUDO
+----------------------------------------------------------------------
+Priorize o estudo dessas habilidades (em ordem de importância):
+
+1. TypeScript
+2. Vue.js ou Angular
+3. Node.js
+4. MongoDB
+5. Testing (Jest, React Testing Library)
+
+======================================================================
+Relatório gerado em: 07/08/2026, 10:24:17
+======================================================================
+
+✅ Função printFullReport() executada com sucesso!
+
+✅ [3/5] printFullReport.js - SUCESSO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 [4/5] Executando: 4-printQuickSummary.js
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+╔═════════════════════════════════════════════════════════════╗
+║ FUNÇÃO: printQuickSummary()                                 ║
+║ Demonstra: Loop while, Operador ternário, Condicional      ║
+╚═════════════════════════════════════════════════════════════╝
+
+======================================================================
+ TESTE 1: Candidato Front-End (João Santos)
+======================================================================
+
+ João Santos - Desenvolvimento Front-End
+Skills: HTML, CSS, JavaScript, React
+
+Compatibilidades:
+ ✅ TechCorp: 95.00%
+ ⚠️  WebSolutions: 72.00%
+ ❌ StartupXYZ: 45.00%
+
+======================================================================
+ TESTE 2: Candidata Back-End (Ana Costa)
+======================================================================
+
+ Ana Costa - Desenvolvimento Back-End
+Skills: JavaScript, Node.js, MongoDB, Express
+
+Compatibilidades:
+ ✅ CloudSys: 98.00%
+ ⚠️  DataCorp: 68.00%
+ ⚠️  FinTech Inc: 55.00%
+
+✅ Função printQuickSummary() testada com sucesso!
+
+
+======================================================================
+ CONCEITOS DEMONSTRADOS:
+======================================================================
+
+1. LOOP WHILE:
+   - Semelhante ao for, mas controle manual da variável
+   - Útil quando a condição não segue um padrão de incremento simples
+
+2. OPERADOR TERNÁRIO:
+   - Sintaxe: condição ? valorVerdadeiro : valorFalso
+   - Usado aqui: score >= 80 ? ✅ : score >= 50 ? ⚠️ : ❌
+
+3. OPERADORES COMPARAÇÃO:
+   - >= (maior ou igual)
+   - < (menor que)
+
+
+✅ [4/5] printQuickSummary.js - SUCESSO
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 [5/5] Executando: 5-printCompatibilityTable.js
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+╔═════════════════════════════════════════════════════════════╗
+║ FUNÇÃO: printCompatibilityTable()                           ║
+║ Demonstra: map(), console.table(), Operador ternário       ║
+╚═════════════════════════════════════════════════════════════╝
+
+======================================================================
+ TESTE 1: Tabela de Compatibilidade - Candidato Front-End
+======================================================================
+
+
+┌─────────┬────────────────┬──────────────────────────┬─────────────────┬───────────────┬────────────────────┐
+│ (index) │ Empresa        │ Cargo                    │ Compatibilidade │ Classificação │ Skills Faltantes   │
+├─────────┼────────────────┼──────────────────────────┼─────────────────┼───────────────┼────────────────────┤
+│ 0       │ 'TechCorp'     │ 'Junior React Developer' │ '95.50%'        │ 'Excelente'   │ 'Nenhuma'          │
+│ 1       │ 'WebSolutions' │ 'Front-End Developer'    │ '72.30%'        │ 'Bom'         │ 'Vue.js'           │
+│ 2       │ 'StartupXYZ'   │ 'Full Stack Developer'   │ '45.80%'        │ 'Mediano'     │ 'Node.js, MongoDB' │
+│ 3       │ 'DesignStudio' │ 'UI Developer'           │ '88.20%'        │ 'Excelente'   │ 'Nenhuma'          │
+└─────────┴────────────────┴──────────────────────────┴─────────────────┴───────────────┴────────────────────┘
+
+======================================================================
+ TESTE 2: Tabela de Compatibilidade - Candidato Back-End
+======================================================================
+
+
+┌─────────┬─────────────────────┬───────────────────────────┬─────────────────┬───────────────┬────────────────────────────┐
+│ (index) │ Empresa             │ Cargo                     │ Compatibilidade │ Classificação │ Skills Faltantes           │
+├─────────┼─────────────────────┼───────────────────────────┼─────────────────┼───────────────┼────────────────────────────┤
+│ 0       │ 'CloudSys'          │ 'Node.js Developer'       │ '98.10%'        │ 'Excelente'   │ 'Nenhuma'                  │
+│ 1       │ 'DataCorp'          │ 'Backend Developer'       │ '68.50%'        │ 'Bom'         │ 'PostgreSQL, Docker'       │
+│ 2       │ 'FinTech Inc'       │ 'Full Stack Developer'    │ '55.00%'        │ 'Mediano'     │ 'React, AWS'               │
+│ 3       │ 'MicroServices Ltd' │ 'Microservices Architect' │ '38.90%'        │ 'Fraco'       │ 'Docker, Kubernetes, gRPC' │
+│ 4       │ 'WebAPI Corp'       │ 'API Developer'           │ '92.00%'        │ 'Excelente'   │ 'Nenhuma'                  │
+└─────────┴─────────────────────┴───────────────────────────┴─────────────────┴───────────────┴────────────────────────────┘
+
+======================================================================
+ CONCEITOS DEMONSTRADOS:
+======================================================================
+
+1. MÉTODO map():
+   - Transforma cada elemento de um array em outro elemento
+   - Sintaxe: array.map(elemento => ({ novo_objeto }))
+   - Neste caso: transforma result em um objeto com propriedades formatadas
+
+2. console.table():
+   - Imprime um array de objetos como uma tabela formatada
+   - Muito útil para visualizar dados em formato tabular
+   - Chaves do objeto se tornam cabeçalhos da tabela
+
+3. OPERADOR TERNÁRIO (ANINHADO):
+   - Sintaxe: condicao ? valor1 : valor2
+   - Neste caso para Skills Faltantes:
+     result.missingSkills.length > 0 ? result.missingSkills.join(', ') : 'Nenhuma'
+
+4. MÉTODO join():
+   - Transforma array em string, separando elementos por um delimitador
+   - Sintaxe: array.join(', ') cria string "Item1, Item2, Item3"
+
+✅ Função printCompatibilityTable() testada com sucesso!
+
+✅ [5/5] printCompatibilityTable.js - SUCESSO
+
+╔════════════════════════════════════════════════════════════════╗
+║                   ✅ TODOS OS TESTES CONCLUÍDOS!               ║
+╚════════════════════════════════════════════════════════════════╝
+
+📊 Resumo de Execução:
+   ✅ 1. createSeparator()       - Loops (for)
+   ✅ 2. formatPercentage()      - Métodos de número (toFixed)
+   ✅ 3. printFullReport()       - forEach, for, find
+   ✅ 4. printQuickSummary()     - while, operador ternário
+   ✅ 5. printCompatibilityTable() - map, console.table
+
+📁 Arquivos criados:
+   1. 1-createSeparator.js
+   2. 2-formatPercentage.js
+   3. 3-printFullReport.js
+   4. 4-printQuickSummary.js
+   5. 5-printCompatibilityTable.js
+   6. INDEX_EXECUTAR.md (documentação)
+
+🚀 Próximos passos:
+   - Execute cada arquivo individualmente:
+     node 1-createSeparator.js
+   - Ou execute todos com:
+     bash runAll.sh
+
+📚 Conceitos demonstrados:
+   • Loops: for, forEach, while
+   • Métodos de Array: map, find, join
+   • Operadores: ternário, comparação, lógicos
+   • Formatação: template literals, toFixed
+   • Console: log, table, clear
+
