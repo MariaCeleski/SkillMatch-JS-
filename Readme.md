@@ -56,3 +56,9 @@ bash frontend/console/console_log_teste/runAll.sh | tee tests-output.txt
 
 Inclua o arquivo `tests-output.txt` ou imagens dos prints no README (ou em uma pasta `docs/`) para exemplos visuais.
 
+## Resultado dos testes (executado em 07/08/2026)
+
+Resumo rápido: todos os 5 testes foram executados com sucesso (createSeparator, formatPercentage, printFullReport, printQuickSummary, printCompatibilityTable).
+
+Saída completa dos testes: docs/tests-output.txt
+
