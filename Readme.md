@@ -12,6 +12,41 @@ SkillMatch JS é uma aplicação web completa construída com **JavaScript vanil
 
 ---
 
+## 📚 Recursos e Links Úteis
+
+### 🎥 Vídeos de Referência
+- **Apresentação do mini projeto** — [Ver vídeo](https://www.youtube.com/@mariaceleski9635)
+
+### 📊 Kanban e Gerenciamento de Projeto
+- **Kanban do Projeto** — [Acessar Kanban](https://github.com/users/MariaCeleski/projects/5/views/3) 
+- **Github Projeto** — [Acessar Projeto no Github](https://github.com/MariaCeleski/SkillMatch-JS-)    
+- **Rastreabilidade de Requisitos** — `frontend/console/docs/MAPEAMENTO_REQUISITOS.md`
+- **Rastreabilidade de Prints interface do projeto** — `frontend/console/docs/imagens de interface` 
+- **Console Analysis** | `frontend/console/docs/` | Análise detalhada do reportGenerator.js |
+---
+### 🔗 Links Externos Úteis
+
+| Tópico | Link |
+|---|---|
+| **MDN - Array Methods** | https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array |
+| **MDN - Classes** | https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes |
+| **MDN - Async/Await** | https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/Asynchronous/Promises |
+| **MDN - DOM API** | https://developer.mozilla.org/pt-BR/docs/Web/API/Document |
+| **CSS Tricks - Grid** | https://css-tricks.com/snippets/css/complete-guide-grid/ |
+| **CSS Tricks - Flexbox** | https://css-tricks.com/snippets/css/a-guide-to-flexbox/ |
+
+---
+
+### 💻 Ferramentas Recomendadas
+
+- **VS Code** — https://code.visualstudio.com/
+- **Live Server (Extensão)** — Permite visualizar mudanças em tempo real
+- **DevTools** — F12 no navegador para inspecionar código
+- **Git** — https://git-scm.com/
+- **GitHub** — https://github.com/
+
+---
+
 ## 🚀 Como Executar
 
 ### Opção 1 — Abrir diretamente no navegador (recomendado)
@@ -108,7 +143,7 @@ Compatibilidade (%) = (Habilidades Encontradas / Habilidades Requeridas) × 100
 |---|---|---|
 | 80% – 100% | Alta compatibilidade | 🟢 Verde |
 | 50% – 79% | Média compatibilidade | 🟡 Amarelo |
-| 0% – 49% | Baixa compatibilidade | 🔴 Vermelho |
+| 0% – 49% | Baixa compatibilidade  | 🔴 Vermelho |
 
 **Implementado em:** `backend/models/SkillMatcher.js` → método `classifyCompatibility()`
 
