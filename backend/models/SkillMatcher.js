@@ -16,6 +16,9 @@ class BaseMatcher {
  * Demonstra 'this' em classe base
  * @param {object} result
  */
+
+ //.pusch() é usado para:
+ //Armazenar resultados da análise
  storeResult(result) {
  this.results.push(result);
  }

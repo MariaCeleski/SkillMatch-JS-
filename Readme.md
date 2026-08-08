@@ -15,7 +15,7 @@ SkillMatch JS é uma aplicação web completa construída com **JavaScript vanil
 ## 📚 Recursos e Links Úteis
 
 ### 🎥 Vídeos de Referência
-- **Apresentação do mini projeto** — [Ver vídeo](https://www.youtube.com/@mariaceleski9635)
+- **Apresentação do mini projeto** — [Ver vídeo](https://youtu.be/lT1P4mzhsas)
 
 ### 📊 Kanban e Gerenciamento de Projeto
 - **Kanban do Projeto** — [Acessar Kanban](https://github.com/users/MariaCeleski/projects/5/views/3) 
@@ -261,7 +261,7 @@ Aparece no resumo após a análise, calculando a média geral:
 
 ## 📋 Requisitos Implementados
 
-Todos os 16 requisitos definidos em `.kiro/specs/skillmatch-js/requirements.md` estão implementados:
+Todos os 16 requisitos definidos estão implementados:
 
 | # | Requisito | Status | Arquivo Principal |
 |---|---|---|---|

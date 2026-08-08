@@ -36,17 +36,24 @@ class Candidate {
  * @param {string} skill - Nome da habilidade
  * @returns {boolean}
  */
+ 
+ //.includes() é um método de array que VERIFICA SE um elemento EXISTE no array e retorna true ou false.
  hasSkill(skill) {
- return this.skills.includes(skill);
+ return this.skills.includes(skill);//← Verifica se skill existe
  }
 
  /**
  * Método para adicionar uma nova skill
  * @param {string} skill - Nova habilidade a adicionar
  */
+
+
+//.push() é usado para:
+//Adicionar skills ao candidato
+
  addSkill(skill) {
  if (!this.skills.includes(skill)) {
- this.skills.push(skill);
+ this.skills.push(skill);//Adiciona skills ao candidato
  }
  }
 

@@ -1,8 +1,8 @@
-[3J[H[2J╔════════════════════════════════════════════════════════════════╗
+╔════════════════════════════════════════════════════════════════╗
 ║                  EXECUTANDO TODOS OS TESTES                    ║
 ║                                                                ║
-║  Analisando o arquivo reportGenerator.js                      ║
-║  Um arquivo de teste por função                               ║
+║  Analisando o arquivo reportGenerator.js                       ║
+║  Um arquivo de teste por função                                ║
 ╚════════════════════════════════════════════════════════════════╝
 
 📁 Pasta atual: /Users/mariadelourdesceleski/copilot-worktrees/SkillMatch-JS-/mariaceleski-urban-eureka/frontend/console/console_log_teste
