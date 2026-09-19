@@ -53,12 +53,21 @@ async function analyzeCandidate() {
  console.warn('⚠️  Aviso: Resumo do candidato não foi exibido correctamente');
  }
 
- // ========== PASSO 3: Carregar vagas (simulando servidor) ==========
+ // ========== PASSO 3: Carregar vagas do catálogo ==========
  showLoadingState('Carregando vagas...');
+ showDataStatus('Carregando vagas...', 'loading');
 
- const jobs = await loadJobsFromServer(1500); // 1.5 segundos de delay
+ const jobs = await loadJobsFromServer();
 
  hideLoadingState();
+
+ if (jobs.length === 0) {
+ showDataStatus('Nenhuma vaga está disponível no momento.', 'empty');
+ displayEmptyResults();
+ return;
+ }
+
+ hideDataStatus();
 
  // ========== PASSO 4: Analisar compatibilidade ==========
  const skillMatcher = new SkillMatcher();
@@ -78,8 +87,9 @@ async function analyzeCandidate() {
  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
 
  } catch (error) {
+ hideLoadingState();
  console.error('Erro durante análise:', error);
- alert('Erro ao analisar compatibilidade. Verifique o console para detalhes.');
+ showDataStatus('Não foi possível carregar as vagas. Tente novamente em instantes.', 'error');
  }
 }
 
@@ -510,6 +520,31 @@ function hideLoadingState() {
  const btn = document.querySelector('.btn-primary');
  btn.disabled = false;
  btn.innerHTML = ' Analisar Compatibilidade';
+}
+
+/** Exibe um estado do catálogo para usuários e leitores de tela. */
+function showDataStatus(message, statusType) {
+ const status = document.getElementById('dataStatus');
+ if (!status) return;
+
+ status.textContent = message;
+ status.className = `data-status data-status-${statusType}`;
+ status.hidden = false;
+}
+
+/** Oculta o estado transitório após uma carga bem-sucedida. */
+function hideDataStatus() {
+ const status = document.getElementById('dataStatus');
+ if (status) status.hidden = true;
+}
+
+/** Limpa resultados anteriores quando o catálogo está vazio. */
+function displayEmptyResults() {
+ document.getElementById('jobResultsGrid').innerHTML = '';
+ document.getElementById('resultsSection').style.display = 'block';
+ document.getElementById('bestOpportunitySection').style.display = 'none';
+ document.getElementById('recommendationsSection').style.display = 'none';
+ document.getElementById('statisticsSection').style.display = 'none';
 }
 
 // ============================================================================
