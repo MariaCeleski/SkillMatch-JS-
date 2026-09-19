@@ -126,6 +126,28 @@ body {
  padding: var(--spacing-2xl) 0;
 }
 
+.data-status {
+ margin-top: var(--spacing-md);
+ padding: var(--spacing-sm) var(--spacing-md);
+ border-radius: var(--border-radius-md);
+ font-weight: 600;
+}
+
+.data-status-loading {
+ color: #1e40af;
+ background: #dbeafe;
+}
+
+.data-status-empty {
+ color: #92400e;
+ background: #fef3c7;
+}
+
+.data-status-error {
+ color: #991b1b;
+ background: #fee2e2;
+}
+
 /* ============================================================================
  5. SEÇÕES
  ============================================================================ */

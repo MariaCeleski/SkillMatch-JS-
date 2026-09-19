@@ -6,10 +6,10 @@ import { Job } from './Job.js';
  * que serão apresentadas nos cards quando o catálogo vier do JSON.
  */
 export class FrontEndJob extends Job {
- constructor(company, title, requiredSkills, stack = [], seniority = 'Júnior') {
- super(company, title, requiredSkills);
- this.stack = stack;
- this.seniority = seniority;
+ constructor(company, title, requiredSkills, details = {}) {
+ super(company, title, requiredSkills, details);
+ this.stack = details.stack || [];
+ this.seniority = details.seniority || 'Júnior';
  }
 
  /**
