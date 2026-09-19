@@ -172,8 +172,8 @@ body {
  ============================================================================ */
 
 .candidate-form {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
  margin-bottom: var(--spacing-xl);
  background: linear-gradient(135deg, #e8f0f5 0%, #f3f4f6 100%);
@@ -186,6 +186,7 @@ body {
 .form-group {
  display: flex;
  flex-direction: column;
+ flex: 1 1 280px;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  background: linear-gradient(145deg, #b9d1e0 0%, #dce8f0 60%, #eef4f8 100%);
@@ -208,7 +209,7 @@ body {
 }
 
 .form-group-full {
- grid-column: 1 / -1;
+ flex-basis: 100%;
  padding: var(--spacing-lg);
  background: linear-gradient(135deg, #6488ad 0%, #f3f4f6 100%);
 }
@@ -290,8 +291,8 @@ body {
  ============================================================================ */
 
 .skills-grid {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
  padding: var(--spacing-lg);
@@ -301,6 +302,7 @@ body {
 }
 
 .skills-category {
+ flex: 1 1 220px;
  background: rgb(185, 209, 224);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -328,13 +330,14 @@ body {
 }
 
 .skill-checkboxes {
- display: grid;
- grid-template-columns: 1fr 1fr;
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-sm);
 }
 
 .skill-checkbox {
  display: flex;
+ flex: 1 1 calc(50% - var(--spacing-sm));
  align-items: center;
  gap: var(--spacing-sm);
  cursor: pointer;
@@ -534,7 +537,7 @@ body {
 .btn-primary {
  background: var(--gradient-primary);
  color: white;
- grid-column: 1 / -1;
+ flex: 1 1 100%;
  padding: var(--spacing-lg) var(--spacing-xl);
  font-size: var(--font-size-lg);
  width: 100%;
@@ -577,12 +580,13 @@ body {
 }
 
 .summary-content {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-md);
 }
 
 .summary-content p {
+ flex: 1 1 200px;
  font-size: var(--font-size-sm);
  margin: 0;
  display: flex;
@@ -692,12 +696,13 @@ body {
  ============================================================================ */
 
 .jobs-grid {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
 }
 
 .job-card {
+ flex: 1 1 300px;
  background: white;
  border: 1px solid #e5e7eb;
  border-radius: var(--border-radius-lg);
@@ -866,13 +871,14 @@ body {
 }
 
 .opportunity-info {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
  margin-top: var(--spacing-lg);
 }
 
 .opportunity-info-item {
+ flex: 1 1 200px;
  background: rgba(255, 255, 255, 0.1);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -897,12 +903,13 @@ body {
  ============================================================================ */
 
 .recommendations-list {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
 }
 
 .recommendation-item {
+ flex: 1 1 250px;
  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
  padding: var(--spacing-lg);
  border-radius: var(--border-radius-lg);
@@ -958,12 +965,13 @@ body {
  ============================================================================ */
 
 .statistics-grid {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
 }
 
 .stat-card {
+ flex: 1 1 200px;
  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
  padding: var(--spacing-lg);
  border-radius: var(--border-radius-lg);
@@ -1267,7 +1275,6 @@ body {
 
  /* FORMULÁRIO TABLET */
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-bottom: var(--spacing-md);
  }
@@ -1286,7 +1293,6 @@ body {
 
  /* SKILLS GRID TABLET */
  .skills-grid {
- grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -1348,7 +1354,6 @@ body {
  width: 100%;
  padding: var(--spacing-md) var(--spacing-lg);
  font-size: var(--font-size-base);
- grid-column: 1 / -1;
  }
 
  .btn-primary:hover {
@@ -1357,7 +1362,6 @@ body {
 
  /* RESUMO TABLET */
  .summary-content {
- grid-template-columns: 1fr 1fr;
  gap: var(--spacing-sm);
  }
 
@@ -1368,7 +1372,6 @@ body {
 
  /* GRIDS TABLET */
  .jobs-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -1436,7 +1439,6 @@ body {
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-top: var(--spacing-md);
  }
@@ -1447,7 +1449,6 @@ body {
 
  /* RECOMMENDATIONS TABLET */
  .recommendations-list {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -1472,7 +1473,6 @@ body {
 
  /* STATISTICS TABLET */
  .statistics-grid {
- grid-template-columns: repeat(2, 1fr);
  gap: var(--spacing-md);
  }
 
@@ -1571,7 +1571,6 @@ body {
 
  /* FORMULÁRIO MOBILE */
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-bottom: var(--spacing-md);
  }
@@ -1596,7 +1595,6 @@ body {
 
  /* SKILLS GRID MOBILE */
  .skills-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -1668,7 +1666,6 @@ body {
  width: 100%;
  padding: var(--spacing-md) var(--spacing-lg);
  font-size: var(--font-size-base);
- grid-column: 1 / -1;
  min-height: 44px; /* Touch target min */
  }
 
@@ -1688,7 +1685,6 @@ body {
  }
 
  .summary-content {
- grid-template-columns: 1fr;
  gap: var(--spacing-sm);
  }
 
@@ -1700,7 +1696,6 @@ body {
 
  /* GRIDS MOBILE */
  .jobs-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -1781,7 +1776,6 @@ body {
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-top: var(--spacing-md);
  }
@@ -1802,7 +1796,6 @@ body {
 
  /* RECOMMENDATIONS MOBILE */
  .recommendations-list {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -1832,7 +1825,6 @@ body {
 
  /* STATISTICS MOBILE */
  .statistics-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2338,7 +2330,6 @@ textarea:focus-visible {
  }
 
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-lg);
  }
@@ -2402,18 +2393,15 @@ textarea:focus-visible {
  }
 
  .skills-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  }
 
  .skill-checkboxes {
- grid-template-columns: 1fr 1fr;
  gap: var(--spacing-xs);
  }
 
  .jobs-grid {
- grid-template-columns: 1fr;
  }
 
  .section {
@@ -2435,21 +2423,17 @@ textarea:focus-visible {
  }
 
  .summary-content {
- grid-template-columns: 1fr;
  gap: var(--spacing-sm);
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
  .recommendations-list {
- grid-template-columns: 1fr;
  }
 
  .statistics-grid {
- grid-template-columns: repeat(2, 1fr);
  gap: var(--spacing-md);
  }
 }
@@ -2499,7 +2483,6 @@ textarea:focus-visible {
  }
 
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  margin-bottom: var(--spacing-lg);
@@ -2573,7 +2556,6 @@ textarea:focus-visible {
  }
 
  .skills-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -2590,7 +2572,6 @@ textarea:focus-visible {
  }
 
  .skill-checkboxes {
- grid-template-columns: 1fr 1fr;
  gap: var(--spacing-xs);
  }
 
@@ -2653,7 +2634,6 @@ textarea:focus-visible {
  }
 
  .summary-content {
- grid-template-columns: 1fr;
  gap: var(--spacing-xs);
  }
 
@@ -2671,7 +2651,6 @@ textarea:focus-visible {
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2688,7 +2667,6 @@ textarea:focus-visible {
  }
 
  .recommendations-list {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2713,7 +2691,6 @@ textarea:focus-visible {
  }
 
  .statistics-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
