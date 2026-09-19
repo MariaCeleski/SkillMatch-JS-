@@ -33,7 +33,8 @@
  <p>Informe suas habilidades e experiência</p>
  </div>
 
- <div class="candidate-form">
+ <form class="candidate-form" id="candidateForm" novalidate>
+ <p id="formError" class="form-error" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
  <!-- NOME -->
  <div class="form-group">
  <label for="candidateName">Nome:</label>
@@ -43,13 +44,15 @@
  placeholder="Digite seu nome"
  value="Maria de Lourdes Celeski"
  class="form-input"
+ required
+ aria-describedby="formError"
  >
  </div>
 
  <!-- ÁREA DE INTERESSE - SELECT -->
  <div class="form-group">
  <label for="areaOfInterest">Área de Interesse:</label>
- <select id="areaOfInterest" class="form-select">
+ <select id="areaOfInterest" class="form-select" required aria-describedby="formError">
  <option value="">Selecione uma área</option>
  <option value="Front-End" selected>Front-End</option>
  <option value="Backend">Backend</option>
@@ -82,8 +85,8 @@
  </div>
 
  <!-- SKILLS - CHECKBOXES -->
- <div class="form-group form-group-full">
- <label>Habilidades (Selecione as que você possui)</label>
+ <fieldset class="form-group form-group-full" id="skillsGroup" aria-describedby="formError">
+ <legend>Habilidades (Selecione as que você possui)</legend>
  <div class="skills-grid">
  <!-- Frontend Skills -->
  <div class="skills-category">
@@ -197,13 +200,13 @@
  </div>
  </div>
  </div>
- </div>
+ </fieldset>
 
  <!-- BOTÃO -->
- <button class="btn btn-primary" id="analyzeButton" type="button">
+ <button class="btn btn-primary" id="analyzeButton" type="submit">
  Analisar Compatibilidade
  </button>
- </div>
+ </form>
 
  <!-- RESUMO DO CANDIDATO -->
  <div class="candidate-summary" id="candidateSummary" style="display: none;">
