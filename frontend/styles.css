@@ -302,6 +302,28 @@ body {
  width: fit-content;
 }
 
+.form-group legend {
+ display: block;
+ width: 100%;
+ margin-bottom: var(--spacing-md);
+ font-weight: 600;
+ color: var(--color-text);
+}
+
+.form-error {
+ margin-bottom: var(--spacing-md);
+ padding: var(--spacing-sm) var(--spacing-md);
+ border-left: 4px solid #b91c1c;
+ border-radius: var(--border-radius-sm);
+ color: #991b1b;
+ background: #fee2e2;
+ font-weight: 600;
+}
+
+[aria-invalid="true"] {
+ border-color: #b91c1c !important;
+}
+
 .form-input,
 .form-select,
 .form-group input:not([type="range"]):not([type="checkbox"]):not(.form-number) {
