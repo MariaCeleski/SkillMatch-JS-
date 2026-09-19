@@ -1,0 +1,62 @@
+[
+  {
+    "id": "frontend-junior-01",
+    "company": "Tech StartUp XYZ",
+    "title": "Front-End Developer Júnior",
+    "area": "Front-End",
+    "requiredSkills": ["HTML", "CSS", "JavaScript"],
+    "stack": ["JavaScript", "CSS"],
+    "seniority": "Júnior",
+    "salary": 3500,
+    "modality": "Remoto",
+    "description": "Crie interfaces responsivas para produtos digitais em uma equipe multidisciplinar."
+  },
+  {
+    "id": "frontend-junior-02",
+    "company": "Digital Agency Pro",
+    "title": "Junior Web Developer",
+    "area": "Front-End",
+    "requiredSkills": ["JavaScript", "React", "CSS"],
+    "stack": ["React", "JavaScript"],
+    "seniority": "Júnior",
+    "salary": 4200,
+    "modality": "Híbrido",
+    "description": "Desenvolva páginas e componentes para campanhas digitais de clientes variados."
+  },
+  {
+    "id": "ui-developer-01",
+    "company": "E-Commerce Company",
+    "title": "UI Developer",
+    "area": "Front-End",
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "Responsive Design"],
+    "stack": ["JavaScript", "Design Systems"],
+    "seniority": "Júnior",
+    "salary": 4000,
+    "modality": "Remoto",
+    "description": "Aprimore a experiência de compra com interfaces acessíveis e responsivas."
+  },
+  {
+    "id": "frontend-pleno-01",
+    "company": "FinTech Solutions",
+    "title": "Frontend Developer",
+    "area": "Front-End",
+    "requiredSkills": ["JavaScript", "React", "TypeScript", "REST API"],
+    "stack": ["React", "TypeScript"],
+    "seniority": "Pleno",
+    "salary": 7200,
+    "modality": "Híbrido",
+    "description": "Construa fluxos seguros e confiáveis para produtos financeiros."
+  },
+  {
+    "id": "frontend-junior-03",
+    "company": "Creative Studio",
+    "title": "Junior Front-End",
+    "area": "Front-End",
+    "requiredSkills": ["HTML", "CSS"],
+    "stack": ["HTML", "CSS"],
+    "seniority": "Júnior",
+    "salary": 3000,
+    "modality": "Presencial",
+    "description": "Transforme protótipos de design em experiências web de alta qualidade."
+  }
+]
