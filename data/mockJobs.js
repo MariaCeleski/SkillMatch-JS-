@@ -5,6 +5,9 @@
  // Vagas de exemplo para o simulador
  
 
+import { Candidate } from '../backend/models/Candidate.js';
+import { Job } from '../backend/models/Job.js';
+
 // Array de vagas fictícias
 const mockJobs = [
     new Job(
@@ -46,9 +49,4 @@ const mockCandidate = new Candidate(
     0 // 0 anos de experiência
 );
 
-// Exportar dados
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { mockJobs, mockCandidate };
-} else if (typeof window !== 'undefined') {
-    window.mockData = { mockJobs, mockCandidate };
-}
+export { mockJobs, mockCandidate };

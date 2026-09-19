@@ -5,6 +5,8 @@
  //Demonstra conceitos: Promise, async/await, callback, delay simulado
  
 
+import { Job } from '../models/Job.js';
+
 /**
  * Simula o carregamento de vagas como se viessem de um servidor
  * Retorna uma Promise que resolve após um delay
@@ -12,7 +14,7 @@
  * @param {number} delayMs - Delay em milissegundos (padrão: 2000ms)
  * @returns {Promise} Promise que resolve com array de vagas
  */
-function loadJobsFromServer(delayMs = 2000) {
+export function loadJobsFromServer(delayMs = 2000) {
  return new Promise((resolve, reject) => {
  // Simula busca em servidor com setTimeout
  setTimeout(() => {
@@ -36,7 +38,7 @@ function loadJobsFromServer(delayMs = 2000) {
  * @param {Function} callback - Função de callback executada após carregamento
  * @returns {Promise}
  */
-async function loadDataAsync(callback) {
+export async function loadDataAsync(callback) {
  console.log('⏳ Carregando vagas do servidor...');
 
  try {
@@ -68,7 +70,7 @@ async function loadDataAsync(callback) {
  * CLOSURE: Cria um "carregador" que mantém estado entre chamadas
  * Demonstra encapsulamento de estado sem variáveis globais
  */
-function createDataLoader() {
+export function createDataLoader() {
  let loadCount = 0; // Valor interno preservado entre chamadas
  const loadedData = []; // Cache de dados carregados
 
@@ -118,4 +120,3 @@ function createDataLoader() {
  }
  };
 }
-

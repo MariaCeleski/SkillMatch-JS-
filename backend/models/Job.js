@@ -5,7 +5,7 @@
 //Demonstra conceitos: Classes, Construtor, Métodos, This
  
 
-class Job {
+export class Job {
  /**
  * Construtor da classe Job
  * @param {string} company - Nome da empresa
@@ -46,4 +46,3 @@ class Job {
  return this.requiredSkills.length;
  }
 }
-

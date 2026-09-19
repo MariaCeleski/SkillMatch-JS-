@@ -12,7 +12,7 @@
  * @param {array} allMissingSkills - Lista com todas as skills faltantes
  * @returns {number} Pontuação de prioridade
  */
-function calculateSkillPriority(skill, allMissingSkills) {
+export function calculateSkillPriority(skill, allMissingSkills) {
  // Contar quantas vezes a skill aparece na lista de faltantes
  const frequency = allMissingSkills.filter(s => s === skill).length;
  return frequency;
@@ -26,7 +26,7 @@ function calculateSkillPriority(skill, allMissingSkills) {
  * @param {Function} onRecommendationReady - Callback executado quando recomendação está pronta
  * @returns {array} Lista de habilidades recomendadas
  */
-function generateRecommendations(analysisResults, onRecommendationReady) {
+export function generateRecommendations(analysisResults, onRecommendationReady) {
  // Coletar TODAS as skills faltantes de TODAS as vagas
  const allMissingSkills = [];
 
@@ -86,7 +86,7 @@ function generateRecommendations(analysisResults, onRecommendationReady) {
  *
  * @returns {object}
  */
-function createRecommendationService() {
+export function createRecommendationService() {
  const recommendations = [];
 
  return {
@@ -125,5 +125,4 @@ function createRecommendationService() {
  }
  };
 }
-
 

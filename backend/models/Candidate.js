@@ -5,7 +5,7 @@
   //Demonstra conceitos: Classes, Construtor, Métodos, This
  
 
-class Candidate {
+export class Candidate {
  /**
  * Construtor da classe Candidate
  * @param {string} name - Nome do candidato
@@ -66,5 +66,4 @@ class Candidate {
  return [...this.skills];
  }
 }
-
 
