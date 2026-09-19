@@ -6,7 +6,7 @@
  
 
 // Classe base (parent class)
-class BaseMatcher {
+export class BaseMatcher {
  constructor() {
  this.results = [];
  }
@@ -40,7 +40,7 @@ class BaseMatcher {
 }
 
 // Classe filha (child class) - Demonstra herança
-class SkillMatcher extends BaseMatcher {
+export class SkillMatcher extends BaseMatcher {
  constructor() {
  super(); // Chama construtor da classe pai
  }
@@ -184,6 +184,5 @@ class SkillMatcher extends BaseMatcher {
  return requiredSkills.every(skill => candidateSkills.includes(skill));
  }
 }
-
 
 
