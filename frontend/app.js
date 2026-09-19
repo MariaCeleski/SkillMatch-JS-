@@ -1,3 +1,8 @@
+import { Candidate } from '../backend/models/Candidate.js';
+import { SkillMatcher } from '../backend/models/SkillMatcher.js';
+import { loadJobsFromServer } from '../backend/services/dataLoader.js';
+import { createRecommendationService } from '../backend/services/recommendationEngine.js';
+
 /**
  * APP.JS
  *
@@ -482,6 +487,27 @@ function hideLoadingState() {
 document.addEventListener('DOMContentLoaded', function() {
  console.log('✅ Aplicação carregada e pronta!');
 
+ const analyzeButton = document.getElementById('analyzeButton');
+ const clearRankingButton = document.getElementById('clearRankingButton');
+ const rankingTableBody = document.getElementById('rankingTableBody');
+
+ if (analyzeButton) {
+ analyzeButton.addEventListener('click', analyzeCandidate);
+ }
+
+ if (clearRankingButton) {
+ clearRankingButton.addEventListener('click', clearCandidateRanking);
+ }
+
+ if (rankingTableBody) {
+ rankingTableBody.addEventListener('click', function(event) {
+ const removeButton = event.target.closest('[data-ranking-id]');
+ if (removeButton) {
+ removeCandidateFromRanking(Number(removeButton.dataset.rankingId));
+ }
+ });
+ }
+
  // Renderiza ranking salvo do localStorage ao iniciar
  renderRankingTable();
 
@@ -708,7 +734,7 @@ function renderRankingTable() {
  </td>
  <td>${entry.level}</td>
  <td>
- <button class="btn-remove-ranking" onclick="removeCandidateFromRanking(${entry.id})" title="Remover">✕</button>
+ <button class="btn-remove-ranking" type="button" data-ranking-id="${entry.id}" title="Remover candidato">✕</button>
  </td>
  </tr>
  `;
