@@ -200,7 +200,7 @@
  </div>
 
  <!-- BOTÃO -->
- <button class="btn btn-primary" onclick="analyzeCandidate()">
+ <button class="btn btn-primary" id="analyzeButton" type="button">
  Analisar Compatibilidade
  </button>
  </div>
@@ -307,7 +307,7 @@
  <h2>Ranking de Candidatos</h2>
  <p>Lista de todos os candidatos analisados, ordenados por compatibilidade média</p>
  </div>
- <button class="btn btn-danger-sm" onclick="clearCandidateRanking()" title="Limpar lista">
+ <button class="btn btn-danger-sm" id="clearRankingButton" type="button" title="Limpar lista">
  🗑️ Limpar Lista
  </button>
  </div>
@@ -352,12 +352,6 @@
  </footer>
 
  <!-- SCRIPTS - Carregar na ordem correta -->
- <script src="../backend/models/Candidate.js"></script>
- <script src="../backend/models/Job.js"></script>
- <script src="../backend/models/SkillMatcher.js"></script>
- <script src="../backend/services/dataLoader.js"></script>
- <script src="../backend/services/recommendationEngine.js"></script>
- <script src="../data/mockJobs.js"></script>
- <script src="app.js"></script>
+ <script type="module" src="app.js"></script>
 </body>
 </html>
