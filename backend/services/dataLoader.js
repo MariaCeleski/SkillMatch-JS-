@@ -6,29 +6,46 @@
  
 
 import { Job } from '../models/Job.js';
+import { FrontEndJob } from '../models/FrontEndJob.js';
+
+const jobsUrl = new URL('../../data/jobs.json', import.meta.url);
 
 /**
- * Simula o carregamento de vagas como se viessem de um servidor
- * Retorna uma Promise que resolve após um delay
- *
- * @param {number} delayMs - Delay em milissegundos (padrão: 2000ms)
- * @returns {Promise} Promise que resolve com array de vagas
+ * Transforma os dados do JSON nas instâncias usadas pelo motor SkillMatch.
+ * @param {object} jobData Dados brutos de uma vaga.
+ * @returns {Job} Vaga pronta para a análise.
  */
-export function loadJobsFromServer(delayMs = 2000) {
- return new Promise((resolve, reject) => {
- // Simula busca em servidor com setTimeout
- setTimeout(() => {
- // Dados fictícios
- const jobs = [
- new Job('Tech StartUp', 'Front-End Developer', ['HTML', 'CSS', 'JavaScript']),
- new Job('Digital Agency', 'Junior Developer', ['JavaScript', 'React', 'CSS']),
- new Job('E-Commerce Company', 'UI Developer', ['HTML', 'CSS', 'JavaScript', 'Responsive Design'])
- ];
+export function mapJobData(jobData) {
+ if (!jobData || !jobData.company || !jobData.title || !Array.isArray(jobData.requiredSkills)) {
+ throw new Error('O catálogo contém uma vaga inválida.');
+ }
 
- // Resolve com os dados carregados
- resolve(jobs);
- }, delayMs);
- });
+ if (jobData.area === 'Front-End') {
+ return new FrontEndJob(jobData.company, jobData.title, jobData.requiredSkills, jobData);
+ }
+
+ return new Job(jobData.company, jobData.title, jobData.requiredSkills, jobData);
+}
+
+/**
+ * Carrega o catálogo local de vagas por uma requisição HTTP.
+ *
+ * @returns {Promise<Job[]>} Vagas transformadas em objetos do domínio.
+ */
+export async function loadJobsFromServer() {
+ const response = await fetch(jobsUrl);
+
+ if (!response.ok) {
+ throw new Error(`Não foi possível carregar as vagas (HTTP ${response.status}).`);
+ }
+
+ const jobsData = await response.json();
+
+ if (!Array.isArray(jobsData)) {
+ throw new Error('O catálogo de vagas possui um formato inválido.');
+ }
+
+ return jobsData.map(mapJobData);
 }
 
 /**
@@ -43,7 +60,7 @@ export async function loadDataAsync(callback) {
 
  try {
  // Aguarda o Promise ser resolvido
- const jobs = await loadJobsFromServer(2000);
+ const jobs = await loadJobsFromServer();
 
  console.log(' Vagas carregadas com sucesso!');
 
@@ -85,7 +102,7 @@ export function createDataLoader() {
  console.log(` Tentativa de carregamento #${loadCount}`);
 
  try {
- const jobs = await loadJobsFromServer(1500);
+ const jobs = await loadJobsFromServer();
  loadedData.push(...jobs);
  return jobs;
  } catch (error) {
