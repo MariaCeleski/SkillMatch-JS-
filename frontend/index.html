@@ -3,33 +3,40 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="description" content="SkillMatch JS compara suas habilidades com vagas de tecnologia e recomenda o que estudar para evoluir na carreira.">
  <title>SkillMatch JS - Simulador de Compatibilidade com Vagas Front-End</title>
  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+ <a class="skip-link" href="#mainContent">Pular para o conteúdo principal</a>
  <!-- HEADER -->
  <header class="header">
  <div class="container">
  <div class="header-content">
  <div class="logo">
+ <div class="logo-title">
+ <img src="assets/skillmatch-logo.svg" alt="Logo do SkillMatch JS">
  <h1>SkillMatch JS</h1>
+ </div>
  <p class="tagline">Simulador de Compatibilidade com Vagas Front-End</p>
  </div>
- <div class="header-info">
- <p>Encontre a vaga perfeita para você!</p>
- </div>
+ <nav class="header-nav" aria-label="Navegação principal">
+ <a href="#candidateSection">Perfil</a>
+ <a href="#resultsSection">Vagas</a>
+ <a href="#rankingSection">Ranking</a>
+ </nav>
  </div>
  </div>
  </header>
 
  <!-- MAIN CONTENT -->
- <main class="main-content">
+ <main class="main-content" id="mainContent" tabindex="-1">
  <div class="container">
 
  <!-- SEÇÃO 1: PERFIL DO CANDIDATO -->
- <section class="section" id="candidateSection">
+ <section class="section" id="candidateSection" aria-labelledby="candidateHeading">
  <div class="section-header">
- <h2>Seu Perfil</h2>
+ <h2 id="candidateHeading">Seu Perfil</h2>
  <p>Informe suas habilidades e experiência</p>
  </div>
 
@@ -233,9 +240,9 @@
  </section>
 
  <!-- SEÇÃO 2: RESULTADOS DE COMPATIBILIDADE -->
- <section class="section" id="resultsSection" style="display: none;">
+ <section class="section" id="resultsSection" aria-labelledby="resultsHeading" style="display: none;">
  <div class="section-header">
- <h2>Compatibilidade com Vagas</h2>
+ <h2 id="resultsHeading">Compatibilidade com Vagas</h2>
  <p>Veja como você se encaixa em cada vaga</p>
  </div>
 
@@ -247,9 +254,9 @@
  </section>
 
  <!-- SEÇÃO 3: MELHOR OPORTUNIDADE -->
- <section class="section" id="bestOpportunitySection" style="display: none;">
+ <section class="section" id="bestOpportunitySection" aria-labelledby="bestOpportunityHeading" style="display: none;">
  <div class="section-header">
- <h2>Sua Melhor Oportunidade</h2>
+ <h2 id="bestOpportunityHeading">Sua Melhor Oportunidade</h2>
  <p>A vaga mais compatível com seu perfil</p>
  </div>
 
@@ -259,9 +266,9 @@
  </section>
 
  <!-- SEÇÃO 4: RECOMENDAÇÕES DE ESTUDO -->
- <section class="section" id="recommendationsSection" style="display: none;">
+ <section class="section" id="recommendationsSection" aria-labelledby="recommendationsHeading" style="display: none;">
  <div class="section-header">
- <h2>Recomendações de Estudo</h2>
+ <h2 id="recommendationsHeading">Recomendações de Estudo</h2>
  <p>Habilidades prioritárias para aprender</p>
  </div>
 
@@ -273,9 +280,9 @@
  </section>
 
  <!-- SEÇÃO 5: ESTATÍSTICAS -->
- <section class="section" id="statisticsSection" style="display: none;">
+ <section class="section" id="statisticsSection" aria-labelledby="statisticsHeading" style="display: none;">
  <div class="section-header">
- <h2>Estatísticas</h2>
+ <h2 id="statisticsHeading">Estatísticas</h2>
  <p>Resumo da análise</p>
  </div>
 
@@ -300,11 +307,11 @@
  </section>
 
  <!-- SEÇÃO 6: RANKING DE CANDIDATOS -->
- <section class="section" id="rankingSection">
+ <section class="section" id="rankingSection" aria-labelledby="rankingHeading">
  <div class="section-header">
  <div class="ranking-header-row">
  <div>
- <h2>Ranking de Candidatos</h2>
+ <h2 id="rankingHeading">Ranking de Candidatos</h2>
  <p>Lista de todos os candidatos analisados, ordenados por compatibilidade média</p>
  </div>
  <button class="btn btn-danger-sm" id="clearRankingButton" type="button" title="Limpar lista">

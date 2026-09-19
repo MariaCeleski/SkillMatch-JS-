@@ -101,6 +101,35 @@ body {
  gap: var(--spacing-lg);
 }
 
+.skip-link {
+ position: fixed;
+ top: 0;
+ left: var(--spacing-md);
+ z-index: 1000;
+ padding: var(--spacing-sm) var(--spacing-md);
+ color: #fff;
+ background: #111827;
+ border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+ transform: translateY(-120%);
+ transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+ transform: translateY(0);
+ outline: 3px solid #facc15;
+}
+
+.logo-title {
+ display: flex;
+ align-items: center;
+ gap: var(--spacing-sm);
+}
+
+.logo-title img {
+ width: 42px;
+ height: 42px;
+}
+
 .logo h1 {
  font-size: var(--font-size-3xl);
  margin-bottom: var(--spacing-sm);
@@ -115,6 +144,28 @@ body {
 .header-info {
  font-size: var(--font-size-lg);
  opacity: 0.95;
+}
+
+.header-nav {
+ display: flex;
+ flex-wrap: wrap;
+ gap: var(--spacing-md);
+}
+
+.header-nav a {
+ padding: var(--spacing-xs) var(--spacing-sm);
+ border-radius: var(--border-radius-sm);
+ color: inherit;
+ font-weight: 600;
+ text-decoration: none;
+}
+
+.header-nav a:hover,
+.header-nav a:focus-visible {
+ color: #fff;
+ outline: 2px solid #fff;
+ outline-offset: 2px;
+ background: rgba(255, 255, 255, 0.16);
 }
 
 /* ============================================================================
