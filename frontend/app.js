@@ -2,6 +2,7 @@ import { Candidate } from '../backend/models/Candidate.js';
 import { SkillMatcher } from '../backend/models/SkillMatcher.js';
 import { loadJobsFromServer } from '../backend/services/dataLoader.js';
 import { createRecommendationService } from '../backend/services/recommendationEngine.js';
+import { loadProfile, saveProfile } from '../backend/services/profileStorage.js';
 
 /**
  * APP.JS
@@ -45,6 +46,9 @@ async function analyzeCandidate() {
  candidateData.skills,
  candidateData.experience
  );
+
+ // Mantém apenas os dados do perfil no navegador para a próxima visita.
+ saveProfile(currentCandidate);
 
  console.log('👤 Candidato criado:', currentCandidate);
 
@@ -118,6 +122,24 @@ function getFormData() {
  experience,
  skills
  };
+}
+
+/**
+ * Preenche o formulário com o perfil salvo em uma visita anterior.
+ */
+function restoreSavedProfile() {
+ const savedProfile = loadProfile();
+ if (!savedProfile) return;
+
+ document.getElementById('candidateName').value = savedProfile.name;
+ document.getElementById('areaOfInterest').value = savedProfile.areaOfInterest;
+ document.getElementById('experience').value = savedProfile.yearsOfExperience;
+ document.getElementById('experienceSlider').value = savedProfile.yearsOfExperience;
+ document.getElementById('experienceDisplay').textContent = `${savedProfile.yearsOfExperience} ano${savedProfile.yearsOfExperience !== 1 ? 's' : ''}`;
+
+ document.querySelectorAll('input[name="skills"]').forEach(checkbox => {
+ checkbox.checked = savedProfile.skills.includes(checkbox.value);
+ });
 }
 
 // ============================================================================
@@ -510,6 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
  // Renderiza ranking salvo do localStorage ao iniciar
  renderRankingTable();
+ restoreSavedProfile();
 
  // Sincronizar slider com número de experiência
  const slider = document.getElementById('experienceSlider');
