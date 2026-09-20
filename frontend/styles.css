@@ -719,6 +719,48 @@ body {
  gap: var(--spacing-lg);
 }
 
+.job-controls {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: end;
+ gap: var(--spacing-md);
+ margin: 0 0 var(--spacing-lg);
+ padding: var(--spacing-md);
+ border: 1px solid #dbe3ee;
+ border-radius: var(--border-radius-md);
+ background: #f8fafc;
+}
+
+.job-control-group {
+ display: flex;
+ flex: 1 1 180px;
+ flex-direction: column;
+ gap: var(--spacing-xs);
+}
+
+.job-control-group label {
+ color: var(--dark-color);
+ font-size: var(--font-size-sm);
+ font-weight: 700;
+}
+
+.jobs-filter-status {
+ flex: 1 0 100%;
+ margin: 0;
+ color: #4b5563;
+ font-size: var(--font-size-sm);
+}
+
+.jobs-empty-message {
+ flex: 1 0 100%;
+ margin: 0;
+ padding: var(--spacing-xl);
+ border: 1px dashed #94a3b8;
+ border-radius: var(--border-radius-md);
+ color: #475569;
+ text-align: center;
+}
+
 .job-card {
  background: white;
  border: 1px solid #e5e7eb;

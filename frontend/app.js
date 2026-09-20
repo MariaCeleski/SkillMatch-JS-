@@ -20,6 +20,12 @@ let currentCandidate = null;
 let analysisResults = null;
 let recommendations = null;
 
+const jobViewPreferences = {
+ modality: 'all',
+ compatibility: 'all',
+ sort: 'compatibility-desc'
+};
+
 // ============================================================================
 // FUNÇÃO PRINCIPAL: ANALISAR CANDIDATO
 // ============================================================================
@@ -226,14 +232,8 @@ function displayCandidateSummary(candidate) {
  * @param {array} recs - Recomendações
  */
 function displayResults(results, recs) {
- // Limpar resultados anteriores
- document.getElementById('jobResultsGrid').innerHTML = '';
-
- // Exibir cards de vagas
- results.forEach((result, index) => {
- const card = createJobCard(result, index);
- document.getElementById('jobResultsGrid').appendChild(card);
- });
+ configureJobControls(results);
+ renderFilteredJobResults();
 
  // Exibir melhor oportunidade
  const bestResult = results.find(r => r.isBestMatch);
@@ -261,6 +261,72 @@ function displayResults(results, recs) {
  document.getElementById('recommendationsSection').style.display = 'block';
  }
  document.getElementById('statisticsSection').style.display = 'block';
+}
+
+/** Configura os filtros a partir do catálogo carregado. */
+function configureJobControls(results) {
+ const controls = document.getElementById('jobControls');
+ const modalityFilter = document.getElementById('modalityFilter');
+ if (!controls || !modalityFilter) return;
+
+ const modalities = [...new Set(results.map(result => result.job.modality).filter(Boolean))].sort();
+ modalityFilter.innerHTML = '<option value="all">Todas as modalidades</option>';
+ modalities.forEach(modality => {
+ const option = document.createElement('option');
+ option.value = modality;
+ option.textContent = modality;
+ modalityFilter.appendChild(option);
+ });
+
+ jobViewPreferences.modality = 'all';
+ jobViewPreferences.compatibility = 'all';
+ jobViewPreferences.sort = 'compatibility-desc';
+ modalityFilter.value = jobViewPreferences.modality;
+ document.getElementById('compatibilityFilter').value = jobViewPreferences.compatibility;
+ document.getElementById('jobSort').value = jobViewPreferences.sort;
+ controls.hidden = false;
+}
+
+/** Retorna os resultados que devem aparecer, aplicando filtro e ordenação no navegador. */
+function getVisibleJobResults() {
+ if (!analysisResults) return [];
+
+ return analysisResults
+ .filter(result => jobViewPreferences.modality === 'all' || result.job.modality === jobViewPreferences.modality)
+ .filter(result => {
+ if (jobViewPreferences.compatibility === 'alta') return result.score >= 80;
+ if (jobViewPreferences.compatibility === 'media') return result.score >= 50 && result.score < 80;
+ if (jobViewPreferences.compatibility === 'baixa') return result.score < 50;
+ return true;
+ })
+ .sort((first, second) => {
+ if (jobViewPreferences.sort === 'salary-desc') return second.job.salary - first.job.salary;
+ if (jobViewPreferences.sort === 'salary-asc') return first.job.salary - second.job.salary;
+ if (jobViewPreferences.sort === 'company-asc') return first.job.company.localeCompare(second.job.company, 'pt-BR');
+ return second.score - first.score;
+ });
+}
+
+/** Atualiza apenas os cards, sem buscar o catálogo novamente. */
+function renderFilteredJobResults() {
+ const grid = document.getElementById('jobResultsGrid');
+ const status = document.getElementById('jobsFilterStatus');
+ const visibleResults = getVisibleJobResults();
+ if (!grid || !status || !analysisResults) return;
+
+ grid.innerHTML = '';
+ if (visibleResults.length === 0) {
+ grid.innerHTML = '<p class="jobs-empty-message">Nada encontrado com os filtros selecionados.</p>';
+ status.textContent = 'Nenhuma vaga encontrada com os filtros selecionados.';
+ return;
+ }
+
+ visibleResults.forEach((result, index) => {
+ grid.appendChild(createJobCard(result, index));
+ });
+
+ const totalLabel = analysisResults.length === 1 ? 'vaga disponível' : 'vagas disponíveis';
+ status.textContent = `Exibindo ${visibleResults.length} de ${analysisResults.length} ${totalLabel}.`;
 }
 
 /**
@@ -574,6 +640,9 @@ document.addEventListener('DOMContentLoaded', function() {
  const analyzeButton = document.getElementById('analyzeButton');
  const clearRankingButton = document.getElementById('clearRankingButton');
  const rankingTableBody = document.getElementById('rankingTableBody');
+ const modalityFilter = document.getElementById('modalityFilter');
+ const compatibilityFilter = document.getElementById('compatibilityFilter');
+ const jobSort = document.getElementById('jobSort');
 
  if (analyzeButton) {
  analyzeButton.addEventListener('click', analyzeCandidate);
@@ -589,6 +658,27 @@ document.addEventListener('DOMContentLoaded', function() {
  if (removeButton) {
  removeCandidateFromRanking(Number(removeButton.dataset.rankingId));
  }
+ });
+ }
+
+ if (modalityFilter) {
+ modalityFilter.addEventListener('change', function() {
+ jobViewPreferences.modality = this.value;
+ renderFilteredJobResults();
+ });
+ }
+
+ if (compatibilityFilter) {
+ compatibilityFilter.addEventListener('change', function() {
+ jobViewPreferences.compatibility = this.value;
+ renderFilteredJobResults();
+ });
+ }
+
+ if (jobSort) {
+ jobSort.addEventListener('change', function() {
+ jobViewPreferences.sort = this.value;
+ renderFilteredJobResults();
  });
  }
 

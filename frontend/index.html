@@ -240,6 +240,34 @@
  <p>Veja como você se encaixa em cada vaga</p>
  </div>
 
+ <div class="job-controls" id="jobControls" hidden aria-label="Filtros e ordenação de vagas">
+ <div class="job-control-group">
+ <label for="modalityFilter">Modalidade</label>
+ <select id="modalityFilter" class="form-select">
+ <option value="all">Todas as modalidades</option>
+ </select>
+ </div>
+ <div class="job-control-group">
+ <label for="compatibilityFilter">Compatibilidade</label>
+ <select id="compatibilityFilter" class="form-select">
+ <option value="all">Todos os níveis</option>
+ <option value="alta">Alta (80% a 100%)</option>
+ <option value="media">Média (50% a 79%)</option>
+ <option value="baixa">Baixa (0% a 49%)</option>
+ </select>
+ </div>
+ <div class="job-control-group">
+ <label for="jobSort">Ordenar por</label>
+ <select id="jobSort" class="form-select">
+ <option value="compatibility-desc">Maior compatibilidade</option>
+ <option value="salary-desc">Maior salário</option>
+ <option value="salary-asc">Menor salário</option>
+ <option value="company-asc">Empresa (A–Z)</option>
+ </select>
+ </div>
+ <p id="jobsFilterStatus" class="jobs-filter-status" role="status" aria-live="polite"></p>
+ </div>
+
  <div class="results-container">
  <div id="jobResultsGrid" class="jobs-grid">
  <!-- Resultados serão inseridos aqui dinamicamente -->
