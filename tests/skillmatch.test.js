@@ -7,6 +7,7 @@ import { FrontEndJob } from '../backend/models/FrontEndJob.js';
 import { Job } from '../backend/models/Job.js';
 import { SkillMatcher } from '../backend/models/SkillMatcher.js';
 import { mapJobData, loadJobsFromServer } from '../backend/services/dataLoader.js';
+import { loadProfile, PROFILE_STORAGE_KEY, saveProfile } from '../backend/services/profileStorage.js';
 import { generateRecommendations } from '../backend/services/recommendationEngine.js';
 
 const rawFrontEndJob = {
@@ -31,6 +32,34 @@ test('formulário usa submit e expõe mensagens de validação acessíveis', () 
  assert.match(html, /id="skillsError" role="alert"/);
  assert.match(app, /candidateForm\.addEventListener\('submit'/);
  assert.match(app, /firstInvalidField\.focus\(\)/);
+});
+
+test('perfil é persistido, restaurado e trata a primeira visita', () => {
+ const originalStorage = globalThis.localStorage;
+ const originalWarn = console.warn;
+ const values = new Map();
+ globalThis.localStorage = {
+ getItem: key => values.get(key) ?? null,
+ setItem: (key, value) => values.set(key, value)
+ };
+
+ try {
+ assert.equal(loadProfile(), null);
+ assert.equal(saveProfile(new Candidate('Bia', 'Front-End', ['HTML', 'CSS'], 2)), true);
+ assert.deepEqual(loadProfile(), {
+ name: 'Bia',
+ areaOfInterest: 'Front-End',
+ skills: ['HTML', 'CSS'],
+ yearsOfExperience: 2
+ });
+
+ values.set(PROFILE_STORAGE_KEY, '{perfil inválido');
+ console.warn = () => {};
+ assert.equal(loadProfile(), null);
+ } finally {
+ globalThis.localStorage = originalStorage;
+ console.warn = originalWarn;
+ }
 });
 
 test('motor calcula compatibilidade, skills faltantes e melhor oportunidade', () => {
