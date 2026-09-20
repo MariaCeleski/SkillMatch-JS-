@@ -70,7 +70,6 @@ async function analyzeCandidate() {
  const candidateData = getFormData();
 
  if (!candidateData) {
- alert('Por favor, preencha todos os campos corretamente.');
  return;
  }
 
@@ -139,22 +138,43 @@ async function analyzeCandidate() {
  * @returns {object|null} Dados validados ou null
  */
 function getFormData() {
- const name = document.getElementById('candidateName').value.trim();
- const area = document.getElementById('areaOfInterest').value.trim();
+ const nameInput = document.getElementById('candidateName');
+ const areaInput = document.getElementById('areaOfInterest');
+ const name = nameInput.value.trim();
+ const area = areaInput.value.trim();
  const experience = parseInt(document.getElementById('experience').value) || 0;
 
  // Obter skills selecionadas (checkboxes)
  const skillCheckboxes = document.querySelectorAll('input[name="skills"]:checked');
  const skills = Array.from(skillCheckboxes).map(checkbox => checkbox.value);
 
- // Validação
+ clearFormErrors();
+ let firstInvalidField = null;
+
+ // Validação acessível
  if (!name || !area) {
- console.warn('⚠️  Aviso: Nome ou área não foram preenchidos');
- return null;
+ if (!name) {
+ showFormError(nameInput, 'candidateNameError', 'Informe seu nome.');
+ firstInvalidField = nameInput;
+ }
+ if (!area) {
+ showFormError(areaInput, 'areaOfInterestError', 'Selecione sua área de interesse.');
+ firstInvalidField = firstInvalidField || areaInput;
+ }
  }
 
  if (skills.length === 0) {
- console.warn('⚠️  Aviso: Nenhuma habilidade foi selecionada');
+ const skillsGroup = document.getElementById('skillsGroup');
+ const firstSkill = document.querySelector('input[name="skills"]');
+ if (skillsGroup) skillsGroup.setAttribute('aria-invalid', 'true');
+ const skillsError = document.getElementById('skillsError');
+ skillsError.textContent = 'Selecione ao menos uma habilidade.';
+ skillsError.hidden = false;
+ firstInvalidField = firstInvalidField || firstSkill;
+ }
+
+ if (firstInvalidField) {
+ firstInvalidField.focus();
  return null;
  }
 
@@ -164,6 +184,26 @@ function getFormData() {
  experience,
  skills
  };
+}
+
+/** Mostra uma mensagem associada ao campo inválido. */
+function showFormError(field, errorId, message) {
+ const error = document.getElementById(errorId);
+ field.setAttribute('aria-invalid', 'true');
+ if (!error) return;
+ error.textContent = message;
+ error.hidden = false;
+}
+
+/** Restaura o estado de validação antes de cada nova tentativa de envio. */
+function clearFormErrors() {
+ document.querySelectorAll('#candidateForm [aria-invalid]').forEach(field => {
+ field.setAttribute('aria-invalid', 'false');
+ });
+ document.querySelectorAll('#candidateForm .form-error').forEach(error => {
+ error.textContent = '';
+ error.hidden = true;
+ });
 }
 
 // ============================================================================
@@ -669,14 +709,18 @@ document.addEventListener('DOMContentLoaded', function() {
  setupThemePreference();
 
  const analyzeButton = document.getElementById('analyzeButton');
+ const candidateForm = document.getElementById('candidateForm');
  const clearRankingButton = document.getElementById('clearRankingButton');
  const rankingTableBody = document.getElementById('rankingTableBody');
  const modalityFilter = document.getElementById('modalityFilter');
  const compatibilityFilter = document.getElementById('compatibilityFilter');
  const jobSort = document.getElementById('jobSort');
 
- if (analyzeButton) {
- analyzeButton.addEventListener('click', analyzeCandidate);
+ if (candidateForm) {
+ candidateForm.addEventListener('submit', function(event) {
+ event.preventDefault();
+ analyzeCandidate();
+ });
  }
 
  if (clearRankingButton) {
@@ -737,15 +781,6 @@ document.addEventListener('DOMContentLoaded', function() {
  // Inicializar display
  experienceDisplay.textContent = `${slider.value} ano${slider.value !== '1' ? 's' : ''}`;
  }
-
- // Permitir análise ao pressionar Enter em qualquer input
- document.querySelectorAll('.form-input, .form-select').forEach(element => {
- element.addEventListener('keypress', function(e) {
- if (e.key === 'Enter') {
- analyzeCandidate();
- }
- });
- });
 
  console.log('🎯 Selecione suas habilidades e clique em Analisar');
 });

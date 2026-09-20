@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import { Candidate } from '../backend/models/Candidate.js';
@@ -19,6 +20,18 @@ const rawFrontEndJob = {
  salary: 4500,
  modality: 'Remoto'
 };
+
+test('formulário usa submit e expõe mensagens de validação acessíveis', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+
+ assert.match(html, /<form class="candidate-form" id="candidateForm" novalidate>/);
+ assert.match(html, /type="submit"/);
+ assert.match(html, /id="candidateNameError" role="alert"/);
+ assert.match(html, /id="skillsError" role="alert"/);
+ assert.match(app, /candidateForm\.addEventListener\('submit'/);
+ assert.match(app, /firstInvalidField\.focus\(\)/);
+});
 
 test('motor calcula compatibilidade, skills faltantes e melhor oportunidade', () => {
  const candidate = new Candidate('Ana', 'Front-End', ['HTML', 'CSS', 'JavaScript'], 1);

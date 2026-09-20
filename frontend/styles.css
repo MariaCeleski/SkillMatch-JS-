@@ -340,6 +340,27 @@ html[data-theme="dark"] .form-select option {
  width: fit-content;
 }
 
+.form-group legend {
+ font-weight: 700;
+ color: #1a1a2e;
+ font-size: var(--font-size-sm);
+ padding: var(--spacing-xs) var(--spacing-sm);
+ border-radius: var(--border-radius-sm);
+ background: rgba(100, 120, 150, 0.12);
+}
+
+.form-error {
+ margin: 0;
+ color: #b91c1c;
+ font-size: var(--font-size-sm);
+ font-weight: 600;
+}
+
+[aria-invalid="true"] {
+ border-color: var(--danger-color) !important;
+ box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
+}
+
 .form-input,
 .form-select,
 .form-group input:not([type="range"]):not([type="checkbox"]):not(.form-number) {

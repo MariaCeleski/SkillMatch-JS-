@@ -38,7 +38,7 @@
  <p>Informe suas habilidades e experiência</p>
  </div>
 
- <div class="candidate-form">
+ <form class="candidate-form" id="candidateForm" novalidate>
  <!-- NOME -->
  <div class="form-group">
  <label for="candidateName">Nome:</label>
@@ -48,18 +48,24 @@
  placeholder="Digite seu nome"
  value="Maria de Lourdes Celeski"
  class="form-input"
+ required
+ aria-required="true"
+ aria-invalid="false"
+ aria-describedby="candidateNameError"
  >
+ <p class="form-error" id="candidateNameError" role="alert" hidden></p>
  </div>
 
  <!-- ÁREA DE INTERESSE - SELECT -->
  <div class="form-group">
  <label for="areaOfInterest">Área de Interesse:</label>
- <select id="areaOfInterest" class="form-select">
+ <select id="areaOfInterest" class="form-select" required aria-required="true" aria-invalid="false" aria-describedby="areaOfInterestError">
  <option value="">Selecione uma área</option>
  <option value="Front-End" selected>Front-End</option>
  <option value="Backend">Backend</option>
  <option value="FullStack">FullStack</option>
  </select>
+ <p class="form-error" id="areaOfInterestError" role="alert" hidden></p>
  </div>
 
  <!-- ANOS DE EXPERIÊNCIA - SLIDER + NUMBER -->
@@ -87,8 +93,8 @@
  </div>
 
  <!-- SKILLS - CHECKBOXES -->
- <div class="form-group form-group-full">
- <label>Habilidades (Selecione as que você possui)</label>
+ <fieldset class="form-group form-group-full" id="skillsGroup" aria-describedby="skillsError">
+ <legend>Habilidades (selecione ao menos uma)</legend>
  <div class="skills-grid">
  <!-- Frontend Skills -->
  <div class="skills-category">
@@ -121,7 +127,7 @@
  </div>
  </div>
 
- <!-- Backend Skills -->
+<!-- Backend Skills -->
  <div class="skills-category">
  <h4>Backend</h4>
  <div class="skill-checkboxes">
@@ -202,14 +208,15 @@
  </div>
  </div>
  </div>
- </div>
+ <p class="form-error" id="skillsError" role="alert" hidden></p>
+ </fieldset>
 
  <!-- BOTÃO -->
- <button class="btn btn-primary" id="analyzeButton" type="button">
+ <button class="btn btn-primary" id="analyzeButton" type="submit">
  Analisar Compatibilidade
  </button>
  <p id="dataStatus" class="data-status" role="status" aria-live="polite" hidden></p>
- </div>
+ </form>
 
  <!-- RESUMO DO CANDIDATO -->
  <div class="candidate-summary" id="candidateSummary" style="display: none;">
