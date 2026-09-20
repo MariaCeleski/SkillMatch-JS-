@@ -26,6 +26,36 @@ const jobViewPreferences = {
  sort: 'compatibility-desc'
 };
 
+const THEME_STORAGE_KEY = 'skillmatch_theme';
+
+/** Aplica o tema e mantém o botão compreensível para leitores de tela. */
+function applyTheme(theme) {
+ const isDark = theme === 'dark';
+ const toggle = document.getElementById('themeToggle');
+ document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+
+ if (toggle) {
+ toggle.setAttribute('aria-pressed', String(isDark));
+ toggle.setAttribute('aria-label', isDark ? 'Ativar tema claro' : 'Ativar tema escuro');
+ toggle.innerHTML = `<span aria-hidden="true">${isDark ? '☀' : '◐'}</span> Tema ${isDark ? 'claro' : 'escuro'}`;
+ }
+}
+
+/** Restaura a preferência persistida e permite alterná-la por clique ou teclado. */
+function setupThemePreference() {
+ const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+ applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+
+ const toggle = document.getElementById('themeToggle');
+ if (!toggle) return;
+
+ toggle.addEventListener('click', function() {
+ const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+ localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+ applyTheme(nextTheme);
+ });
+}
+
 // ============================================================================
 // FUNÇÃO PRINCIPAL: ANALISAR CANDIDATO
 // ============================================================================
@@ -636,6 +666,7 @@ function displayEmptyResults() {
  */
 document.addEventListener('DOMContentLoaded', function() {
  console.log('✅ Aplicação carregada e pronta!');
+ setupThemePreference();
 
  const analyzeButton = document.getElementById('analyzeButton');
  const clearRankingButton = document.getElementById('clearRankingButton');
