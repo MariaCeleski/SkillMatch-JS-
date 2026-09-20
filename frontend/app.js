@@ -331,6 +331,9 @@ function createJobCard(result, index) {
  card.style.animationDelay = `${index * 0.1}s`;
 
  const { job, score, classification, missingSkills, isBestMatch } = result;
+ const salary = formatSalary(job.salary);
+ const stack = job.stack?.length > 0 ? job.stack.join(', ') : 'Não informada';
+ const seniority = job.seniority || 'Não informada';
 
  // Badge de melhor oportunidade
  const bestBadge = isBestMatch && score > 0 ? ' ' : '';
@@ -340,6 +343,27 @@ function createJobCard(result, index) {
  <div class="job-company">${job.company}</div>
  <div class="job-title">${bestBadge}${job.title}</div>
  </div>
+
+ <p class="job-description">${job.description}</p>
+
+ <dl class="job-details">
+ <div>
+ <dt>Modalidade</dt>
+ <dd>${job.modality}</dd>
+ </div>
+ <div>
+ <dt>Salário</dt>
+ <dd>${salary}</dd>
+ </div>
+ <div>
+ <dt>Senioridade</dt>
+ <dd>${seniority}</dd>
+ </div>
+ <div>
+ <dt>Stack</dt>
+ <dd>${stack}</dd>
+ </div>
+ </dl>
 
  <div class="compatibility-score">
  <div class="score-value">${score.toFixed(1)}%</div>
@@ -395,6 +419,8 @@ function createJobCard(result, index) {
 function displayBestOpportunity(bestResult) {
  const card = document.getElementById('bestOpportunityCard');
  const { job, score, classification } = bestResult;
+ const salary = formatSalary(job.salary);
+ const stack = job.stack?.length > 0 ? job.stack.join(', ') : 'Não informada';
 
  card.innerHTML = `
  <h3>${job.company}</h3>
@@ -413,8 +439,31 @@ function displayBestOpportunity(bestResult) {
  <strong>Skills Requeridas</strong>
  <span>${job.requiredSkills.length}</span>
  </div>
+ <div class="opportunity-info-item">
+ <strong>Modalidade</strong>
+ <span>${job.modality}</span>
+ </div>
+ <div class="opportunity-info-item">
+ <strong>Salário</strong>
+ <span>${salary}</span>
+ </div>
+ <div class="opportunity-info-item">
+ <strong>Stack</strong>
+ <span>${stack}</span>
+ </div>
  </div>
  `;
+}
+
+/** Formata o salário da vaga em moeda brasileira. */
+function formatSalary(salary) {
+ if (!salary || salary <= 0) return 'Não informado';
+
+ return new Intl.NumberFormat('pt-BR', {
+ style: 'currency',
+ currency: 'BRL',
+ maximumFractionDigits: 0
+ }).format(salary);
 }
 
 /**

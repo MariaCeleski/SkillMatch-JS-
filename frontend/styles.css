@@ -764,6 +764,41 @@ body {
  margin-top: var(--spacing-xs);
 }
 
+.job-description {
+ margin: 0 0 var(--spacing-md);
+ color: #4b5563;
+ font-size: var(--font-size-sm);
+}
+
+.job-details {
+ display: flex;
+ flex-wrap: wrap;
+ gap: var(--spacing-sm);
+ margin: 0 0 var(--spacing-md);
+}
+
+.job-details div {
+ flex: 1 1 130px;
+ padding: var(--spacing-sm);
+ border-radius: var(--border-radius-sm);
+ background: #f8fafc;
+}
+
+.job-details dt {
+ margin-bottom: 2px;
+ color: #6b7280;
+ font-size: 0.75rem;
+ font-weight: 700;
+ text-transform: uppercase;
+}
+
+.job-details dd {
+ margin: 0;
+ color: var(--dark-color);
+ font-size: var(--font-size-sm);
+ font-weight: 600;
+}
+
 .compatibility-score {
  display: flex;
  align-items: center;
