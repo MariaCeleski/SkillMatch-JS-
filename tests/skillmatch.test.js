@@ -63,6 +63,27 @@ test('layout principal usa Flexbox em vez de CSS Grid', () => {
  assert.doesNotMatch(css, /display:\s*grid|grid-template-columns|grid-column/);
 });
 
+test('toda habilidade exigida pelo catálogo pode ser selecionada no formulário', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const catalog = JSON.parse(readFileSync(new URL('../data/jobs.json', import.meta.url), 'utf8'));
+ const selectableSkills = new Set(
+ [...html.matchAll(/<input type="checkbox" name="skills" value="([^"]+)"[^>]*>/g)].map(([, skill]) => skill)
+ );
+ const requiredSkills = new Set(catalog.flatMap(job => job.requiredSkills));
+
+ assert.ok(selectableSkills.has('Responsive Design'));
+ assert.deepEqual([...requiredSkills].filter(skill => !selectableSkills.has(skill)), []);
+});
+
+test('Responsive Design compõe a compatibilidade e deixa de ser habilidade faltante', () => {
+ const candidate = new Candidate('Lia', 'Front-End', ['HTML', 'CSS', 'JavaScript', 'Responsive Design'], 1);
+ const job = new Job('Empresa UI', 'UI Developer', ['HTML', 'CSS', 'JavaScript', 'Responsive Design']);
+ const matcher = new SkillMatcher();
+
+ assert.equal(matcher.calculateCompatibility(candidate, job), 100);
+ assert.deepEqual(matcher.getMissingSkills(candidate, job), []);
+});
+
 test('perfil é persistido, restaurado e trata a primeira visita', () => {
  const originalStorage = globalThis.localStorage;
  const originalWarn = console.warn;
