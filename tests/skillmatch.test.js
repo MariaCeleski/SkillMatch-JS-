@@ -84,6 +84,16 @@ test('Responsive Design compõe a compatibilidade e deixa de ser habilidade falt
  assert.deepEqual(matcher.getMissingSkills(candidate, job), []);
 });
 
+test('ranking oferece rótulos para a versão responsiva em cards', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.match(app, /data-label="Compatibilidade"/);
+ assert.match(app, /data-label="Melhor vaga"/);
+ assert.match(css, /@media \(max-width: 1440px\)/);
+ assert.match(css, /content: attr\(data-label\)/);
+});
+
 test('perfil é persistido, restaurado e trata a primeira visita', () => {
  const originalStorage = globalThis.localStorage;
  const originalWarn = console.warn;

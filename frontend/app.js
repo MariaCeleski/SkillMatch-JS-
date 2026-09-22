@@ -852,15 +852,15 @@ function renderRankingTable() {
 
  return `
  <tr class="${isTop ? 'ranking-row-top' : ''}">
- <td class="ranking-pos">${medal}</td>
- <td class="ranking-name">
+ <td class="ranking-pos" data-label="Posição">${medal}</td>
+ <td class="ranking-name" data-label="Candidato">
  <strong>${entry.name}</strong>
  <small>${entry.timestamp}</small>
  </td>
- <td>${entry.area}</td>
- <td>${entry.experience} ano${entry.experience !== 1 ? 's' : ''}</td>
- <td class="ranking-skills">${entry.skills.slice(0, 4).join(', ')}${entry.skills.length > 4 ? ` +${entry.skills.length - 4}` : ''}</td>
- <td>
+ <td data-label="Área">${entry.area}</td>
+ <td data-label="Experiência">${entry.experience} ano${entry.experience !== 1 ? 's' : ''}</td>
+ <td class="ranking-skills" data-label="Habilidades">${entry.skills.slice(0, 4).join(', ')}${entry.skills.length > 4 ? ` +${entry.skills.length - 4}` : ''}</td>
+ <td data-label="Compatibilidade">
  <div class="ranking-score-cell">
  <span class="score-label ${scoreClass}">${entry.avgScore}%</span>
  <div class="ranking-mini-bar">
@@ -868,12 +868,12 @@ function renderRankingTable() {
  </div>
  </div>
  </td>
- <td class="ranking-best-job">
+ <td class="ranking-best-job" data-label="Melhor vaga">
  <small>${entry.bestJob}</small>
  <span class="ranking-best-score">${entry.bestScore}%</span>
  </td>
- <td>${entry.level}</td>
- <td>
+ <td data-label="Nível">${entry.level}</td>
+ <td data-label="Ações">
  <button class="btn-remove-ranking" type="button" data-ranking-id="${entry.id}" title="Remover candidato">✕</button>
  </td>
  </tr>
