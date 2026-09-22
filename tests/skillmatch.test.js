@@ -6,7 +6,7 @@ import { Candidate } from '../backend/models/Candidate.js';
 import { FrontEndJob } from '../backend/models/FrontEndJob.js';
 import { Job } from '../backend/models/Job.js';
 import { SkillMatcher } from '../backend/models/SkillMatcher.js';
-import { mapJobData, loadJobsFromServer } from '../backend/services/dataLoader.js';
+import { createDataLoader, mapJobData, loadJobsFromServer } from '../backend/services/dataLoader.js';
 import { loadProfile, PROFILE_STORAGE_KEY, saveProfile } from '../backend/services/profileStorage.js';
 import { generateRecommendations } from '../backend/services/recommendationEngine.js';
 
@@ -182,6 +182,25 @@ test('fetch com erro HTTP rejeita para a interface exibir o estado de erro', asy
 
  try {
  await assert.rejects(loadJobsFromServer(), /HTTP 503/);
+ } finally {
+ globalThis.fetch = originalFetch;
+ }
+});
+
+test('loader usado pela interface mantém a closure e executa o callback', async () => {
+ const originalFetch = globalThis.fetch;
+ const loader = createDataLoader();
+ let callbackJobs = null;
+ globalThis.fetch = async () => new Response(JSON.stringify([rawFrontEndJob]), { status: 200 });
+
+ try {
+ const jobs = await loader.load((error, loadedJobs) => {
+ assert.equal(error, null);
+ callbackJobs = loadedJobs;
+ });
+ assert.equal(loader.getLoadCount(), 1);
+ assert.equal(loader.getCachedData().length, 1);
+ assert.equal(callbackJobs, jobs);
  } finally {
  globalThis.fetch = originalFetch;
  }

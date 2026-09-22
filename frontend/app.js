@@ -1,6 +1,6 @@
 import { Candidate } from '../backend/models/Candidate.js';
 import { SkillMatcher } from '../backend/models/SkillMatcher.js';
-import { loadJobsFromServer } from '../backend/services/dataLoader.js';
+import { createDataLoader } from '../backend/services/dataLoader.js';
 import { createRecommendationService } from '../backend/services/recommendationEngine.js';
 import { loadProfile, saveProfile } from '../backend/services/profileStorage.js';
 import { getProfileFormData, restoreProfileForm } from './ui/profileForm.js';
@@ -22,6 +22,7 @@ import { setupThemePreference } from './ui/theme.js';
 let currentCandidate = null;
 let analysisResults = null;
 let recommendations = null;
+const dataLoader = createDataLoader();
 
 const jobViewPreferences = {
  modality: 'all',
@@ -69,7 +70,13 @@ async function analyzeCandidate() {
  showLoadingState('Carregando vagas...');
  showDataStatus('Carregando vagas...', 'loading');
 
- const jobs = await loadJobsFromServer();
+ const jobs = await dataLoader.load((error, loadedJobs) => {
+ if (error) {
+ console.warn('O callback recebeu uma falha ao carregar as vagas.', error);
+ return;
+ }
+ console.info(`Catálogo carregado pelo callback: ${loadedJobs.length} vaga(s).`);
+ });
 
  hideLoadingState();
 
