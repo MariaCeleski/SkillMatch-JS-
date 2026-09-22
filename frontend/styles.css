@@ -338,8 +338,8 @@ html[data-theme="dark"] .form-select option {
  ============================================================================ */
 
 .candidate-form {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
  margin-bottom: var(--spacing-xl);
  background: linear-gradient(135deg, #e8f0f5 0%, #f3f4f6 100%);
@@ -351,6 +351,7 @@ html[data-theme="dark"] .form-select option {
 
 .form-group {
  display: flex;
+ flex: 1 1 280px;
  flex-direction: column;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
@@ -374,7 +375,7 @@ html[data-theme="dark"] .form-select option {
 }
 
 .form-group-full {
- grid-column: 1 / -1;
+ flex-basis: 100%;
  padding: var(--spacing-lg);
  background: linear-gradient(135deg, #6488ad 0%, #f3f4f6 100%);
 }
@@ -477,8 +478,8 @@ html[data-theme="dark"] .form-select option {
  ============================================================================ */
 
 .skills-grid {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
  padding: var(--spacing-lg);
@@ -488,6 +489,7 @@ html[data-theme="dark"] .form-select option {
 }
 
 .skills-category {
+ flex: 1 1 220px;
  background: rgb(185, 209, 224);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -515,13 +517,14 @@ html[data-theme="dark"] .form-select option {
 }
 
 .skill-checkboxes {
- display: grid;
- grid-template-columns: 1fr 1fr;
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-sm);
 }
 
 .skill-checkbox {
  display: flex;
+ flex: 1 1 calc(50% - var(--spacing-sm));
  align-items: center;
  gap: var(--spacing-sm);
  cursor: pointer;
@@ -721,7 +724,7 @@ html[data-theme="dark"] .form-select option {
 .btn-primary {
  background: var(--gradient-primary);
  color: white;
- grid-column: 1 / -1;
+ flex: 0 0 auto;
  padding: var(--spacing-lg) var(--spacing-xl);
  font-size: var(--font-size-lg);
  width: 100%;
@@ -764,12 +767,13 @@ html[data-theme="dark"] .form-select option {
 }
 
 .summary-content {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-md);
 }
 
 .summary-content p {
+ flex: 1 1 200px;
  font-size: var(--font-size-sm);
  margin: 0;
  display: flex;
@@ -879,8 +883,8 @@ html[data-theme="dark"] .form-select option {
  ============================================================================ */
 
 .jobs-grid {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
 }
 
@@ -927,6 +931,7 @@ html[data-theme="dark"] .form-select option {
 }
 
 .job-card {
+ flex: 1 1 300px;
  background: white;
  border: 1px solid #e5e7eb;
  border-radius: var(--border-radius-lg);
@@ -1130,13 +1135,14 @@ html[data-theme="dark"] .form-select option {
 }
 
 .opportunity-info {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
  margin-top: var(--spacing-lg);
 }
 
 .opportunity-info-item {
+ flex: 1 1 200px;
  background: rgba(255, 255, 255, 0.1);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -1161,12 +1167,13 @@ html[data-theme="dark"] .form-select option {
  ============================================================================ */
 
 .recommendations-list {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
 }
 
 .recommendation-item {
+ flex: 1 1 250px;
  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
  padding: var(--spacing-lg);
  border-radius: var(--border-radius-lg);
@@ -1222,12 +1229,13 @@ html[data-theme="dark"] .form-select option {
  ============================================================================ */
 
 .statistics-grid {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ display: flex;
+ flex-wrap: wrap;
  gap: var(--spacing-lg);
 }
 
 .stat-card {
+ flex: 1 1 200px;
  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
  padding: var(--spacing-lg);
  border-radius: var(--border-radius-lg);
@@ -1531,7 +1539,6 @@ html[data-theme="dark"] .form-select option {
 
  /* FORMULÁRIO TABLET */
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-bottom: var(--spacing-md);
  }
@@ -1550,7 +1557,6 @@ html[data-theme="dark"] .form-select option {
 
  /* SKILLS GRID TABLET */
  .skills-grid {
- grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -1612,7 +1618,6 @@ html[data-theme="dark"] .form-select option {
  width: 100%;
  padding: var(--spacing-md) var(--spacing-lg);
  font-size: var(--font-size-base);
- grid-column: 1 / -1;
  }
 
  .btn-primary:hover {
@@ -1621,7 +1626,6 @@ html[data-theme="dark"] .form-select option {
 
  /* RESUMO TABLET */
  .summary-content {
- grid-template-columns: 1fr 1fr;
  gap: var(--spacing-sm);
  }
 
@@ -1632,7 +1636,6 @@ html[data-theme="dark"] .form-select option {
 
  /* GRIDS TABLET */
  .jobs-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -1700,7 +1703,6 @@ html[data-theme="dark"] .form-select option {
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-top: var(--spacing-md);
  }
@@ -1711,7 +1713,6 @@ html[data-theme="dark"] .form-select option {
 
  /* RECOMMENDATIONS TABLET */
  .recommendations-list {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -1736,7 +1737,6 @@ html[data-theme="dark"] .form-select option {
 
  /* STATISTICS TABLET */
  .statistics-grid {
- grid-template-columns: repeat(2, 1fr);
  gap: var(--spacing-md);
  }
 
@@ -1835,7 +1835,6 @@ html[data-theme="dark"] .form-select option {
 
  /* FORMULÁRIO MOBILE */
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-bottom: var(--spacing-md);
  }
@@ -1860,7 +1859,6 @@ html[data-theme="dark"] .form-select option {
 
  /* SKILLS GRID MOBILE */
  .skills-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -1932,7 +1930,6 @@ html[data-theme="dark"] .form-select option {
  width: 100%;
  padding: var(--spacing-md) var(--spacing-lg);
  font-size: var(--font-size-base);
- grid-column: 1 / -1;
  min-height: 44px; /* Touch target min */
  }
 
@@ -1952,7 +1949,6 @@ html[data-theme="dark"] .form-select option {
  }
 
  .summary-content {
- grid-template-columns: 1fr;
  gap: var(--spacing-sm);
  }
 
@@ -1964,7 +1960,6 @@ html[data-theme="dark"] .form-select option {
 
  /* GRIDS MOBILE */
  .jobs-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2045,7 +2040,6 @@ html[data-theme="dark"] .form-select option {
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  margin-top: var(--spacing-md);
  }
@@ -2066,7 +2060,6 @@ html[data-theme="dark"] .form-select option {
 
  /* RECOMMENDATIONS MOBILE */
  .recommendations-list {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2096,7 +2089,6 @@ html[data-theme="dark"] .form-select option {
 
  /* STATISTICS MOBILE */
  .statistics-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2160,6 +2152,27 @@ textarea:focus-visible {
  animation-iteration-count: 1 !important;
  transition-duration: 0.01ms !important;
  scroll-behavior: auto !important;
+ }
+}
+
+/* Ajustes de Flexbox para telas menores. */
+@media (max-width: 768px) {
+ .candidate-form > .form-group,
+ .candidate-form > .form-group-full,
+ .candidate-form > .btn-primary,
+ .candidate-form > .data-status,
+ .job-card,
+ .opportunity-info-item,
+ .recommendation-item {
+ flex-basis: 100%;
+ }
+}
+
+@media (max-width: 480px) {
+ .skills-category,
+ .summary-content p,
+ .stat-card {
+ flex-basis: 100%;
  }
 }
 
@@ -2602,7 +2615,6 @@ textarea:focus-visible {
  }
 
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-lg);
  }
@@ -2666,18 +2678,15 @@ textarea:focus-visible {
  }
 
  .skills-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  }
 
  .skill-checkboxes {
- grid-template-columns: 1fr 1fr;
  gap: var(--spacing-xs);
  }
 
  .jobs-grid {
- grid-template-columns: 1fr;
  }
 
  .section {
@@ -2699,21 +2708,17 @@ textarea:focus-visible {
  }
 
  .summary-content {
- grid-template-columns: 1fr;
  gap: var(--spacing-sm);
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
  .recommendations-list {
- grid-template-columns: 1fr;
  }
 
  .statistics-grid {
- grid-template-columns: repeat(2, 1fr);
  gap: var(--spacing-md);
  }
 }
@@ -2763,7 +2768,6 @@ textarea:focus-visible {
  }
 
  .candidate-form {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  margin-bottom: var(--spacing-lg);
@@ -2837,7 +2841,6 @@ textarea:focus-visible {
  }
 
  .skills-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
@@ -2854,7 +2857,6 @@ textarea:focus-visible {
  }
 
  .skill-checkboxes {
- grid-template-columns: 1fr 1fr;
  gap: var(--spacing-xs);
  }
 
@@ -2917,7 +2919,6 @@ textarea:focus-visible {
  }
 
  .summary-content {
- grid-template-columns: 1fr;
  gap: var(--spacing-xs);
  }
 
@@ -2935,7 +2936,6 @@ textarea:focus-visible {
  }
 
  .opportunity-info {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2952,7 +2952,6 @@ textarea:focus-visible {
  }
 
  .recommendations-list {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 
@@ -2977,7 +2976,6 @@ textarea:focus-visible {
  }
 
  .statistics-grid {
- grid-template-columns: 1fr;
  gap: var(--spacing-md);
  }
 

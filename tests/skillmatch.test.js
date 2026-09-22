@@ -44,6 +44,15 @@ test('página oferece SEO e atalhos de navegação acessíveis', () => {
  assert.match(html, /<img class="logo-image" src="assets\/skillmatch-logo\.svg" alt="SkillMatch JS">/);
 });
 
+test('layout principal usa Flexbox em vez de CSS Grid', () => {
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.match(css, /\.candidate-form \{\s+display: flex;/);
+ assert.match(css, /\.jobs-grid \{\s+display: flex;/);
+ assert.match(css, /\.statistics-grid \{\s+display: flex;/);
+ assert.doesNotMatch(css, /display:\s*grid|grid-template-columns|grid-column/);
+});
+
 test('perfil é persistido, restaurado e trata a primeira visita', () => {
  const originalStorage = globalThis.localStorage;
  const originalWarn = console.warn;
