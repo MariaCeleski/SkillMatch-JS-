@@ -34,6 +34,16 @@ test('formulário usa submit e expõe mensagens de validação acessíveis', () 
  assert.match(app, /firstInvalidField\.focus\(\)/);
 });
 
+test('página oferece SEO e atalhos de navegação acessíveis', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+
+ assert.match(html, /<meta name="description"/);
+ assert.match(html, /href="#mainContent">Pular para o conteúdo principal/);
+ assert.match(html, /<nav class="main-nav" aria-label="Navegação principal">/);
+ assert.match(html, /<main class="main-content" id="mainContent" tabindex="-1">/);
+ assert.match(html, /<img class="logo-image" src="assets\/skillmatch-logo\.svg" alt="SkillMatch JS">/);
+});
+
 test('perfil é persistido, restaurado e trata a primeira visita', () => {
  const originalStorage = globalThis.localStorage;
  const originalWarn = console.warn;
