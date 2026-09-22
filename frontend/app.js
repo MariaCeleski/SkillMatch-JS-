@@ -3,6 +3,8 @@ import { SkillMatcher } from '../backend/models/SkillMatcher.js';
 import { loadJobsFromServer } from '../backend/services/dataLoader.js';
 import { createRecommendationService } from '../backend/services/recommendationEngine.js';
 import { loadProfile, saveProfile } from '../backend/services/profileStorage.js';
+import { getProfileFormData, restoreProfileForm } from './ui/profileForm.js';
+import { setupThemePreference } from './ui/theme.js';
 
 /**
  * APP.JS
@@ -27,36 +29,6 @@ const jobViewPreferences = {
  sort: 'compatibility-desc'
 };
 
-const THEME_STORAGE_KEY = 'skillmatch_theme';
-
-/** Aplica o tema e mantém o botão compreensível para leitores de tela. */
-function applyTheme(theme) {
- const isDark = theme === 'dark';
- const toggle = document.getElementById('themeToggle');
- document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
-
- if (toggle) {
- toggle.setAttribute('aria-pressed', String(isDark));
- toggle.setAttribute('aria-label', isDark ? 'Ativar tema claro' : 'Ativar tema escuro');
- toggle.innerHTML = `<span aria-hidden="true">${isDark ? '☀' : '◐'}</span> Tema ${isDark ? 'claro' : 'escuro'}`;
- }
-}
-
-/** Restaura a preferência persistida e permite alterná-la por clique ou teclado. */
-function setupThemePreference() {
- const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
- applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
-
- const toggle = document.getElementById('themeToggle');
- if (!toggle) return;
-
- toggle.addEventListener('click', function() {
- const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
- localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
- applyTheme(nextTheme);
- });
-}
-
 // ============================================================================
 // FUNÇÃO PRINCIPAL: ANALISAR CANDIDATO
 // ============================================================================
@@ -68,7 +40,7 @@ function setupThemePreference() {
 async function analyzeCandidate() {
  try {
  // ========== PASSO 1: Obter dados do formulário ==========
- const candidateData = getFormData();
+ const candidateData = getProfileFormData();
 
  if (!candidateData) {
  return;
@@ -131,99 +103,6 @@ async function analyzeCandidate() {
  console.error('Erro durante análise:', error);
  showDataStatus('Não foi possível carregar as vagas. Tente novamente em instantes.', 'error');
  }
-}
-
-// ============================================================================
-// FUNÇÕES DE COLETA DE DADOS
-// ============================================================================
-
-/**
- * Obtém dados do formulário e valida
- * @returns {object|null} Dados validados ou null
- */
-function getFormData() {
- const nameInput = document.getElementById('candidateName');
- const areaInput = document.getElementById('areaOfInterest');
- const name = nameInput.value.trim();
- const area = areaInput.value.trim();
- const experience = parseInt(document.getElementById('experience').value) || 0;
-
- // Obter skills selecionadas (checkboxes)
- const skillCheckboxes = document.querySelectorAll('input[name="skills"]:checked');
- const skills = Array.from(skillCheckboxes).map(checkbox => checkbox.value);
-
- clearFormErrors();
- let firstInvalidField = null;
-
- // Validação acessível
- if (!name || !area) {
- if (!name) {
- showFormError(nameInput, 'candidateNameError', 'Informe seu nome.');
- firstInvalidField = nameInput;
- }
- if (!area) {
- showFormError(areaInput, 'areaOfInterestError', 'Selecione sua área de interesse.');
- firstInvalidField = firstInvalidField || areaInput;
- }
- }
-
- if (skills.length === 0) {
- const skillsGroup = document.getElementById('skillsGroup');
- const firstSkill = document.querySelector('input[name="skills"]');
- if (skillsGroup) skillsGroup.setAttribute('aria-invalid', 'true');
- const skillsError = document.getElementById('skillsError');
- skillsError.textContent = 'Selecione ao menos uma habilidade.';
- skillsError.hidden = false;
- firstInvalidField = firstInvalidField || firstSkill;
- }
-
- if (firstInvalidField) {
- firstInvalidField.focus();
- return null;
- }
-
- return {
- name,
- area,
- experience,
- skills
- };
-}
-
-/** Preenche o formulário com o perfil da visita anterior, quando existir. */
-function restoreSavedProfile() {
- const savedProfile = loadProfile();
- if (!savedProfile) return;
-
- document.getElementById('candidateName').value = savedProfile.name;
- document.getElementById('areaOfInterest').value = savedProfile.areaOfInterest;
- document.getElementById('experience').value = savedProfile.yearsOfExperience;
- document.getElementById('experienceSlider').value = savedProfile.yearsOfExperience;
- document.getElementById('experienceDisplay').textContent = `${savedProfile.yearsOfExperience} ano${savedProfile.yearsOfExperience !== 1 ? 's' : ''}`;
-
- document.querySelectorAll('input[name="skills"]').forEach(checkbox => {
- checkbox.checked = savedProfile.skills.includes(checkbox.value);
- });
-}
-
-/** Mostra uma mensagem associada ao campo inválido. */
-function showFormError(field, errorId, message) {
- const error = document.getElementById(errorId);
- field.setAttribute('aria-invalid', 'true');
- if (!error) return;
- error.textContent = message;
- error.hidden = false;
-}
-
-/** Restaura o estado de validação antes de cada nova tentativa de envio. */
-function clearFormErrors() {
- document.querySelectorAll('#candidateForm [aria-invalid]').forEach(field => {
- field.setAttribute('aria-invalid', 'false');
- });
- document.querySelectorAll('#candidateForm .form-error').forEach(error => {
- error.textContent = '';
- error.hidden = true;
- });
 }
 
 // ============================================================================
@@ -727,7 +606,7 @@ function displayEmptyResults() {
 document.addEventListener('DOMContentLoaded', function() {
  console.log('✅ Aplicação carregada e pronta!');
  setupThemePreference();
- restoreSavedProfile();
+ restoreProfileForm(loadProfile());
 
  const analyzeButton = document.getElementById('analyzeButton');
  const candidateForm = document.getElementById('candidateForm');

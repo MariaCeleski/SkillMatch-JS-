@@ -25,13 +25,23 @@ const rawFrontEndJob = {
 test('formulário usa submit e expõe mensagens de validação acessíveis', () => {
  const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
  const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const profileForm = readFileSync(new URL('../frontend/ui/profileForm.js', import.meta.url), 'utf8');
 
  assert.match(html, /<form class="candidate-form" id="candidateForm" novalidate>/);
  assert.match(html, /type="submit"/);
  assert.match(html, /id="candidateNameError" role="alert"/);
  assert.match(html, /id="skillsError" role="alert"/);
  assert.match(app, /candidateForm\.addEventListener\('submit'/);
- assert.match(app, /firstInvalidField\.focus\(\)/);
+ assert.match(profileForm, /firstInvalidField\.focus\(\)/);
+});
+
+test('interface é separada em módulos ES para formulário e tema', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+
+ assert.match(app, /from '\.\/ui\/profileForm\.js'/);
+ assert.match(app, /from '\.\/ui\/theme\.js'/);
+ assert.doesNotMatch(app, /function getFormData\(/);
+ assert.doesNotMatch(app, /function setupThemePreference\(/);
 });
 
 test('página oferece SEO e atalhos de navegação acessíveis', () => {
