@@ -63,6 +63,15 @@ test('layout principal usa Flexbox em vez de CSS Grid', () => {
  assert.doesNotMatch(css, /display:\s*grid|grid-template-columns|grid-column/);
 });
 
+test('camada responsiva parte do mobile e expande com min-width', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const css = readFileSync(new URL('../frontend/responsive.css', import.meta.url), 'utf8');
+
+ assert.match(html, /<link rel="stylesheet" href="responsive\.css">/);
+ assert.match(css, /Base mobile-first/);
+ assert.match(css, /@media \(min-width: 769px\)/);
+});
+
 test('toda habilidade exigida pelo catálogo pode ser selecionada no formulário', () => {
  const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
  const catalog = JSON.parse(readFileSync(new URL('../data/jobs.json', import.meta.url), 'utf8'));

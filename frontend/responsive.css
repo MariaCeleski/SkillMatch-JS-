@@ -1,0 +1,36 @@
+/* Base mobile-first: estes estilos são carregados após os legados. */
+.container { padding: 0 1rem; }
+.header { padding: 1rem 0; }
+.header-content,
+.header-actions,
+.main-nav { justify-content: center; }
+.header-content { flex-direction: column; text-align: center; gap: 1rem; }
+.header-actions { width: 100%; flex-wrap: wrap; }
+.main-nav,
+.theme-toggle { width: 100%; }
+.main-nav a,
+.theme-toggle { justify-content: center; }
+.logo { text-align: left; }
+.section { padding: 1rem; }
+.candidate-form > *,
+.job-card,
+.opportunity-info-item,
+.recommendation-item,
+.stat-card { flex-basis: 100%; }
+.skill-checkbox { flex-basis: calc(50% - .5rem); }
+
+@media (min-width: 769px) {
+ .container { padding: 0 1.5rem; }
+ .header { padding: 2rem 0; }
+ .header-content { flex-direction: row; justify-content: space-between; text-align: left; }
+ .header-actions { width: auto; flex-wrap: nowrap; justify-content: flex-end; }
+ .main-nav,
+ .theme-toggle { width: auto; }
+ .candidate-form > .form-group { flex-basis: 280px; }
+ .candidate-form > .form-group-full,
+ .candidate-form > .data-status { flex-basis: 100%; }
+ .job-card { flex-basis: 300px; }
+ .opportunity-info-item,
+ .stat-card { flex-basis: 200px; }
+ .recommendation-item { flex-basis: 250px; }
+}
