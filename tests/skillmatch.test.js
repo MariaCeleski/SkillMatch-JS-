@@ -54,6 +54,15 @@ test('página oferece SEO e atalhos de navegação acessíveis', () => {
  assert.match(html, /<img class="logo-image" src="assets\/skillmatch-logo\.svg" alt="SkillMatch JS">/);
 });
 
+test('controles de experiência têm nome acessível e categorias respeitam a hierarquia de títulos', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+
+ assert.match(html, /id="experienceSlider"[\s\S]*?aria-label="Anos de experiência"/);
+ assert.match(html, /id="experience"[\s\S]*?aria-label="Anos de experiência"/);
+ assert.doesNotMatch(html, /<h4>/);
+ assert.match(html, /<h3>Frontend<\/h3>/);
+});
+
 test('layout principal usa Flexbox em vez de CSS Grid', () => {
  const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
 

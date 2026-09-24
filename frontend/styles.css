@@ -3277,3 +3277,96 @@ textarea:focus-visible {
  .stat-card { flex-basis: 200px; }
  .recommendation-item { flex-basis: 250px; }
 }
+
+/* Ajustes de contraste e semântica validados para leitura assistiva. */
+.skills-category h3 {
+ font-size: var(--font-size-sm);
+ font-weight: 700;
+ color: #3730a3;
+ margin-bottom: var(--spacing-md);
+ padding-bottom: var(--spacing-sm);
+ border-bottom: 2px solid #94a3b8;
+ display: flex;
+ align-items: center;
+ gap: var(--spacing-xs);
+}
+
+.experience-container {
+ background: #e2e8f0;
+ border-color: #64748b;
+}
+
+.form-number {
+ background: #ffffff;
+ color: #1e293b;
+ border-color: #475569;
+}
+
+.ranking-name small,
+.ranking-skills,
+.ranking-best-job small,
+.ranking-table thead th,
+.ranking-empty {
+ color: #475569;
+}
+
+.ranking-best-score {
+ color: #4338ca;
+}
+
+html[data-theme="dark"] .section-header p,
+html[data-theme="dark"] .ranking-name small,
+html[data-theme="dark"] .ranking-skills,
+html[data-theme="dark"] .ranking-best-job small,
+html[data-theme="dark"] .ranking-table thead th,
+html[data-theme="dark"] .ranking-empty {
+ color: #cbd5e1;
+}
+
+html[data-theme="dark"] .skills-grid {
+ background: #0f172a;
+ border-color: #475569;
+}
+
+html[data-theme="dark"] .skills-category {
+ background: #1e293b;
+ border-color: #475569;
+}
+
+html[data-theme="dark"] .skills-category h3 {
+ color: #c7d2fe;
+ border-bottom-color: #64748b;
+}
+
+html[data-theme="dark"] .skill-checkbox {
+ color: #f8fafc;
+}
+
+html[data-theme="dark"] .skill-checkbox:hover {
+ background: #334155;
+ color: #ffffff;
+}
+
+html[data-theme="dark"] .experience-container {
+ background: #e2e8f0;
+ border-color: #94a3b8;
+}
+
+html[data-theme="dark"] .form-number {
+ background: #ffffff;
+ color: #1e293b;
+ border-color: #475569;
+}
+
+html[data-theme="dark"] .ranking-name strong {
+ color: #f8fafc;
+}
+
+html[data-theme="dark"] .ranking-best-score {
+ color: #c7d2fe;
+}
+
+html[data-theme="dark"] .btn-danger-sm {
+ color: #fca5a5;
+ border-color: #f87171;
+}
