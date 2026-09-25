@@ -145,11 +145,6 @@ body {
  opacity: 0.9;
 }
 
-.header-info {
- font-size: var(--font-size-lg);
- opacity: 0.95;
-}
-
 .header-actions {
  display: flex;
  align-items: center;
@@ -523,18 +518,6 @@ html[data-theme="dark"] .form-select option {
  box-shadow: 0 4px 12px rgba(179, 179, 214, 0.15);
  border-color: var(--primary-color);
  transform: translateY(-2px);
-}
-
-.skills-category h4 {
- font-size: var(--font-size-sm);
- font-weight: 700;
- color: var(--primary-color);
- margin-bottom: var(--spacing-md);
- padding-bottom: var(--spacing-sm);
- border-bottom: 2px solid var(--light-color);
- display: flex;
- align-items: center;
- gap: var(--spacing-xs);
 }
 
 .skill-checkboxes {
@@ -1490,17 +1473,6 @@ html[data-theme="dark"] .form-select option {
  100% { transform: rotate(360deg); }
 }
 
-.no-results {
- text-align: center;
- padding: var(--spacing-xl);
- color: #6b7280;
-}
-
-.no-results-icon {
- font-size: var(--font-size-3xl);
- margin-bottom: var(--spacing-md);
-}
-
 /* ============================================================================
  15. RESPONSIVO - MOBILE FIRST APPROACH
  ============================================================================ */
@@ -1533,10 +1505,6 @@ html[data-theme="dark"] .form-select option {
  }
 
  .tagline {
- font-size: var(--font-size-base);
- }
-
- .header-info {
  font-size: var(--font-size-base);
  }
 
@@ -1585,12 +1553,6 @@ html[data-theme="dark"] .form-select option {
 
  .skills-category {
  padding: var(--spacing-sm);
- }
-
- .skills-category h4 {
- font-size: var(--font-size-sm);
- margin-bottom: var(--spacing-sm);
- padding-bottom: var(--spacing-xs);
  }
 
  .skill-checkbox {
@@ -1825,10 +1787,6 @@ html[data-theme="dark"] .form-select option {
  font-size: var(--font-size-sm);
  }
 
- .header-info {
- font-size: var(--font-size-sm);
- }
-
  .main-content {
  padding: var(--spacing-lg) 0;
  }
@@ -1888,12 +1846,6 @@ html[data-theme="dark"] .form-select option {
 
  .skills-category {
  padding: var(--spacing-md);
- }
-
- .skills-category h4 {
- font-size: var(--font-size-sm);
- margin-bottom: var(--spacing-md);
- padding-bottom: var(--spacing-xs);
  }
 
  .skill-checkboxes {
@@ -2517,11 +2469,6 @@ textarea:focus-visible {
  box-shadow: 0 4px 12px rgba(179, 179, 214, 0.15);
  }
 
- .skills-category h4 {
- color: #818cf8;
- border-bottom-color: #374151;
- }
-
  .skill-checkbox {
  color: #e5e7eb;
  }
@@ -2753,10 +2700,6 @@ textarea:focus-visible {
  border-top-color: #818cf8;
  }
 
- .no-results {
- color: #9ca3af;
- }
-
  /* RECOMMENDATIONS DARK */
  .recommendation-item {
  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
@@ -2900,9 +2843,6 @@ textarea:focus-visible {
  gap: var(--spacing-xs);
  }
 
- .jobs-grid {
- }
-
  .section {
  padding: var(--spacing-lg);
  margin-bottom: var(--spacing-lg);
@@ -2927,9 +2867,6 @@ textarea:focus-visible {
 
  .opportunity-info {
  gap: var(--spacing-md);
- }
-
- .recommendations-list {
  }
 
  .statistics-grid {
@@ -2974,10 +2911,6 @@ textarea:focus-visible {
  }
 
  .tagline {
- font-size: var(--font-size-sm);
- }
-
- .header-info {
  font-size: var(--font-size-sm);
  }
 
@@ -3063,11 +2996,6 @@ textarea:focus-visible {
  .skills-category {
  padding: var(--spacing-md);
  border-radius: var(--border-radius-md);
- }
-
- .skills-category h4 {
- font-size: 0.8125rem;
- margin-bottom: var(--spacing-md);
  }
 
  .skill-checkboxes {
