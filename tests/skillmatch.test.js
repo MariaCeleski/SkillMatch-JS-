@@ -31,7 +31,7 @@ test('formulário usa submit e expõe mensagens de validação acessíveis', () 
  assert.match(html, /type="submit"/);
  assert.match(html, /id="candidateNameError" role="alert"/);
  assert.match(html, /id="skillsError" role="alert"/);
- assert.match(app, /candidateForm\.addEventListener\('submit'/);
+ assert.match(app, /form\.addEventListener\('submit'/);
  assert.match(profileForm, /firstInvalidField\.focus\(\)/);
 });
 
@@ -40,6 +40,8 @@ test('interface é separada em módulos ES para formulário e tema', () => {
 
  assert.match(app, /from '\.\/ui\/profileForm\.js'/);
  assert.match(app, /from '\.\/ui\/theme\.js'/);
+ assert.match(app, /from '\.\/ui\/resultsView\.js'/);
+ assert.match(app, /from '\.\/ui\/rankingView\.js'/);
  assert.doesNotMatch(app, /function getFormData\(/);
  assert.doesNotMatch(app, /function setupThemePreference\(/);
 });
@@ -103,13 +105,25 @@ test('Responsive Design compõe a compatibilidade e deixa de ser habilidade falt
 });
 
 test('ranking oferece rótulos para a versão responsiva em cards', () => {
- const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const rankingView = readFileSync(new URL('../frontend/ui/rankingView.js', import.meta.url), 'utf8');
  const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
 
- assert.match(app, /data-label="Compatibilidade"/);
- assert.match(app, /data-label="Melhor vaga"/);
+ assert.match(rankingView, /data-label="Compatibilidade"/);
+ assert.match(rankingView, /data-label="Melhor vaga"/);
  assert.match(css, /@media \(max-width: 1440px\)/);
  assert.match(css, /content: attr\(data-label\)/);
+});
+
+test('renderização de resultados, filtros e ranking ficam fora do coordenador principal', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const resultsView = readFileSync(new URL('../frontend/ui/resultsView.js', import.meta.url), 'utf8');
+ const rankingView = readFileSync(new URL('../frontend/ui/rankingView.js', import.meta.url), 'utf8');
+
+ assert.ok(app.split('\n').length < 220);
+ assert.match(resultsView, /export function createResultsView/);
+ assert.match(resultsView, /function renderFilteredJobResults/);
+ assert.match(rankingView, /export function saveCandidateToRanking/);
+ assert.match(rankingView, /function renderRankingTable/);
 });
 
 test('perfil é persistido, restaurado e trata a primeira visita', () => {
