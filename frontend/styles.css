@@ -3370,3 +3370,27 @@ html[data-theme="dark"] .btn-danger-sm {
  color: #fca5a5;
  border-color: #f87171;
 }
+
+/* Campos claros precisam manter texto escuro, inclusive quando o SO usa tema escuro. */
+html[data-theme="light"] .form-select,
+html[data-theme="light"] .job-details dd,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] .job-details dd {
+ color: #374151;
+}
+
+html[data-theme="light"] .form-select option,
+html[data-theme="dark"] .form-select option {
+ color: #374151;
+ background-color: #ffffff;
+}
+
+html[data-theme="light"] .job-details dt,
+html[data-theme="dark"] .job-details dt {
+ color: #4b5563;
+}
+
+html[data-theme="dark"] .job-details div {
+ background: #f8fafc;
+ border: 1px solid #cbd5e1;
+}

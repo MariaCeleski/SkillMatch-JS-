@@ -65,6 +65,14 @@ test('controles de experiência têm nome acessível e categorias respeitam a hi
  assert.match(html, /<h3>Frontend<\/h3>/);
 });
 
+test('campos claros preservam contraste de texto nos dois temas', () => {
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.match(css, /html\[data-theme="light"\] \.job-details dd,/);
+ assert.match(css, /html\[data-theme="dark"\] \.job-details dd \{\s+color: #374151;/);
+ assert.match(css, /html\[data-theme="dark"\] \.job-details div \{\s+background: #f8fafc;/);
+});
+
 test('layout principal usa Flexbox em vez de CSS Grid', () => {
  const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
 
