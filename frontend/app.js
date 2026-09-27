@@ -4,8 +4,6 @@ import { createDataLoader } from '../backend/services/dataLoader.js';
 import { createRecommendationService } from '../backend/services/recommendationEngine.js';
 import { loadProfile, saveProfile } from '../backend/services/profileStorage.js';
 import { getProfileFormData, restoreProfileForm } from './ui/profileForm.js';
-import { createResultsView } from './ui/resultsView.js';
-import { setupRanking, saveCandidateToRanking } from './ui/rankingView.js';
 import { setupThemePreference } from './ui/theme.js';
 
 /** Coordena o formulário, motor e módulos visuais da página. */
@@ -13,7 +11,36 @@ let currentCandidate = null;
 let analysisResults = null;
 let recommendations = null;
 const dataLoader = createDataLoader();
-const resultsView = createResultsView();
+let resultsView = null;
+let rankingView = null;
+let resultsViewLoading = null;
+let rankingViewLoading = null;
+
+/** Carrega a interface de resultados somente quando a pessoa solicita uma análise. */
+async function getResultsView() {
+ if (resultsView) return resultsView;
+ if (!resultsViewLoading) {
+  resultsViewLoading = import('./ui/resultsView.js').then(({ createResultsView }) => {
+   resultsView = createResultsView();
+   resultsView.setupControls();
+   return resultsView;
+  });
+ }
+ return resultsViewLoading;
+}
+
+/** O ranking fica disponível em segundo plano, sem bloquear a primeira pintura. */
+async function getRankingView() {
+ if (rankingView) return rankingView;
+ if (!rankingViewLoading) {
+  rankingViewLoading = import('./ui/rankingView.js').then(module => {
+   rankingView = module;
+   rankingView.setupRanking();
+   return rankingView;
+  });
+ }
+ return rankingViewLoading;
+}
 
 async function analyzeCandidate() {
  try {
@@ -34,15 +61,15 @@ async function analyzeCandidate() {
 
   if (jobs.length === 0) {
    showDataStatus('Nenhuma vaga está disponível no momento.', 'empty');
-   resultsView.displayEmpty();
+   (await getResultsView()).displayEmpty();
    return;
   }
 
   hideDataStatus();
   analysisResults = new SkillMatcher().analyzeCandidate(currentCandidate, jobs);
   recommendations = createRecommendationService().generate(analysisResults);
-  resultsView.display(analysisResults, recommendations, currentCandidate);
-  saveCandidateToRanking(currentCandidate, analysisResults);
+  (await getResultsView()).display(analysisResults, recommendations, currentCandidate);
+  (await getRankingView()).saveCandidateToRanking(currentCandidate, analysisResults);
   document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
  } catch (error) {
   hideLoadingState();
@@ -160,14 +187,15 @@ function exportResults() {
 document.addEventListener('DOMContentLoaded', () => {
  setupThemePreference();
  restoreProfileForm(loadProfile());
- resultsView.setupControls();
- setupRanking();
  setupExperienceInputs();
  const form = document.getElementById('candidateForm');
  if (form) form.addEventListener('submit', event => {
   event.preventDefault();
-  analyzeCandidate();
+ analyzeCandidate();
  });
+ const loadDeferredInterface = () => { getRankingView().catch(error => console.warn('Ranking indisponível:', error)); };
+ if ('requestIdleCallback' in window) window.requestIdleCallback(loadDeferredInterface);
+ else window.setTimeout(loadDeferredInterface, 250);
 });
 
 window.SkillMatchDebug = {
