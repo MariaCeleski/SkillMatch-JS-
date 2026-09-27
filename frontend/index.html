@@ -3,8 +3,8 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="description" content="SkillMatch JS compara suas habilidades com vagas de tecnologia e recomenda o que estudar para evoluir na carreira.">
  <title>SkillMatch JS - Simulador de Compatibilidade com Vagas Front-End</title>
+ <meta name="description" content="Analise a compatibilidade do seu perfil com vagas de Front-End e receba recomendações de estudo.">
  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,19 +14,25 @@
  <div class="container">
  <div class="header-content">
  <div class="logo">
- <div class="logo-title">
- <img src="assets/skillmatch-logo.svg" alt="Logo do SkillMatch JS">
+ <img class="logo-image" src="assets/skillmatch-logo.svg" alt="SkillMatch JS">
+ <div>
  <h1>SkillMatch JS</h1>
- </div>
  <p class="tagline">Simulador de Compatibilidade com Vagas Front-End</p>
  </div>
- <nav class="header-nav" aria-label="Navegação principal">
+ </div>
+ <div class="header-actions">
+ <nav class="main-nav" aria-label="Navegação principal">
  <a href="#candidateSection">Perfil</a>
  <a href="#resultsSection">Vagas</a>
  <a href="#rankingSection">Ranking</a>
  </nav>
+ <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Ativar tema escuro">
+ <span aria-hidden="true">◐</span> Tema escuro
+ </button>
  </div>
  </div>
+ </div>
+ <img class="header-illustration" src="assets/skillmatch-header-illustration.png" alt="" aria-hidden="true">
  </header>
 
  <!-- MAIN CONTENT -->
@@ -34,14 +40,13 @@
  <div class="container">
 
  <!-- SEÇÃO 1: PERFIL DO CANDIDATO -->
- <section class="section" id="candidateSection" aria-labelledby="candidateHeading">
+ <section class="section" id="candidateSection" aria-labelledby="candidateTitle">
  <div class="section-header">
- <h2 id="candidateHeading">Seu Perfil</h2>
+ <h2 id="candidateTitle">Seu Perfil</h2>
  <p>Informe suas habilidades e experiência</p>
  </div>
 
  <form class="candidate-form" id="candidateForm" novalidate>
- <p id="formError" class="form-error" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
  <!-- NOME -->
  <div class="form-group">
  <label for="candidateName">Nome:</label>
@@ -52,19 +57,23 @@
  value="Maria de Lourdes Celeski"
  class="form-input"
  required
- aria-describedby="formError"
+ aria-required="true"
+ aria-invalid="false"
+ aria-describedby="candidateNameError"
  >
+ <p class="form-error" id="candidateNameError" role="alert" hidden></p>
  </div>
 
  <!-- ÁREA DE INTERESSE - SELECT -->
  <div class="form-group">
  <label for="areaOfInterest">Área de Interesse:</label>
- <select id="areaOfInterest" class="form-select" required aria-describedby="formError">
+ <select id="areaOfInterest" class="form-select" required aria-required="true" aria-invalid="false" aria-describedby="areaOfInterestError">
  <option value="">Selecione uma área</option>
  <option value="Front-End" selected>Front-End</option>
  <option value="Backend">Backend</option>
  <option value="FullStack">FullStack</option>
  </select>
+ <p class="form-error" id="areaOfInterestError" role="alert" hidden></p>
  </div>
 
  <!-- ANOS DE EXPERIÊNCIA - SLIDER + NUMBER -->
@@ -78,6 +87,8 @@
  max="30"
  value="0"
  class="form-range"
+ aria-label="Anos de experiência"
+ aria-describedby="experienceDisplay"
  >
  <input
  type="number"
@@ -86,18 +97,20 @@
  max="30"
  value="0"
  class="form-number"
+ aria-label="Anos de experiência"
+ aria-describedby="experienceDisplay"
  >
  <span id="experienceDisplay" class="experience-display">0 anos</span>
  </div>
  </div>
 
  <!-- SKILLS - CHECKBOXES -->
- <fieldset class="form-group form-group-full" id="skillsGroup" aria-describedby="formError">
- <legend>Habilidades (Selecione as que você possui)</legend>
+ <fieldset class="form-group form-group-full" id="skillsGroup" aria-describedby="skillsError">
+ <legend>Habilidades (selecione ao menos uma)</legend>
  <div class="skills-grid">
  <!-- Frontend Skills -->
  <div class="skills-category">
- <h4>Frontend</h4>
+ <h3>Frontend</h3>
  <div class="skill-checkboxes">
  <label class="skill-checkbox">
  <input type="checkbox" name="skills" value="HTML"> HTML
@@ -123,12 +136,15 @@
  <label class="skill-checkbox">
  <input type="checkbox" name="skills" value="Tailwind CSS"> Tailwind CSS
  </label>
+ <label class="skill-checkbox">
+ <input type="checkbox" name="skills" value="Responsive Design"> Responsive Design
+ </label>
  </div>
  </div>
 
- <!-- Backend Skills -->
+<!-- Backend Skills -->
  <div class="skills-category">
- <h4>Backend</h4>
+ <h3>Backend</h3>
  <div class="skill-checkboxes">
  <label class="skill-checkbox">
  <input type="checkbox" name="skills" value="Node.js"> Node.js
@@ -156,7 +172,7 @@
 
  <!-- Database & Tools -->
  <div class="skills-category">
- <h4>Banco de Dados</h4>
+ <h3>Banco de Dados</h3>
  <div class="skill-checkboxes">
  <label class="skill-checkbox">
  <input type="checkbox" name="skills" value="PostgreSQL"> PostgreSQL
@@ -184,7 +200,7 @@
 
  <!-- DevOps & Cloud -->
  <div class="skills-category">
- <h4>DevOps & Cloud</h4>
+ <h3>DevOps & Cloud</h3>
  <div class="skill-checkboxes">
  <label class="skill-checkbox">
  <input type="checkbox" name="skills" value="AWS"> AWS
@@ -207,6 +223,7 @@
  </div>
  </div>
  </div>
+ <p class="form-error" id="skillsError" role="alert" hidden></p>
  </fieldset>
 
  <!-- BOTÃO -->
@@ -244,10 +261,38 @@
  </section>
 
  <!-- SEÇÃO 2: RESULTADOS DE COMPATIBILIDADE -->
- <section class="section" id="resultsSection" aria-labelledby="resultsHeading" style="display: none;">
+ <section class="section" id="resultsSection" aria-labelledby="resultsTitle" style="display: none;">
  <div class="section-header">
- <h2 id="resultsHeading">Compatibilidade com Vagas</h2>
+ <h2 id="resultsTitle">Compatibilidade com Vagas</h2>
  <p>Veja como você se encaixa em cada vaga</p>
+ </div>
+
+ <div class="job-controls" id="jobControls" hidden aria-label="Filtros e ordenação de vagas">
+ <div class="job-control-group">
+ <label for="modalityFilter">Modalidade</label>
+ <select id="modalityFilter" class="form-select">
+ <option value="all">Todas as modalidades</option>
+ </select>
+ </div>
+ <div class="job-control-group">
+ <label for="compatibilityFilter">Compatibilidade</label>
+ <select id="compatibilityFilter" class="form-select">
+ <option value="all">Todos os níveis</option>
+ <option value="alta">Alta (80% a 100%)</option>
+ <option value="media">Média (50% a 79%)</option>
+ <option value="baixa">Baixa (0% a 49%)</option>
+ </select>
+ </div>
+ <div class="job-control-group">
+ <label for="jobSort">Ordenar por</label>
+ <select id="jobSort" class="form-select">
+ <option value="compatibility-desc">Maior compatibilidade</option>
+ <option value="salary-desc">Maior salário</option>
+ <option value="salary-asc">Menor salário</option>
+ <option value="company-asc">Empresa (A–Z)</option>
+ </select>
+ </div>
+ <p id="jobsFilterStatus" class="jobs-filter-status" role="status" aria-live="polite"></p>
  </div>
 
  <div class="results-container">
@@ -258,9 +303,9 @@
  </section>
 
  <!-- SEÇÃO 3: MELHOR OPORTUNIDADE -->
- <section class="section" id="bestOpportunitySection" aria-labelledby="bestOpportunityHeading" style="display: none;">
+ <section class="section" id="bestOpportunitySection" aria-labelledby="bestOpportunityTitle" style="display: none;">
  <div class="section-header">
- <h2 id="bestOpportunityHeading">Sua Melhor Oportunidade</h2>
+ <h2 id="bestOpportunityTitle">Sua Melhor Oportunidade</h2>
  <p>A vaga mais compatível com seu perfil</p>
  </div>
 
@@ -270,9 +315,9 @@
  </section>
 
  <!-- SEÇÃO 4: RECOMENDAÇÕES DE ESTUDO -->
- <section class="section" id="recommendationsSection" aria-labelledby="recommendationsHeading" style="display: none;">
+ <section class="section" id="recommendationsSection" aria-labelledby="recommendationsTitle" style="display: none;">
  <div class="section-header">
- <h2 id="recommendationsHeading">Recomendações de Estudo</h2>
+ <h2 id="recommendationsTitle">Recomendações de Estudo</h2>
  <p>Habilidades prioritárias para aprender</p>
  </div>
 
@@ -284,9 +329,9 @@
  </section>
 
  <!-- SEÇÃO 5: ESTATÍSTICAS -->
- <section class="section" id="statisticsSection" aria-labelledby="statisticsHeading" style="display: none;">
+ <section class="section" id="statisticsSection" aria-labelledby="statisticsTitle" style="display: none;">
  <div class="section-header">
- <h2 id="statisticsHeading">Estatísticas</h2>
+ <h2 id="statisticsTitle">Estatísticas</h2>
  <p>Resumo da análise</p>
  </div>
 
@@ -311,11 +356,11 @@
  </section>
 
  <!-- SEÇÃO 6: RANKING DE CANDIDATOS -->
- <section class="section" id="rankingSection" aria-labelledby="rankingHeading">
+ <section class="section" id="rankingSection" aria-labelledby="rankingTitle">
  <div class="section-header">
  <div class="ranking-header-row">
  <div>
- <h2 id="rankingHeading">Ranking de Candidatos</h2>
+ <h2 id="rankingTitle">Ranking de Candidatos</h2>
  <p>Lista de todos os candidatos analisados, ordenados por compatibilidade média</p>
  </div>
  <button class="btn btn-danger-sm" id="clearRankingButton" type="button" title="Limpar lista">

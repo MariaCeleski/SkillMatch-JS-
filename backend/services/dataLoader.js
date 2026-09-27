@@ -97,12 +97,12 @@ export function createDataLoader() {
  * Carrega dados e incrementa contador
  * @returns {Promise}
  */
- async load() {
+ async load(callback) {
  loadCount++;
  console.log(` Tentativa de carregamento #${loadCount}`);
 
  try {
- const jobs = await loadJobsFromServer();
+ const jobs = await loadDataAsync(callback);
  loadedData.push(...jobs);
  return jobs;
  } catch (error) {
