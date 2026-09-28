@@ -56,6 +56,25 @@ export function getProfileFormData() {
  return { name, area, experience, skills };
 }
 
+/**
+ * Prepara o formulário para cadastrar outra pessoa sem apagar o resultado
+ * que permanece visível na página.
+ */
+export function clearProfileForm() {
+ const form = document.getElementById('candidateForm');
+ if (form) form.reset();
+
+ document.getElementById('candidateName').value = '';
+ document.getElementById('areaOfInterest').value = '';
+ document.getElementById('experience').value = '0';
+ document.getElementById('experienceSlider').value = '0';
+ document.getElementById('experienceDisplay').textContent = '0 anos';
+ document.querySelectorAll('input[name="skills"]').forEach(checkbox => {
+  checkbox.checked = false;
+ });
+ clearFormErrors();
+}
+
 /** Preenche o formulário com dados de um perfil salvo. */
 export function restoreProfileForm(savedProfile) {
  if (!savedProfile) return;

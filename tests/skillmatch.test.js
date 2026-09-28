@@ -35,6 +35,16 @@ test('formulário usa submit e expõe mensagens de validação acessíveis', () 
  assert.match(profileForm, /firstInvalidField\.focus\(\)/);
 });
 
+test('formulário é limpo após uma análise concluída para receber outro candidato', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const profileForm = readFileSync(new URL('../frontend/ui/profileForm.js', import.meta.url), 'utf8');
+
+ assert.match(app, /import \{ clearProfileForm, getProfileFormData, restoreProfileForm \}/);
+ assert.match(app, /saveCandidateToRanking\(currentCandidate, analysisResults\);\s+clearProfileForm\(\);/);
+ assert.match(profileForm, /export function clearProfileForm\(\)/);
+ assert.match(profileForm, /checkbox\.checked = false/);
+});
+
 test('interface é separada em módulos ES para formulário e tema', () => {
  const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
 
