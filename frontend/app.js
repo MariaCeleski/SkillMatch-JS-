@@ -3,7 +3,7 @@ import { SkillMatcher } from '../backend/models/SkillMatcher.js';
 import { createDataLoader } from '../backend/services/dataLoader.js';
 import { createRecommendationService } from '../backend/services/recommendationEngine.js';
 import { loadProfile, saveProfile } from '../backend/services/profileStorage.js';
-import { getProfileFormData, restoreProfileForm } from './ui/profileForm.js';
+import { clearProfileForm, getProfileFormData, restoreProfileForm } from './ui/profileForm.js';
 import { setupThemePreference } from './ui/theme.js';
 
 /** Coordena o formulário, motor e módulos visuais da página. */
@@ -62,6 +62,7 @@ async function analyzeCandidate() {
   if (jobs.length === 0) {
    showDataStatus('Nenhuma vaga está disponível no momento.', 'empty');
    (await getResultsView()).displayEmpty();
+   clearProfileForm();
    return;
   }
 
@@ -70,6 +71,7 @@ async function analyzeCandidate() {
   recommendations = createRecommendationService().generate(analysisResults);
   (await getResultsView()).display(analysisResults, recommendations, currentCandidate);
   (await getRankingView()).saveCandidateToRanking(currentCandidate, analysisResults);
+  clearProfileForm();
   document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
  } catch (error) {
   hideLoadingState();
