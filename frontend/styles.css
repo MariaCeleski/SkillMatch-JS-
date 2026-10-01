@@ -427,6 +427,13 @@ html[data-theme="dark"] .form-select option {
  font-weight: 600;
 }
 
+.form-help {
+ margin: 0.75rem 0 0;
+ color: var(--text-secondary, #4b5563);
+ font-size: 0.875rem;
+ line-height: 1.5;
+}
+
 [aria-invalid="true"] {
  border-color: var(--danger-color) !important;
  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);

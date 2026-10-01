@@ -136,6 +136,15 @@ test('Responsive Design compõe a compatibilidade e deixa de ser habilidade falt
  assert.deepEqual(matcher.getMissingSkills(candidate, job), []);
 });
 
+test('motor normaliza caixa, espaços e aliases de skills antes de comparar', () => {
+ const candidate = new Candidate('Lia', 'Front-End', [' react ', 'API REST', 'JAVASCRIPT'], 1);
+ const job = new Job('Empresa', 'Pessoa Desenvolvedora', ['React', 'REST API', 'JavaScript']);
+ const matcher = new SkillMatcher();
+
+ assert.equal(matcher.calculateCompatibility(candidate, job), 100);
+ assert.deepEqual(matcher.getMissingSkills(candidate, job), []);
+});
+
 test('ranking oferece rótulos para a versão responsiva em cards', () => {
  const rankingView = readFileSync(new URL('../frontend/ui/rankingView.js', import.meta.url), 'utf8');
  const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
@@ -231,6 +240,30 @@ test('motor calcula compatibilidade, skills faltantes e melhor oportunidade', ()
  assert.deepEqual(results[1].missingSkills, ['React', 'TypeScript']);
  assert.equal(results[1].score, 33.33);
  assert.equal(results[0].isBestMatch, true);
+});
+
+test('área e experiência decidem empates sem mudar o percentual de compatibilidade', () => {
+ const candidate = new Candidate('Ana', 'Front-End', ['JavaScript'], 1);
+ const jobs = [
+  new Job('Empresa Pleno', 'Front-End', ['JavaScript'], { area: 'Front-End', minExperience: 2 }),
+  new Job('Empresa Júnior', 'Front-End', ['JavaScript'], { area: 'Front-End', minExperience: 1 }),
+  new Job('Empresa Backend', 'Backend', ['JavaScript'], { area: 'Backend', minExperience: 0 })
+ ];
+ const results = new SkillMatcher().analyzeCandidate(candidate, jobs);
+
+ assert.deepEqual(results.map(result => result.score), [100, 100, 100]);
+ assert.equal(results[1].isBestMatch, true);
+ assert.equal(results[1].meetsExperienceRequirement, true);
+ assert.equal(results[2].isAreaMatch, false);
+});
+
+test('skills desejáveis aparecem como diferenciais e não alteram a compatibilidade', () => {
+ const candidate = new Candidate('Ana', 'Front-End', ['HTML', 'Git'], 1);
+ const job = new Job('Empresa', 'Front-End', ['HTML'], { preferredSkills: ['Git', 'Responsive Design'] });
+ const result = new SkillMatcher().analyzeCandidate(candidate, [job])[0];
+
+ assert.equal(result.score, 100);
+ assert.deepEqual(result.preferredSkillsMatched, ['Git']);
 });
 
 test('recomendações priorizam a habilidade ausente mais frequente', () => {

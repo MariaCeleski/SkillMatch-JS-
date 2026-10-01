@@ -21,6 +21,9 @@ export class Job {
  this.salary = details.salary ?? 0;
  this.modality = details.modality || 'Remoto';
  this.remote = details.remote ?? this.modality === 'Remoto';
+ this.area = details.area || 'Front-End';
+ this.minExperience = Number.isFinite(details.minExperience) ? details.minExperience : 0;
+ this.preferredSkills = Array.isArray(details.preferredSkills) ? details.preferredSkills : [];
  }
 
  /**
@@ -46,5 +49,10 @@ export class Job {
  */
  getSkillCount() {
  return this.requiredSkills.length;
+ }
+
+ /** Retorna uma cópia das habilidades desejáveis, que não alteram o percentual. */
+ getPreferredSkills() {
+ return [...this.preferredSkills];
  }
 }
