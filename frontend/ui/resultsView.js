@@ -1,3 +1,5 @@
+import { loadJobPreferences, saveJobPreferences } from '../../backend/services/jobPreferencesStorage.js';
+
 /**
  * Camada de apresentação dos resultados, filtros e recomendações.
  * Mantém seu próprio estado de visualização para que app.js apenas orquestre o fluxo.
@@ -12,16 +14,19 @@ export function createResultsView() {
   const compatibilityFilter = document.getElementById('compatibilityFilter');
   const jobSort = document.getElementById('jobSort');
 
-  if (modalityFilter) modalityFilter.addEventListener('change', function() {
+ if (modalityFilter) modalityFilter.addEventListener('change', function() {
    preferences.modality = this.value;
+   saveJobPreferences(preferences);
    renderFilteredJobResults();
   });
   if (compatibilityFilter) compatibilityFilter.addEventListener('change', function() {
    preferences.compatibility = this.value;
+   saveJobPreferences(preferences);
    renderFilteredJobResults();
   });
   if (jobSort) jobSort.addEventListener('change', function() {
    preferences.sort = this.value;
+   saveJobPreferences(preferences);
    renderFilteredJobResults();
   });
  }
@@ -40,9 +45,12 @@ export function createResultsView() {
    modalityFilter.appendChild(option);
   });
 
-  preferences.modality = 'all';
-  preferences.compatibility = 'all';
-  preferences.sort = 'compatibility-desc';
+  const savedPreferences = loadJobPreferences();
+  preferences.modality = savedPreferences?.modality && modalities.includes(savedPreferences.modality)
+   ? savedPreferences.modality
+   : 'all';
+  preferences.compatibility = savedPreferences?.compatibility || 'all';
+  preferences.sort = savedPreferences?.sort || 'compatibility-desc';
   modalityFilter.value = preferences.modality;
   document.getElementById('compatibilityFilter').value = preferences.compatibility;
   document.getElementById('jobSort').value = preferences.sort;
