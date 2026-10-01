@@ -97,7 +97,7 @@ export function createResultsView() {
   card.className = 'job-card';
   card.style.animationDelay = `${index * 0.1}s`;
 
-  const { job, score, classification, missingSkills, isBestMatch } = result;
+  const { job, score, classification, missingSkills, preferredSkillsMatched, isBestMatch } = result;
   const salary = formatSalary(job.salary);
   const stack = job.stack?.length > 0 ? job.stack.join(', ') : 'Não informada';
   const seniority = job.seniority || 'Não informada';
@@ -113,6 +113,7 @@ export function createResultsView() {
     <div><dt>Modalidade</dt><dd>${job.modality}</dd></div>
     <div><dt>Salário</dt><dd>${salary}</dd></div>
     <div><dt>Senioridade</dt><dd>${seniority}</dd></div>
+    <div><dt>Experiência mínima</dt><dd>${job.minExperience} ano${job.minExperience === 1 ? '' : 's'}</dd></div>
     <div><dt>Stack</dt><dd>${stack}</dd></div>
    </dl>
    <div class="compatibility-score">
@@ -136,7 +137,15 @@ export function createResultsView() {
     </div>` : `
     <div class="required-skills" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
      <div class="skills-label">✓ Você tem todas as skills necessárias!</div>
-    </div>`}
+   </div>`}
+   ${job.preferredSkills.length > 0 ? `
+    <div class="required-skills" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+     <div class="skills-label">Diferenciais desejáveis:</div>
+     <div class="skills-container">${job.preferredSkills.map(skill => {
+      const isMatched = preferredSkillsMatched.includes(skill);
+      return `<span class="skill-tag ${isMatched ? 'matched' : 'missing'}">${isMatched ? '✓' : '○'} ${skill}</span>`;
+     }).join('')}</div>
+    </div>` : ''}
   `;
   return card;
  }
@@ -162,10 +171,11 @@ export function createResultsView() {
   const list = document.getElementById('recommendationsList');
   list.innerHTML = '';
   recommendations.forEach((skill, index) => {
+   const affectedJobs = analysisResults.filter(result => result.missingSkills.includes(skill)).length;
    const item = document.createElement('div');
    item.className = 'recommendation-item';
    item.style.animationDelay = `${index * 0.1}s`;
-   item.innerHTML = `<div class="recommendation-priority">${index + 1}</div><div class="recommendation-text"><strong>${skill}</strong><small>Aprenda esta habilidade para melhorar suas oportunidades</small></div>`;
+   item.innerHTML = `<div class="recommendation-priority">${index + 1}</div><div class="recommendation-text"><strong>${skill}</strong><small>Falta em ${affectedJobs} vaga${affectedJobs === 1 ? '' : 's'}; priorize seu estudo para ampliar as oportunidades.</small></div>`;
    list.appendChild(item);
   });
  }
