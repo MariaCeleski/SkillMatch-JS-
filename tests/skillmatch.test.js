@@ -8,6 +8,7 @@ import { Job } from '../backend/models/Job.js';
 import { SkillMatcher } from '../backend/models/SkillMatcher.js';
 import { createDataLoader, mapJobData, loadJobsFromServer } from '../backend/services/dataLoader.js';
 import { loadProfile, PROFILE_STORAGE_KEY, saveProfile } from '../backend/services/profileStorage.js';
+import { JOB_PREFERENCES_STORAGE_KEY, loadJobPreferences, saveJobPreferences } from '../backend/services/jobPreferencesStorage.js';
 import { generateRecommendations } from '../backend/services/recommendationEngine.js';
 
 const rawFrontEndJob = {
@@ -173,6 +174,40 @@ test('perfil é persistido, restaurado e trata a primeira visita', () => {
  globalThis.localStorage = originalStorage;
  console.warn = originalWarn;
  }
+});
+
+test('filtros de vagas são persistidos e opções inválidas usam os padrões', () => {
+ const originalStorage = globalThis.localStorage;
+ const originalWarn = console.warn;
+ const values = new Map();
+ globalThis.localStorage = {
+  getItem: key => values.get(key) ?? null,
+  setItem: (key, value) => values.set(key, value)
+ };
+
+ try {
+  assert.equal(loadJobPreferences(), null);
+  assert.equal(saveJobPreferences({ modality: 'Remoto', compatibility: 'alta', sort: 'salary-desc' }), true);
+  assert.deepEqual(loadJobPreferences(), { modality: 'Remoto', compatibility: 'alta', sort: 'salary-desc' });
+
+  values.set(JOB_PREFERENCES_STORAGE_KEY, JSON.stringify({ modality: '', compatibility: 'inválida', sort: 'nome' }));
+  assert.deepEqual(loadJobPreferences(), { modality: 'all', compatibility: 'all', sort: 'compatibility-desc' });
+
+  values.set(JOB_PREFERENCES_STORAGE_KEY, '{preferências inválidas');
+  console.warn = () => {};
+  assert.equal(loadJobPreferences(), null);
+ } finally {
+  globalThis.localStorage = originalStorage;
+  console.warn = originalWarn;
+ }
+});
+
+test('interface restaura os filtros de vagas e persiste alterações', () => {
+ const resultsView = readFileSync(new URL('../frontend/ui/resultsView.js', import.meta.url), 'utf8');
+
+ assert.match(resultsView, /loadJobPreferences/);
+ assert.match(resultsView, /saveJobPreferences\(preferences\)/);
+ assert.match(resultsView, /modalities\.includes\(savedPreferences\.modality\)/);
 });
 
 test('motor calcula compatibilidade, skills faltantes e melhor oportunidade', () => {
