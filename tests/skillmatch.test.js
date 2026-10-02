@@ -102,14 +102,14 @@ test('camada responsiva parte do mobile e expande com min-width', () => {
  assert.match(css, /@media \(min-width: 769px\)/);
 });
 
-test('primeira pintura usa CSS crítico e adia interface secundária', () => {
+test('primeira pintura carrega o CSS completo antes de exibir o layout', () => {
  const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
  const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
  const criticalCss = readFileSync(new URL('../frontend/critical.css', import.meta.url), 'utf8');
 
  assert.match(html, /rel="stylesheet" href="critical\.css"/);
- assert.match(html, /rel="preload" href="styles\.css" as="style"/);
- assert.match(html, /<noscript><link rel="stylesheet" href="styles\.css"><\/noscript>/);
+ assert.match(html, /rel="stylesheet" href="styles\.css"/);
+ assert.doesNotMatch(html, /rel="preload" href="styles\.css"/);
  assert.match(app, /import\('\.\/ui\/resultsView\.js'\)/);
  assert.match(app, /requestIdleCallback/);
  assert.match(criticalCss, /Estilos essenciais da primeira pintura/);
