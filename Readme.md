@@ -6,7 +6,7 @@ Aplicação web em JavaScript puro que compara o perfil de uma pessoa candidata 
 
 - [Repositório no GitHub](https://github.com/MariaCeleski/SkillMatch-JS-)
 - [Kanban do projeto](https://github.com/users/MariaCeleski/projects/5)
-- [Vídeo de apresentação](#vídeo-de-apresentação)
+- [Vídeo de apresentação](https://youtu.be/mj9bgRs9Hlw)
 
 ## Recursos
 
@@ -165,7 +165,7 @@ As faixas são: alta (80% a 100%), média (50% a 79%) e baixa (0% a 49%). A reco
 
 O vídeo demonstrará o fluxo de análise, os requisitos e as principais decisões de implementação. Quando ele for publicado, substitua o link abaixo pela URL final:
 
-- [Adicionar link do vídeo](https://www.youtube.com/)
+- [Adicionar link do vídeo](https://youtu.be/mj9bgRs9Hlw)
 
 ## Autora
 
