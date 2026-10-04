@@ -1,7 +1,7 @@
 import { Job } from './Job.js';
 
 /**
- * Especialização de uma vaga voltada ao desenvolvimento front-end.
+ * Herança - Especialização de uma vaga voltada ao desenvolvimento front-end.
  * Além dos requisitos comuns, mantém informações da stack e senioridade
  * que serão apresentadas nos cards quando o catálogo vier do JSON.
  */
