@@ -1,314 +1,172 @@
-# SkillMatch JS — Simulador de Compatibilidade com Vagas Front-End
+# SkillMatch JS
 
-> Projeto educacional em JavaScript puro (ES6+) que compara o perfil de um candidato com vagas fictícias, calcula compatibilidade, identifica lacunas de habilidades e gera recomendações de estudo.
+Aplicação web em JavaScript puro que compara o perfil de uma pessoa candidata com vagas fictícias de Front-End. Ela calcula a compatibilidade, aponta habilidades faltantes, recomenda estudos e mantém um ranking local no navegador.
 
----
+## Links do projeto
 
-## 📌 Sobre o Projeto
+- [Repositório no GitHub](https://github.com/MariaCeleski/SkillMatch-JS-)
+- [Kanban do projeto](https://github.com/users/MariaCeleski/projects/5)
+- [Vídeo de apresentação](https://youtu.be/mj9bgRs9Hlw)
 
-SkillMatch JS é uma aplicação web completa construída com **JavaScript vanilla**, sem frameworks. O sistema permite que um candidato informe seu perfil (nome, área de interesse, habilidades e experiência) e receba uma análise detalhada de compatibilidade com diversas vagas do mercado front-end.
+## Recursos
 
-**Objetivo principal:** Demonstrar domínio de conceitos fundamentais de JavaScript — POO, array methods, async/await, closures, callbacks, herança — através de um projeto funcional e com interface visual.
+- Formulário com nome, área, experiência e habilidades.
+- Catálogo carregado de `data/jobs.json` com `fetch`, `async/await` e tratamento de carregamento, vazio e erro.
+- Motor de compatibilidade com classes, herança e métodos de array.
+- Cards com descrição, modalidade, salário, senioridade, stack, habilidades encontradas e faltantes.
+- Filtros por modalidade e nível de compatibilidade, além de ordenação por compatibilidade, salário ou empresa.
+- Tema claro/escuro e filtros de vagas persistidos em `localStorage`.
+- Ranking de análises persistido localmente.
 
----
+## Executar localmente
 
-## 📚 Recursos e Links Úteis
+O catálogo é carregado por `fetch`; portanto, abra a aplicação por um servidor HTTP, e não diretamente por `file://`.
 
-### 🎥 Vídeos de Referência
-- **Apresentação do mini projeto** — [Ver vídeo](https://youtu.be/lT1P4mzhsas)
+Com a extensão Live Server do VS Code:
 
-### 📊 Kanban e Gerenciamento de Projeto
-- **Kanban do Projeto** — [Acessar Kanban](https://github.com/users/MariaCeleski/projects/5/views/3) 
-- **Github Projeto** — [Acessar Projeto no Github](https://github.com/MariaCeleski/SkillMatch-JS-)    
-- **Rastreabilidade de Requisitos** — `frontend/console/docs/MAPEAMENTO_REQUISITOS.md`
-- **Rastreabilidade de Prints interface do projeto** — `frontend/console/docs/imagens de interface` 
-- **Console Analysis** | `frontend/console/docs/` | Análise detalhada do reportGenerator.js |
----
-### 🔗 Links Externos Úteis
+1. Abra a pasta do projeto no VS Code.
+2. Clique com o botão direito em `frontend/index.html`.
+3. Escolha **Open with Live Server**.
 
-| Tópico | Link |
-|---|---|
-| **MDN - Array Methods** | https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array |
-| **MDN - Classes** | https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes |
-| **MDN - Async/Await** | https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/Asynchronous/Promises |
-| **MDN - DOM API** | https://developer.mozilla.org/pt-BR/docs/Web/API/Document |
-| **CSS Tricks - Grid** | https://css-tricks.com/snippets/css/complete-guide-grid/ |
-| **CSS Tricks - Flexbox** | https://css-tricks.com/snippets/css/a-guide-to-flexbox/ |
+Também é possível iniciar um servidor local na raiz do projeto:
 
----
-
-### 💻 Ferramentas Recomendadas
-
-- **VS Code** — https://code.visualstudio.com/
-- **Live Server (Extensão)** — Permite visualizar mudanças em tempo real
-- **DevTools** — F12 no navegador para inspecionar código
-- **Git** — https://git-scm.com/
-- **GitHub** — https://github.com/
-
----
-
-## 🚀 Como Executar
-
-### Opção 1 — Abrir diretamente no navegador (recomendado)
-
-```
-1. Navegue até a pasta do projeto
-2. Abra o arquivo frontend/index.html em qualquer navegador moderno
-3. Preencha o formulário de perfil
-4. Clique em "Analisar Compatibilidade"
+```bash
+python3 -m http.server 8000
 ```
 
-### Opção 2 — Via console do navegador
+Depois, abra `http://localhost:8000/frontend/`.
 
-```
-1. Abra qualquer página no navegador
-2. Pressione F12 → aba Console
-3. Cole o conteúdo de frontend/main.js
-4. Execute: runSkillMatch()
-```
+## Testes
 
-### Opção 3 — Live Server (VS Code)
-
-```
-1. Instale a extensão "Live Server"
-2. Clique com o botão direito em frontend/index.html
-3. Selecione "Open with Live Server"
+```bash
+npm test
 ```
 
----
+O comando executa a suíte nativa do Node.js e os testes de console já existentes. A cobertura automatizada valida o motor de compatibilidade, a recomendação de habilidades e o carregamento do catálogo nos cenários de sucesso, lista vazia e erro HTTP. Veja também [docs/TESTES.md](docs/TESTES.md).
 
-## 🗂️ Estrutura do Projeto
+## Estrutura
 
-```
-Skill_match/
-│
+```text
+SkillMatchJS/
 ├── backend/
 │   ├── models/
-│   │   ├── Candidate.js          ← Modelo do candidato (Req 1, 9, 11)
-│   │   ├── Job.js                ← Modelo de vaga (Req 2, 9)
-│   │   └── SkillMatcher.js       ← Motor de compatibilidade (Req 3–6, 8, 10, 11)
-│   │
+│   │   ├── Candidate.js              # perfil da pessoa candidata
+│   │   ├── Job.js                    # modelo base de vaga
+│   │   ├── FrontEndJob.js            # especialização de vaga Front-End
+│   │   └── SkillMatcher.js           # cálculo de compatibilidade
 │   └── services/
-│       ├── dataLoader.js         ← Carregamento async, closure, callback (Req 12, 13, 14)
-│       └── recommendationEngine.js  ← Recomendações de estudo (Req 7, 8, 12)
-│
+│       ├── dataLoader.js             # leitura do catálogo de vagas
+│       ├── profileStorage.js          # persistência do perfil local
+│       └── recommendationEngine.js   # sugestões de habilidades
 ├── data/
-│   └── mockJobs.js               ← 5 vagas fictícias de exemplo (Req 2)
-│
+│   ├── jobs.json                     # catálogo usado pela interface
+│   └── mockJobs.js                   # dados auxiliares para testes
+├── docs/
+│   ├── DESAFIO_E_REQUISITOS.md
+│   ├── GUIA_REQUISITOS_E_IMPLEMENTACOES.md
+│   ├── KANBAN_TASKS.md
+│   └── TESTES.md
 ├── frontend/
-│   ├── app.js                    ← Lógica principal da interface web
-│   ├── index.html                ← Estrutura HTML da aplicação
-│   ├── styles.css                ← Estilização responsiva com CSS Grid/Flexbox
-│   ├── main.js                   ← Versão console do simulador
-│   └── console/
-│       └── reportGenerator.js    ← Gerador de relatório formatado no console
-│
-├── .kiro/specs/skillmatch-js/
-│   ├── requirements.md           ← Requisitos funcionais completos
-│   ├── design.md                 ← Documento de design e arquitetura
-│   └── tasks.md                  ← Lista de tarefas de implementação
-│
-├── MAPEAMENTO_REQUISITOS.md      ← Rastreabilidade: requisito × arquivo × método
-├── METODOS_COMENTADOS.md         ← Documentação de todos os 34 métodos
-└── README.md                     ← Este arquivo
+│   ├── assets/                       # logo e ilustração
+│   ├── console/                       # relatório de análise no terminal
+│   ├── ui/
+│   │   ├── profileForm.js            # validação e leitura do formulário
+│   │   ├── rankingView.js            # tabela de ranking
+│   │   ├── resultsView.js            # resultados e recomendações
+│   │   └── theme.js                  # alternância de tema
+│   ├── app.js                        # orquestra eventos e estado
+│   ├── main.js                       # ponto de entrada complementar
+│   ├── index.html                    # estrutura da interface
+│   ├── styles.css                    # estilos responsivos
+│   └── critical.css                  # estilos críticos iniciais
+├── tests/
+│   └── skillmatch.test.js            # testes automatizados
+├── package.json                      # scripts e metadados do projeto
+└── Readme.md                         # documentação principal
 ```
 
----
+## Diagrama do DOM
 
-## 🧮 Regra de Cálculo de Compatibilidade
+O HTML base está em `frontend/index.html`. Os elementos indicados como **dinâmicos** começam ocultos ou vazios e são atualizados após a análise do perfil.
 
-**Fórmula:**
+```mermaid
+flowchart TD
+    body[body]
+    body --> skip[Link: pular para o conteúdo]
+    body --> header[header.header]
+    header --> headerContainer[.container]
+    headerContainer --> logo[.logo: imagem, h1 e tagline]
+    headerContainer --> actions[.header-actions]
+    actions --> nav[nav.main-nav]
+    actions --> theme[button#themeToggle]
+    header --> illustration[Imagem decorativa]
 
-```
-Compatibilidade (%) = (Habilidades Encontradas / Habilidades Requeridas) × 100
-```
+    body --> main[main#mainContent]
+    main --> container[.container]
+    container --> profile[section#candidateSection — Seu Perfil]
+    profile --> form[form#candidateForm]
+    form --> fields[Nome, área, experiência e habilidades]
+    form --> analyze[button#analyzeButton]
+    form --> status[p#dataStatus]
+    profile --> summary[div#candidateSummary — dinâmico]
+    summary --> readiness[div#readinessMeter — dinâmico]
 
-**Exemplo prático:**
-- Vaga requer: `['HTML', 'CSS', 'JavaScript', 'React']`
-- Candidato tem: `['HTML', 'CSS', 'JavaScript']`
-- Cálculo: `(3 / 4) × 100 = 75%`
-- Classificação: **Média compatibilidade**
+    container --> results[section#resultsSection — dinâmico]
+    results --> controls[div#jobControls: filtros e ordenação]
+    results --> grid[div#jobResultsGrid: cards de vagas]
+    container --> best[section#bestOpportunitySection — dinâmico]
+    best --> bestCard[div#bestOpportunityCard]
+    container --> recommendations[section#recommendationsSection — dinâmico]
+    recommendations --> list[div#recommendationsList]
+    container --> stats[section#statisticsSection — dinâmico]
+    stats --> statCards[.statistics-grid: quatro indicadores]
+    container --> ranking[section#rankingSection]
+    ranking --> clear[button#clearRankingButton]
+    ranking --> empty[div#rankingEmpty]
+    ranking --> table[table#rankingTableWrapper > tbody#rankingTableBody]
 
-**Casos extremos:**
-- Candidato não tem nenhuma skill da vaga → `0%`
-- Candidato tem todas as skills da vaga → `100%`
-
-**Implementado em:** `backend/models/SkillMatcher.js` → método `calculateCompatibility()`
-
----
-
-## 📊 Classificação de Compatibilidade
-
-| Faixa de Score | Classificação | Cor |
-|---|---|---|
-| 80% – 100% | Alta compatibilidade | 🟢 Verde |
-| 50% – 79% | Média compatibilidade | 🟡 Amarelo |
-| 0% – 49% | Baixa compatibilidade  | 🔴 Vermelho |
-
-**Implementado em:** `backend/models/SkillMatcher.js` → método `classifyCompatibility()`
-
----
-
-## 📚 Critério de Prioridade nas Recomendações
-
-As recomendações de estudo são ordenadas pela **frequência** — a skill que aparece faltando em mais vagas recebe maior prioridade.
-
-**Algoritmo:**
-1. Coleta todas as skills faltantes de todas as vagas analisadas
-2. Conta quantas vezes cada skill aparece na lista
-3. Ordena do mais frequente para o menos frequente
-4. Remove duplicatas mantendo apenas a primeira ocorrência de cada skill
-
-**Exemplo:**
-- `"React"` falta em 4 vagas → prioridade 1
-- `"TypeScript"` falta em 2 vagas → prioridade 2
-- `"GraphQL"` falta em 1 vaga → prioridade 3
-
-**Implementado em:** `backend/services/recommendationEngine.js` → `generateRecommendations()`
-
----
-
-## 🏗️ Arquitetura em Três Camadas
-
-```
-┌─────────────────────────────────────────┐
-│              FRONTEND                   │
-│   index.html + app.js + styles.css      │
-│   Formulário → Análise → Resultados     │
-└───────────────────┬─────────────────────┘
-                    │ await / callbacks
-┌───────────────────▼─────────────────────┐
-│           CAMADA DE SERVIÇOS            │
-│   dataLoader.js + recommendationEngine  │
-│   Promise → Async/Await → Closure       │
-└───────────────────┬─────────────────────┘
-                    │ instâncias
-┌───────────────────▼─────────────────────┐
-│            CAMADA DE MODELOS            │
-│   Candidate.js + Job.js + SkillMatcher  │
-│   Classes → Herança → Array Methods     │
-└───────────────────┬─────────────────────┘
-                    │ dados
-┌───────────────────▼─────────────────────┐
-│             CAMADA DE DADOS             │
-│              mockJobs.js                │
-│         5 vagas fictícias               │
-└─────────────────────────────────────────┘
+    body --> footer[footer.footer]
 ```
 
----
+## Sugestões de melhorias
 
-## 🧩 Conceitos JavaScript Demonstrados
+1. **Adicionar testes de interface:** cobrir validação do formulário, filtros, alternância de tema e renderização dos estados de carregamento/erro com uma biblioteca de testes de DOM.
+2. **Aprimorar a acessibilidade do ranking:** disponibilizar uma alternativa responsiva à tabela para telas pequenas e confirmar a navegação completa por teclado nos cards e controles gerados dinamicamente.
+3. **Permitir gestão de habilidades:** oferecer um campo para incluir habilidades não listadas e normalizá-las antes do cálculo, sem perder as opções por checkbox.
+4. **Conectar um catálogo real de vagas:** substituir ou complementar o JSON fictício por uma API, com paginação, atualização de dados e um estado de indisponibilidade bem comunicado.
+5. **Criar automação de qualidade:** configurar integração contínua para executar `npm test` a cada alteração e incluir lint/formatador para manter o padrão do código.
+6. **Evoluir as recomendações:** relacionar cada habilidade faltante a trilhas, materiais de estudo e progresso salvo localmente, transformando a recomendação em um plano de ação.
 
-| Conceito | Arquivo | Método / Onde |
-|---|---|---|
-| **Classes e Construtor** | `Candidate.js`, `Job.js` | `constructor()` |
-| **Herança (`extends`)** | `SkillMatcher.js` | `SkillMatcher extends BaseMatcher` |
-| **Keyword `this`** | `SkillMatcher.js`, `Candidate.js` | `this.results`, `this.skills` |
-| **`filter()`** | `SkillMatcher.js` | Encontrar skills que batem / skills faltantes |
-| **`map()`** | `SkillMatcher.js` | Transformar vagas em objetos de resultado |
-| **`reduce()`** | `SkillMatcher.js` | Encontrar vaga com maior score |
-| **`find()`** | `SkillMatcher.js` | Localizar melhor match |
-| **`every()`** | `SkillMatcher.js` | Verificar se candidato tem TODAS as skills |
-| **`forEach()`** | `recommendationEngine.js` | Coletar skills faltantes |
-| **`sort()`** | `recommendationEngine.js` | Ordenar por prioridade |
-| **Callback** | `recommendationEngine.js`, `dataLoader.js` | `onRecommendationReady`, error-first pattern |
-| **Closure** | `dataLoader.js` | `createDataLoader()` — estado encapsulado |
-| **Promise** | `dataLoader.js` | `loadJobsFromServer()` — simula servidor |
-| **Async/Await** | `dataLoader.js`, `app.js` | `loadDataAsync()`, `analyzeCandidate()` |
-| **DOM Manipulation** | `app.js` | `document.getElementById()`, template literals |
-| **CSS Grid / Flexbox** | `styles.css` | Layout responsivo em 3 breakpoints |
-| **localStorage** | `app.js` | Ranking de candidatos persistente |
+## Como a compatibilidade é calculada
 
----
+```text
+compatibilidade = habilidades encontradas / habilidades requeridas × 100
+```
 
-## 🖥️ Funcionalidades da Interface Web
+As faixas são: alta (80% a 100%), média (50% a 79%) e baixa (0% a 49%). A recomendação prioriza as habilidades ausentes com maior frequência nas vagas analisadas.
 
-### Formulário de Perfil
-- **Nome:** campo de texto livre
-- **Área de Interesse:** dropdown com Front-End, Backend e FullStack
-- **Anos de Experiência:** slider sincronizado com input numérico
-- **Habilidades:** checkboxes organizados em 4 categorias (Frontend, Backend, Banco de Dados, DevOps & Cloud)
+## Conceitos praticados
 
-### Resultados após análise
-| Seção | O que mostra |
-|---|---|
-| **Resumo do Perfil** | Dados do candidato + Medidor de Prontidão para o Mercado |
-| **Compatibilidade com Vagas** | Cards para cada vaga com score, barra de progresso e skills |
-| **Melhor Oportunidade** | Destaque da vaga com maior compatibilidade |
-| **Recomendações de Estudo** | Lista priorizada de skills para aprender |
-| **Estatísticas** | Total de vagas, score máximo, score médio, skills a aprender |
-| **Ranking de Candidatos** | Tabela com todos os candidatos analisados (persiste no navegador) |
+- Módulos ES com `import` e `export`.
+- Classes, construtores, `this` e herança (`FrontEndJob extends Job`).
+- `map`, `filter`, `find`, `reduce`, `every` e `sort`.
+- Callbacks, closure, Promises e `async/await`.
+- DOM, eventos, renderização dinâmica e responsividade.
+- `fetch` e `localStorage`.
 
-### Medidor de Prontidão para o Mercado
-Aparece no resumo após a análise, calculando a média geral:
+## Documentação complementar
 
-| Média | Nível |
-|---|---|
-| ≥ 80% | 🟢 Pronto para o Mercado |
-| 60–79% | 🔵 Quase lá |
-| 40–59% | 🟡 Em Desenvolvimento |
-| < 40% | 🔴 Iniciante |
+- [Cenários de teste](docs/TESTES.md)
+- [Mapeamento de requisitos do console](frontend/console/docs/MAPEAMENTO_REQUISITOS.md)
+- [Guia de requisitos e implementações](docs/GUIA_REQUISITOS_E_IMPLEMENTACOES.md)
+- [Kanban do projeto](docs/KANBAN_TASKS.md)
 
-### Ranking de Candidatos
-- Acumula todos os candidatos analisados na sessão
-- Persiste mesmo após recarregar a página (localStorage)
-- Ordenado automaticamente do maior para o menor score médio
-- Mostra 🥇🥈🥉 para os 3 primeiros
-- Permite remover candidatos individualmente ou limpar tudo
+## Vídeo de apresentação
 
----
+O vídeo demonstrará o fluxo de análise, os requisitos e as principais decisões de implementação. Quando ele for publicado, substitua o link abaixo pela URL final:
 
-## 📋 Requisitos Implementados
+- [Adicionar link do vídeo](https://youtu.be/mj9bgRs9Hlw)
 
-Todos os 16 requisitos definidos estão implementados:
+## Autora
 
-| # | Requisito | Status | Arquivo Principal |
-|---|---|---|---|
-| 1 | Criar Perfil do Candidato | ✅ | `Candidate.js` |
-| 2 | Criar Lista de Vagas | ✅ | `Job.js`, `mockJobs.js` |
-| 3 | Calcular % de Compatibilidade | ✅ | `SkillMatcher.js` |
-| 4 | Classificar Compatibilidade | ✅ | `SkillMatcher.js` |
-| 5 | Listar Skills Faltantes | ✅ | `SkillMatcher.js` |
-| 6 | Encontrar Melhor Vaga | ✅ | `SkillMatcher.js` |
-| 7 | Gerar Recomendações de Estudo | ✅ | `recommendationEngine.js` |
-| 8 | Usar Array Methods (mín. 3) | ✅ | 9 métodos usados |
-| 9 | Implementar Classe com Construtor | ✅ | `Candidate.js`, `Job.js` |
-| 10 | Implementar Herança | ✅ | `SkillMatcher extends BaseMatcher` |
-| 11 | Demonstrar uso do `this` | ✅ | `SkillMatcher.js`, `Candidate.js` |
-| 12 | Usar Callback | ✅ | `recommendationEngine.js`, `dataLoader.js` |
-| 13 | Usar Closure | ✅ | `dataLoader.js` → `createDataLoader()` |
-| 14 | Usar Promise e Async/Await | ✅ | `dataLoader.js` → `loadJobsFromServer()` |
-| 15 | Gerar Relatório | ✅ | `app.js`, `reportGenerator.js` |
-| 16 | Restrições Técnicas | ✅ | Todos os arquivos |
-
-Para o mapeamento completo (requisito → arquivo → método), consulte `MAPEAMENTO_REQUISITOS.md`.
-
----
-
-## 🔧 Documentação Técnica
-
-| Documento | Descrição |
-|---|---|
-| `MAPEAMENTO_REQUISITOS.md` | Rastreabilidade completa dos 16 requisitos |
-| `METODOS_COMENTADOS.md` | Explicação dos 34 métodos do projeto |
----
-
-## 🌐 Compatibilidade
-
-| Ambiente | Suporte |
-|---|---|
-| Chrome 88+ | ✅ |
-| Firefox 85+ | ✅ |
-| Safari 14+ | ✅ |
-| Edge 88+ | ✅ |
-| Mobile Chrome / Safari | ✅ |
-| Node.js | ⚠️ Parcial (sem DOM) |
-
----
-
-## 👩‍💻 Autora
-
-**Maria de Lourdes Celeski**
-Módulo M1S6 — Front-End React T3
-Agosto de 2026
+Maria de Lourdes Celeski

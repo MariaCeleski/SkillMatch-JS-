@@ -57,7 +57,6 @@ export class SkillMatcher extends BaseMatcher {
  // Validação básica
  if (!candidate || !job) return 0;
 
- const candidateSkills = candidate.getSkillsList();
  const requiredSkills = job.getRequiredSkills();
 
  // Garantir que temos skills requeridas
@@ -65,7 +64,7 @@ export class SkillMatcher extends BaseMatcher {
 
  // ARRAY METHOD 1: filter() - Encontrar skills que o candidato possui
  const matchingSkills = requiredSkills.filter(skill =>
- candidateSkills.includes(skill)
+ candidate.hasSkill(skill)
  );
 
  // Calcular percentual
@@ -83,15 +82,29 @@ export class SkillMatcher extends BaseMatcher {
  * @returns {array} Lista de skills faltantes
  */
  getMissingSkills(candidate, job) {
- const candidateSkills = candidate.getSkillsList();
  const requiredSkills = job.getRequiredSkills();
 
  // ARRAY METHOD 2: filter() - Skills que não estão no candidato
  const missingSkills = requiredSkills.filter(skill =>
- !candidateSkills.includes(skill)
+ !candidate.hasSkill(skill)
  );
 
  return missingSkills;
+ }
+
+ /** Encontra diferenciais desejáveis que a pessoa candidata já possui. */
+ getMatchedPreferredSkills(candidate, job) {
+ return job.getPreferredSkills().filter(skill => candidate.hasSkill(skill));
+ }
+
+ /** Verifica se a área informada corresponde à área da vaga. */
+ hasMatchingArea(candidate, job) {
+ return candidate.areaOfInterest.trim().toLocaleLowerCase('pt-BR') === job.area.trim().toLocaleLowerCase('pt-BR');
+ }
+
+ /** Verifica se a experiência declarada atende ao mínimo informado pela vaga. */
+ meetsExperienceRequirement(candidate, job) {
+ return candidate.yearsOfExperience >= job.minExperience;
  }
 
  /**
@@ -133,6 +146,9 @@ export class SkillMatcher extends BaseMatcher {
  score: score,
  classification: classification,
  missingSkills: missing,
+ preferredSkillsMatched: this.getMatchedPreferredSkills(candidate, job),
+ isAreaMatch: this.hasMatchingArea(candidate, job),
+ meetsExperienceRequirement: this.meetsExperienceRequirement(candidate, job),
  isBestMatch: false // Será atualizado depois
  };
 
@@ -142,9 +158,14 @@ export class SkillMatcher extends BaseMatcher {
 
  // ARRAY METHOD 4: reduce() - Encontrar vaga com maior compatibilidade
  if (analysisResults.length > 0) {
- const bestMatch = analysisResults.reduce((best, current) =>
- current.score > best.score ? current : best
- );
+ const bestMatch = analysisResults.reduce((best, current) => {
+  if (current.score !== best.score) return current.score > best.score ? current : best;
+  if (current.isAreaMatch !== best.isAreaMatch) return current.isAreaMatch ? current : best;
+  if (current.meetsExperienceRequirement !== best.meetsExperienceRequirement) {
+   return current.meetsExperienceRequirement ? current : best;
+  }
+  return current;
+ });
 
  // Marcar o melhor match (apenas se score > 0)
  if (bestMatch.score > 0) {
@@ -177,12 +198,9 @@ export class SkillMatcher extends BaseMatcher {
  * @returns {boolean}
  */
  meetsAllRequirements(candidate, job) {
- const candidateSkills = candidate.getSkillsList();
  const requiredSkills = job.getRequiredSkills();
 
  // ARRAY METHOD 6: every() - Verifica se TODOS os skills são encontrados
- return requiredSkills.every(skill => candidateSkills.includes(skill));
+ return requiredSkills.every(skill => candidate.hasSkill(skill));
  }
 }
-
-

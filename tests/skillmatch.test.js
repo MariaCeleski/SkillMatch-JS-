@@ -1,0 +1,338 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+
+import { Candidate } from '../backend/models/Candidate.js';
+import { FrontEndJob } from '../backend/models/FrontEndJob.js';
+import { Job } from '../backend/models/Job.js';
+import { SkillMatcher } from '../backend/models/SkillMatcher.js';
+import { createDataLoader, mapJobData, loadJobsFromServer } from '../backend/services/dataLoader.js';
+import { loadProfile, PROFILE_STORAGE_KEY, saveProfile } from '../backend/services/profileStorage.js';
+import { JOB_PREFERENCES_STORAGE_KEY, loadJobPreferences, saveJobPreferences } from '../backend/services/jobPreferencesStorage.js';
+import { generateRecommendations } from '../backend/services/recommendationEngine.js';
+
+const rawFrontEndJob = {
+ id: 'frontend-01',
+ company: 'SkillMatch Labs',
+ title: 'Pessoa Desenvolvedora Front-End',
+ area: 'Front-End',
+ requiredSkills: ['HTML', 'CSS', 'JavaScript'],
+ stack: ['JavaScript'],
+ seniority: 'Júnior',
+ salary: 4500,
+ modality: 'Remoto'
+};
+
+test('formulário usa submit e expõe mensagens de validação acessíveis', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const profileForm = readFileSync(new URL('../frontend/ui/profileForm.js', import.meta.url), 'utf8');
+
+ assert.match(html, /<form class="candidate-form" id="candidateForm" novalidate>/);
+ assert.match(html, /type="submit"/);
+ assert.match(html, /id="candidateNameError" role="alert"/);
+ assert.match(html, /id="skillsError" role="alert"/);
+ assert.match(app, /form\.addEventListener\('submit'/);
+ assert.match(profileForm, /firstInvalidField\.focus\(\)/);
+});
+
+test('formulário é limpo após uma análise concluída para receber outro candidato', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const profileForm = readFileSync(new URL('../frontend/ui/profileForm.js', import.meta.url), 'utf8');
+
+ assert.match(app, /import \{ clearProfileForm, getProfileFormData, restoreProfileForm \}/);
+ assert.match(app, /saveCandidateToRanking\(currentCandidate, analysisResults\);\s+clearProfileForm\(\);/);
+ assert.match(profileForm, /export function clearProfileForm\(\)/);
+ assert.match(profileForm, /checkbox\.checked = false/);
+});
+
+test('interface é separada em módulos ES para formulário e tema', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+
+ assert.match(app, /from '\.\/ui\/profileForm\.js'/);
+ assert.match(app, /from '\.\/ui\/theme\.js'/);
+ assert.match(app, /import\('\.\/ui\/resultsView\.js'\)/);
+ assert.match(app, /import\('\.\/ui\/rankingView\.js'\)/);
+ assert.doesNotMatch(app, /function getFormData\(/);
+ assert.doesNotMatch(app, /function setupThemePreference\(/);
+});
+
+test('página oferece SEO e atalhos de navegação acessíveis', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+
+ assert.match(html, /<meta name="description"/);
+ assert.match(html, /href="#mainContent">Pular para o conteúdo principal/);
+ assert.match(html, /<nav class="main-nav" aria-label="Navegação principal">/);
+ assert.match(html, /<main class="main-content" id="mainContent" tabindex="-1">/);
+ assert.match(html, /<img class="logo-image" src="assets\/skillmatch-logo\.svg" alt="SkillMatch JS">/);
+});
+
+test('controles de experiência têm nome acessível e categorias respeitam a hierarquia de títulos', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+
+ assert.match(html, /id="experienceSlider"[\s\S]*?aria-label="Anos de experiência"/);
+ assert.match(html, /id="experience"[\s\S]*?aria-label="Anos de experiência"/);
+ assert.doesNotMatch(html, /<h4>/);
+ assert.match(html, /<h3>Frontend<\/h3>/);
+});
+
+test('campos claros preservam contraste de texto nos dois temas', () => {
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.match(css, /html\[data-theme="light"\] \.job-details dd,/);
+ assert.match(css, /html\[data-theme="dark"\] \.job-details dd \{\s+color: #374151;/);
+ assert.match(css, /html\[data-theme="dark"\] \.job-details div \{\s+background: #f8fafc;/);
+});
+
+test('layout principal usa Flexbox em vez de CSS Grid', () => {
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.match(css, /\.candidate-form \{\s+display: flex;/);
+ assert.match(css, /\.jobs-grid \{\s+display: flex;/);
+ assert.match(css, /\.statistics-grid \{\s+display: flex;/);
+ assert.doesNotMatch(css, /display:\s*grid|grid-template-columns|grid-column/);
+});
+
+test('camada responsiva parte do mobile e expande com min-width', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.doesNotMatch(html, /responsive\.css/);
+ assert.match(css, /Base mobile-first/);
+ assert.match(css, /@media \(min-width: 769px\)/);
+});
+
+test('primeira pintura carrega o CSS completo antes de exibir o layout', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const criticalCss = readFileSync(new URL('../frontend/critical.css', import.meta.url), 'utf8');
+
+ assert.match(html, /rel="stylesheet" href="critical\.css"/);
+ assert.match(html, /rel="stylesheet" href="styles\.css"/);
+ assert.doesNotMatch(html, /rel="preload" href="styles\.css"/);
+ assert.match(app, /import\('\.\/ui\/resultsView\.js'\)/);
+ assert.match(app, /requestIdleCallback/);
+ assert.match(criticalCss, /Estilos essenciais da primeira pintura/);
+});
+
+test('toda habilidade exigida pelo catálogo pode ser selecionada no formulário', () => {
+ const html = readFileSync(new URL('../frontend/index.html', import.meta.url), 'utf8');
+ const catalog = JSON.parse(readFileSync(new URL('../data/jobs.json', import.meta.url), 'utf8'));
+ const selectableSkills = new Set(
+ [...html.matchAll(/<input type="checkbox" name="skills" value="([^"]+)"[^>]*>/g)].map(([, skill]) => skill)
+ );
+ const requiredSkills = new Set(catalog.flatMap(job => job.requiredSkills));
+
+ assert.ok(selectableSkills.has('Responsive Design'));
+ assert.deepEqual([...requiredSkills].filter(skill => !selectableSkills.has(skill)), []);
+});
+
+test('Responsive Design compõe a compatibilidade e deixa de ser habilidade faltante', () => {
+ const candidate = new Candidate('Lia', 'Front-End', ['HTML', 'CSS', 'JavaScript', 'Responsive Design'], 1);
+ const job = new Job('Empresa UI', 'UI Developer', ['HTML', 'CSS', 'JavaScript', 'Responsive Design']);
+ const matcher = new SkillMatcher();
+
+ assert.equal(matcher.calculateCompatibility(candidate, job), 100);
+ assert.deepEqual(matcher.getMissingSkills(candidate, job), []);
+});
+
+test('motor normaliza caixa, espaços e aliases de skills antes de comparar', () => {
+ const candidate = new Candidate('Lia', 'Front-End', [' react ', 'API REST', 'JAVASCRIPT'], 1);
+ const job = new Job('Empresa', 'Pessoa Desenvolvedora', ['React', 'REST API', 'JavaScript']);
+ const matcher = new SkillMatcher();
+
+ assert.equal(matcher.calculateCompatibility(candidate, job), 100);
+ assert.deepEqual(matcher.getMissingSkills(candidate, job), []);
+});
+
+test('ranking oferece rótulos para a versão responsiva em cards', () => {
+ const rankingView = readFileSync(new URL('../frontend/ui/rankingView.js', import.meta.url), 'utf8');
+ const css = readFileSync(new URL('../frontend/styles.css', import.meta.url), 'utf8');
+
+ assert.match(rankingView, /data-label="Compatibilidade"/);
+ assert.match(rankingView, /data-label="Melhor vaga"/);
+ assert.match(css, /@media \(max-width: 1440px\)/);
+ assert.match(css, /content: attr\(data-label\)/);
+});
+
+test('renderização de resultados, filtros e ranking ficam fora do coordenador principal', () => {
+ const app = readFileSync(new URL('../frontend/app.js', import.meta.url), 'utf8');
+ const resultsView = readFileSync(new URL('../frontend/ui/resultsView.js', import.meta.url), 'utf8');
+ const rankingView = readFileSync(new URL('../frontend/ui/rankingView.js', import.meta.url), 'utf8');
+
+ assert.ok(app.split('\n').length < 220);
+ assert.match(resultsView, /export function createResultsView/);
+ assert.match(resultsView, /function renderFilteredJobResults/);
+ assert.match(rankingView, /export function saveCandidateToRanking/);
+ assert.match(rankingView, /function renderRankingTable/);
+});
+
+test('perfil é persistido, restaurado e trata a primeira visita', () => {
+ const originalStorage = globalThis.localStorage;
+ const originalWarn = console.warn;
+ const values = new Map();
+ globalThis.localStorage = {
+ getItem: key => values.get(key) ?? null,
+ setItem: (key, value) => values.set(key, value)
+ };
+
+ try {
+ assert.equal(loadProfile(), null);
+ assert.equal(saveProfile(new Candidate('Bia', 'Front-End', ['HTML', 'CSS'], 2)), true);
+ assert.deepEqual(loadProfile(), {
+ name: 'Bia',
+ areaOfInterest: 'Front-End',
+ skills: ['HTML', 'CSS'],
+ yearsOfExperience: 2
+ });
+
+ values.set(PROFILE_STORAGE_KEY, '{perfil inválido');
+ console.warn = () => {};
+ assert.equal(loadProfile(), null);
+ } finally {
+ globalThis.localStorage = originalStorage;
+ console.warn = originalWarn;
+ }
+});
+
+test('filtros de vagas são persistidos e opções inválidas usam os padrões', () => {
+ const originalStorage = globalThis.localStorage;
+ const originalWarn = console.warn;
+ const values = new Map();
+ globalThis.localStorage = {
+  getItem: key => values.get(key) ?? null,
+  setItem: (key, value) => values.set(key, value)
+ };
+
+ try {
+  assert.equal(loadJobPreferences(), null);
+  assert.equal(saveJobPreferences({ modality: 'Remoto', compatibility: 'alta', sort: 'salary-desc' }), true);
+  assert.deepEqual(loadJobPreferences(), { modality: 'Remoto', compatibility: 'alta', sort: 'salary-desc' });
+
+  values.set(JOB_PREFERENCES_STORAGE_KEY, JSON.stringify({ modality: '', compatibility: 'inválida', sort: 'nome' }));
+  assert.deepEqual(loadJobPreferences(), { modality: 'all', compatibility: 'all', sort: 'compatibility-desc' });
+
+  values.set(JOB_PREFERENCES_STORAGE_KEY, '{preferências inválidas');
+  console.warn = () => {};
+  assert.equal(loadJobPreferences(), null);
+ } finally {
+  globalThis.localStorage = originalStorage;
+  console.warn = originalWarn;
+ }
+});
+
+test('interface restaura os filtros de vagas e persiste alterações', () => {
+ const resultsView = readFileSync(new URL('../frontend/ui/resultsView.js', import.meta.url), 'utf8');
+
+ assert.match(resultsView, /loadJobPreferences/);
+ assert.match(resultsView, /saveJobPreferences\(preferences\)/);
+ assert.match(resultsView, /modalities\.includes\(savedPreferences\.modality\)/);
+});
+
+test('motor calcula compatibilidade, skills faltantes e melhor oportunidade', () => {
+ const candidate = new Candidate('Ana', 'Front-End', ['HTML', 'CSS', 'JavaScript'], 1);
+ const matchingJob = new Job('Empresa A', 'Front-End Júnior', ['HTML', 'CSS', 'JavaScript']);
+ const otherJob = new Job('Empresa B', 'Front-End Pleno', ['React', 'TypeScript', 'JavaScript']);
+ const results = new SkillMatcher().analyzeCandidate(candidate, [matchingJob, otherJob]);
+
+ assert.equal(results[0].score, 100);
+ assert.equal(results[0].classification, 'Alta compatibilidade');
+ assert.deepEqual(results[1].missingSkills, ['React', 'TypeScript']);
+ assert.equal(results[1].score, 33.33);
+ assert.equal(results[0].isBestMatch, true);
+});
+
+test('área e experiência decidem empates sem mudar o percentual de compatibilidade', () => {
+ const candidate = new Candidate('Ana', 'Front-End', ['JavaScript'], 1);
+ const jobs = [
+  new Job('Empresa Pleno', 'Front-End', ['JavaScript'], { area: 'Front-End', minExperience: 2 }),
+  new Job('Empresa Júnior', 'Front-End', ['JavaScript'], { area: 'Front-End', minExperience: 1 }),
+  new Job('Empresa Backend', 'Backend', ['JavaScript'], { area: 'Backend', minExperience: 0 })
+ ];
+ const results = new SkillMatcher().analyzeCandidate(candidate, jobs);
+
+ assert.deepEqual(results.map(result => result.score), [100, 100, 100]);
+ assert.equal(results[1].isBestMatch, true);
+ assert.equal(results[1].meetsExperienceRequirement, true);
+ assert.equal(results[2].isAreaMatch, false);
+});
+
+test('skills desejáveis aparecem como diferenciais e não alteram a compatibilidade', () => {
+ const candidate = new Candidate('Ana', 'Front-End', ['HTML', 'Git'], 1);
+ const job = new Job('Empresa', 'Front-End', ['HTML'], { preferredSkills: ['Git', 'Responsive Design'] });
+ const result = new SkillMatcher().analyzeCandidate(candidate, [job])[0];
+
+ assert.equal(result.score, 100);
+ assert.deepEqual(result.preferredSkillsMatched, ['Git']);
+});
+
+test('recomendações priorizam a habilidade ausente mais frequente', () => {
+ const recommendations = generateRecommendations([
+ { missingSkills: ['React', 'TypeScript'] },
+ { missingSkills: ['React', 'Node.js'] }
+ ]);
+
+ assert.deepEqual(recommendations, ['React', 'TypeScript', 'Node.js']);
+});
+
+test('catálogo transforma uma vaga Front-End em FrontEndJob', () => {
+ const job = mapJobData(rawFrontEndJob);
+
+ assert.ok(job instanceof FrontEndJob);
+ assert.equal(job.salary, 4500);
+ assert.deepEqual(job.stack, ['JavaScript']);
+});
+
+test('fetch bem-sucedido retorna instâncias prontas para o motor', async () => {
+ const originalFetch = globalThis.fetch;
+ globalThis.fetch = async () => new Response(JSON.stringify([rawFrontEndJob]), { status: 200 });
+
+ try {
+ const jobs = await loadJobsFromServer();
+ assert.equal(jobs.length, 1);
+ assert.ok(jobs[0] instanceof FrontEndJob);
+ } finally {
+ globalThis.fetch = originalFetch;
+ }
+});
+
+test('fetch vazio retorna lista vazia para a interface exibir o estado vazio', async () => {
+ const originalFetch = globalThis.fetch;
+ globalThis.fetch = async () => new Response('[]', { status: 200 });
+
+ try {
+ assert.deepEqual(await loadJobsFromServer(), []);
+ } finally {
+ globalThis.fetch = originalFetch;
+ }
+});
+
+test('fetch com erro HTTP rejeita para a interface exibir o estado de erro', async () => {
+ const originalFetch = globalThis.fetch;
+ globalThis.fetch = async () => new Response('indisponível', { status: 503 });
+
+ try {
+ await assert.rejects(loadJobsFromServer(), /HTTP 503/);
+ } finally {
+ globalThis.fetch = originalFetch;
+ }
+});
+
+test('loader usado pela interface mantém a closure e executa o callback', async () => {
+ const originalFetch = globalThis.fetch;
+ const loader = createDataLoader();
+ let callbackJobs = null;
+ globalThis.fetch = async () => new Response(JSON.stringify([rawFrontEndJob]), { status: 200 });
+
+ try {
+ const jobs = await loader.load((error, loadedJobs) => {
+ assert.equal(error, null);
+ callbackJobs = loadedJobs;
+ });
+ assert.equal(loader.getLoadCount(), 1);
+ assert.equal(loader.getCachedData().length, 1);
+ assert.equal(callbackJobs, jobs);
+ } finally {
+ globalThis.fetch = originalFetch;
+ }
+});

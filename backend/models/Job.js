@@ -12,13 +12,18 @@ export class Job {
  * @param {string} title - Título da vaga
  * @param {array} requiredSkills - Habilidades requeridas
  */
- constructor(company, title, requiredSkills) {
+ constructor(company, title, requiredSkills, details = {}) {
+ this.id = details.id ?? null;
  this.company = company;
  this.title = title;
  this.requiredSkills = requiredSkills; // Array de strings: ['HTML', 'CSS', 'JavaScript']
- this.description = `Vaga de ${title} na empresa ${company}`; // String
- this.salary = 0; // Número
- this.remote = true; // Boolean (requisito de tipo de dado)
+ this.description = details.description || `Vaga de ${title} na empresa ${company}`;
+ this.salary = details.salary ?? 0;
+ this.modality = details.modality || 'Remoto';
+ this.remote = details.remote ?? this.modality === 'Remoto';
+ this.area = details.area || 'Front-End';
+ this.minExperience = Number.isFinite(details.minExperience) ? details.minExperience : 0;
+ this.preferredSkills = Array.isArray(details.preferredSkills) ? details.preferredSkills : [];
  }
 
  /**
@@ -44,5 +49,10 @@ export class Job {
  */
  getSkillCount() {
  return this.requiredSkills.length;
+ }
+
+ /** Retorna uma cópia das habilidades desejáveis, que não alteram o percentual. */
+ getPreferredSkills() {
+ return [...this.preferredSkills];
  }
 }

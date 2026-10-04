@@ -1,4 +1,6 @@
 
+import { normalizeSkill, normalizeSkillList } from '../services/skillNormalizer.js';
+
   //CANDIDATE.JS
  
   //Classe que representa um candidato com suas habilidades e experiência.
@@ -39,7 +41,7 @@ export class Candidate {
  
  //.includes() é um método de array que VERIFICA SE um elemento EXISTE no array e retorna true ou false.
  hasSkill(skill) {
- return this.skills.includes(skill);//← Verifica se skill existe
+ return normalizeSkillList(this.skills).includes(normalizeSkill(skill));//← Verifica se skill existe
  }
 
  /**
@@ -52,7 +54,7 @@ export class Candidate {
 //Adicionar skills ao candidato
 
  addSkill(skill) {
- if (!this.skills.includes(skill)) {
+ if (!this.hasSkill(skill)) {
  this.skills.push(skill);//Adiciona skills ao candidato
  }
  }
@@ -66,4 +68,3 @@ export class Candidate {
  return [...this.skills];
  }
 }
-
